@@ -12,6 +12,11 @@ public class Ficha {
     private String forma;
     private String color;
 
+    public Ficha (){
+        this.id = 0;
+        this.forma = "";
+        this.color = "";
+    }
     public Ficha(String forma, String color) {
         this.id = this.ID;
         this.ID += 1;
