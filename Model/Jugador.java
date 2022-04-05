@@ -6,7 +6,6 @@
 package Model;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public class Jugador {
 
@@ -16,6 +15,7 @@ public class Jugador {
     private int puntosJugador;
     private int manoJugador;
     private Ficha fichaSeleccionada;
+    private Ficha fichaVacia;
     private int cantidadFichasSeleccionadas;
     private int puntosObtenidos;
 
@@ -23,6 +23,7 @@ public class Jugador {
         this.idJugador = Jugador.ID;
         Jugador.ID += 1;
         this.fichas = new ArrayList<>();
+        fichaVacia = new Ficha();
     }
 
     public int getPuntosObtenidos() {
@@ -72,19 +73,34 @@ public class Jugador {
     public void removerFichaSeleccionada(){
         this.fichaSeleccionada = null;
     }
-
+    public void quitarFichasJugadas(){
+        System.out.println("longitud: "+ this.fichas.size());
+        for (int i=0;i<6;i++){
+            this.fichas.remove(fichaVacia);
+        }
+        System.out.println("longitud: "+ this.fichas.size());
+    }
     public int getCantidadFichasSeleccionadas() {
         return cantidadFichasSeleccionadas;
     }
 
-    public Ficha[] getFichas() {
+    public int getIdFicha(int i){
+        return this.fichas.get(i).getId();
+    }
+    public Ficha[] getArregloFichas() {
         return this.fichas.toArray(new Ficha[this.fichas.size()]);
     }
     public Ficha devolverFicha() {
        return this.fichas.remove(1);
     }
+
     public void removerFicha(Ficha ficha){
-        this.fichas.remove(ficha);
+        //this.fichas.remove(ficha);
+        for (int i=0;i<6;i++){
+            if (ficha == this.fichas.get(i)){
+                this.fichas.set(i,fichaVacia);
+            }
+        }
     }
 
     public void setCantidadFichasSeleccionadas(int cantidadFichasSeleccionadas) {

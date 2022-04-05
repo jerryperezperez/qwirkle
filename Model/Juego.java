@@ -54,10 +54,10 @@ public class Juego {
         }
 
         public void intercambiarFicha () {
-            jugadores[1].getFichas();
+            jugadores[1].getArregloFichas();
             Ficha fichaDeCambio = jugadores[1].devolverFicha();
             jugadores[1].setFicha(bolsa.intercambiarFicha(fichaDeCambio));
-            jugadores[1].getFichas();
+            jugadores[1].getArregloFichas();
         }
 
         public Ficha  sacarFichaBolsa(){
