@@ -10,7 +10,7 @@ public class Qwirkle2 {
 
         Juego juego = new Juego(2);
         juego.intercambiarFicha();
-        juego.ponerFicha();
+
         //crear jugador
         //asignar fichas a jugador
     }

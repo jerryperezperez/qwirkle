@@ -22,7 +22,6 @@ public class Tablero {
         }
        
     }
-
     public int getIdGanador() {
         return idGanador;
     }
@@ -38,11 +37,14 @@ public class Tablero {
     public void setTurno(int turno) {
         this.turno = turno;
     }
-    
-    public void ponerFicha(Ficha fichaSeleccionada){
+
+    public Casilla ponerFicha(Ficha fichaSeleccionada, int x, int y){
         // Aqui debe ir la casilla clicada
-        this.casilla[2][2].setFicha(fichaSeleccionada);
-        System.out.println("casilla = " + casilla[2][2].getFicha().getColor() + " " + casilla[2][2].getFicha().getForma() + " " +casilla[2][2].getFicha().getId());
+        if (fichaSeleccionada != null){
+            this.casilla[x][y].setFicha(fichaSeleccionada);
+            System.out.println("casilla = " + casilla[x][y].getFicha().getColor() + " " + casilla[x][y].getFicha().getForma() + " " +casilla[x][y].getFicha().getId() + "  X Y: "+x+ " "+y) ;
+        }
+        return this.casilla[x][y];
     }
 
 }
