@@ -7,6 +7,7 @@ import java.util.ResourceBundle;
 import Model.Juego;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 
 import javafx.scene.effect.DropShadow;
@@ -19,6 +20,9 @@ public class FXMLDocumentController implements Initializable {
 
     @FXML
     private Label label;
+
+    @FXML
+    private Button cambio;
     
     @FXML
     private ImageView casilla_0_0;
@@ -1111,6 +1115,11 @@ public class FXMLDocumentController implements Initializable {
             opacidad();
             this.actualizarFichasTablero();
         }
+    }
+
+    @FXML
+    private void deshacer() {
+        // {Construir deshacer}
     }
 
     @FXML

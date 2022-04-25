@@ -498,16 +498,16 @@
             <DropShadow blurType="ONE_PASS_BOX" height="10.0" radius="4.5" width="10.0" />
          </effect></ImageView>
       <Label layoutX="518.0" layoutY="118.0" text="J1:" />
-      <Label layoutX="575.0" layoutY="118.0" text="J2:" />
-      <Label layoutX="625.0" layoutY="118.0" text="J3:" />
+      <Label layoutX="568.0" layoutY="118.0" text="J2:" />
+      <Label layoutX="618.0" layoutY="118.0" text="J3:" />
        <Label layoutX="678.0" layoutY="118.0" text="J4:" />
       <Label layoutX="567.0" layoutY="97.0" text="Puntajes del juego:" />
       <Label fx:id="pj1" layoutX="537.0" layoutY="118.0" text="0pts" />
-      <Label fx:id="pj2" layoutX="595.0" layoutY="118.0" text="0pts" />
-      <Label fx:id="pj3" layoutX="645.0" layoutY="118.0" text="0pts" />
+      <Label fx:id="pj2" layoutX="587.0" layoutY="118.0" text="0pts" />
+      <Label fx:id="pj3" layoutX="637.0" layoutY="118.0" text="0pts" />
       <Label fx:id="pj4" layoutX="697.0" layoutY="118.0" text="0pts" />
       <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="30.0" layoutX="491.0" layoutY="157.0" stroke="BLACK" strokeType="INSIDE" style="-fx-arc-width: 8; -fx-arc-height: 8;" width="257.0" />
       <Label layoutX="568.0" layoutY="164.0" text="Cartas del jugador" />
-      <Button fx:id="cambio" onAction="#deshacer" layoutX="490.0" layoutY="291.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="257.0" text="Deshacer movimiento" />
+      <Button layoutX="490.0" layoutY="291.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="257.0" text="Deshacer movimiento" />
     </children>
 </AnchorPane>
