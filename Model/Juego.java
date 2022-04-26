@@ -45,7 +45,7 @@ public class Juego {
 
     public void asignarFichas () {
         //System.out.println("CANTIDA DE JUGADORES " + jugadores.length);
-        for (int i = 0; i < jugadores.length; i++) {
+        for (int i = 0; i < this.jugadores.length; i++) {
             for (int j = 0; j < 6; j++) {
                 jugadores[i].setFicha(this.bolsa.darFicha());
             }
@@ -64,7 +64,7 @@ public class Juego {
         jugadores[1].setFicha(bolsa.intercambiarFicha(fichaDeCambio));
         jugadores[1].getArregloFichas();
     }
-//validarMovimiento()
+//validarMovimiento() si hay ficha seleccionada
 //isPrimerMovimiento()boolean (pone en cualquier lugar permitido)
 // else{
 // validarexistenciaFichaLateral, validarexistenciFichaSuperior (boolean) }
@@ -72,9 +72,15 @@ public class Juego {
     public Ficha  sacarFichaBolsa(){
         return this.bolsa.darFicha();
     }
-    public boolean reglas1(int x, int y){
+    public boolean reglas1(){//Verifica si tiene una ficha seleccionada el jugador
+        if (jugadorEnTurno.getFichaSeleccionada() != null) {
+
+            return true;
+        }
+        return false;
+    }
+    public boolean reglas2(int x, int y){//verifica si hay espacio en la casilla para ficha
         //Estoy seguro que esto se puede optimizar en 90%, ya no da tanta pena
-        //Regla para verificar si hay espacio para ficha
         xCas=x;
         yCas=y;
         if (primerTurno){
@@ -82,7 +88,7 @@ public class Juego {
             return true;
         }
         if (getTablero().casilla[x][y].getFicha() == null){
-            System.out.println("Primera regla bien");
+            System.out.println("regla 2 bien");
             //getTablero().ponerFicha(getJugadorEnTurno().getFichaSeleccionada(),xCas,yCas);
             return true;
         } else{
@@ -90,74 +96,70 @@ public class Juego {
             return false;
         }
     }
-    public boolean reglas2(){
+    public boolean reglas3(){//verifica la compatibilidad de color y forma con las fichas horizontales y verticales
         if (primerTurno){
             primerTurno=false;
             System.out.println("Salida primer turno");
             return true;
         }
-        boolean fichasColor= false;
-        int contFichasVerticales = 1;
         int contFichasHorizontales = 1;
-        int tipo = 0; //0 no asignado, 1 color, 2 forma
-        boolean aplicadaRegla=false;
+        int tipoH = 0; //0 no asignado, 1 color, 2 forma
+        boolean aplicadaReglaForma =false;
+        boolean aplicadaReglaColor = false;
         //HORIZONTAL
         //COLOR
-        for (int i=0; i<6;i++){ //izquierda
+        //IZQUIERDA
+        for (int i=0; i<6;i++){
             if (getTablero().casilla[xCas-i][yCas].getFicha() != null){
                 System.out.println("Color mi ficha: "+ getJugadorEnTurno().getFichaSeleccionada().getColor());
                 System.out.println("Color ficha izq: "+ getTablero().casilla[xCas-i][yCas].getFicha().getColor());
                 if (getJugadorEnTurno().getFichaSeleccionada().getColor()==getTablero().casilla[xCas-i][yCas].getFicha().getColor()){
                     System.out.println("Color igual Izq");
                     contFichasHorizontales++;
-                    fichasColor= true;
-                    tipo=1;
+                    aplicadaReglaColor = true;
+                    tipoH=1;
                 }else{
                     System.out.println("Color diferente Izq");
-                    if(fichasColor){
+                    if(aplicadaReglaColor){
                         System.out.println("Salida incompatible color y forma");
                         return false;
                     }
-                    i=6;
                 }
             }else if(i!=0){
                 i=6;
             }
         }
-        if (tipo==0){
-            tipo=2;
+        if (tipoH==0){
+            tipoH=2;
         }
         //DERECHA
-        for (int i=0; i<6;i++){ //izquierda
-                    if (getTablero().casilla[xCas+i][yCas].getFicha() != null){
-                        System.out.println("Color mi ficha: "+ getJugadorEnTurno().getFichaSeleccionada().getColor());
-                        System.out.println("Color ficha Der: "+ getTablero().casilla[xCas+i][yCas].getFicha().getColor());
-                        if (getJugadorEnTurno().getFichaSeleccionada().getColor()==getTablero().casilla[xCas+i][yCas].getFicha().getColor()){
-                            System.out.println("Color igual Der");
-                            contFichasHorizontales++;
-                            if(contFichasHorizontales>6){
-                                System.out.println("Te pasaste de fichas horizontales mi chavo color");
-                                return false;
-                            }
-                            fichasColor= true;
-                            tipo=1;
-                        }else{
-                            System.out.println("Color diferente Der");
-                            if(fichasColor){
-                                System.out.println("Salida incompatible color y forma");
-                                return false;
-                            }
-                            i=6;
-                        }
-                    }else if(i!=0){
-                        i=6;
+        for (int i=0; i<6;i++){
+            if (getTablero().casilla[xCas+i][yCas].getFicha() != null){
+                System.out.println("Color mi ficha: "+ getJugadorEnTurno().getFichaSeleccionada().getColor());
+                System.out.println("Color ficha Der: "+ getTablero().casilla[xCas+i][yCas].getFicha().getColor());
+                if (getJugadorEnTurno().getFichaSeleccionada().getColor()==getTablero().casilla[xCas+i][yCas].getFicha().getColor()){
+                    System.out.println("Color igual Der");
+                    contFichasHorizontales++;
+                    if(contFichasHorizontales>6){
+                        System.out.println("Te pasaste de fichas horizontales mi chavo color");
+                        return false;
+                    }
+                    aplicadaReglaColor = true;
+                    tipoH=1;
+                }else{
+                    System.out.println("Color diferente Der");
+                    if(aplicadaReglaColor){
+                        System.out.println("Salida incompatible color y forma");
+                        return false;
                     }
                 }
-                if (tipo==0){
-                    tipo=2;
-                }
-
-
+            }else if(i!=0){
+                i=6;
+            }
+        }
+        if (tipoH==0){
+            tipoH=2;
+        }
 
         //FORMA
         //IZQUIERDA
@@ -165,27 +167,27 @@ public class Juego {
             if (getTablero().casilla[xCas-i][yCas].getFicha() != null){//Si la casilla no tiene ficha
                 if (getJugadorEnTurno().getFichaSeleccionada().getForma()==getTablero().casilla[xCas-i][yCas].getFicha().getForma()){
                     System.out.println("Forma igual Izq");
-                    System.out.println("tipo: "+tipo);
+                    System.out.println("tipo: "+tipoH);
                     contFichasHorizontales++;
-                    aplicadaRegla=true;
-                    if (tipo==1){
+                    aplicadaReglaForma =true;
+                    if (tipoH==1){
                         System.out.println("Salida incompatible color con forma");
                         return false;
                     }
-                    tipo=2;
+                    tipoH=2;
                 }else if (i==5){
                     System.out.println("Salida todo forma");
                     return true;
-                }else if (tipo==2){
+                }else if (tipoH==2){
                     System.out.println("Forma diferente Izq");
                     return false;
                 }
-            }else if(tipo==1){//si es con regla de color
-                System.out.println("tipo = "+tipo);
-                System.out.println("Salida regla color");
+            }else if(tipoH==1){//si es con regla de color
+                System.out.println("tipo = "+tipoH);
+                System.out.println("Salida regla color 1");
                 return true;
-            }else if (tipo==2 && aplicadaRegla){
-                System.out.println("Salida regla Forma");
+            }else if (tipoH==2 && aplicadaReglaForma && aplicadaReglaColor==false){
+                System.out.println("Salida regla Forma 1");
                 return true;
             }
             else if(i!=0){
@@ -195,49 +197,179 @@ public class Juego {
         }
         //DERECHA
         for (int i=0; i<6;i++){
-                    if (getTablero().casilla[xCas+i][yCas].getFicha() != null){
-                        if (getJugadorEnTurno().getFichaSeleccionada().getForma()==getTablero().casilla[xCas+i][yCas].getFicha().getForma()){
-                            System.out.println("Forma igual Der");
-                            System.out.println("tipo: "+tipo);
-                            contFichasHorizontales++;
-                            if(contFichasHorizontales>6){
-                                System.out.println("Te pasaste de fichas horizontales mi chavo color");
+            if (getTablero().casilla[xCas+i][yCas].getFicha() != null){
+                if (getJugadorEnTurno().getFichaSeleccionada().getForma()==getTablero().casilla[xCas+i][yCas].getFicha().getForma()){
+                    System.out.println("Forma igual Der");
+                    System.out.println("tipo: "+tipoH);
+                    contFichasHorizontales++;
+                    if(contFichasHorizontales>6){
+                        System.out.println("Te pasaste de fichas horizontales mi chavo color");
+                        return false;
+                    }
+                    aplicadaReglaForma =true;
+                    if (tipoH==1){
+                        System.out.println("Salida incompatible color con forma");
+                        return false;
+                    }
+                    tipoH=2;
+                }else if (i==5){
+                    System.out.println("Salida todo forma");
+                    return true;
+                }else if (tipoH==2){
+                    System.out.println("Forma diferente Der");
+                    return false;
+                }
+            }else if(tipoH==1){
+                System.out.println("tipo = "+tipoH);
+                System.out.println("Salida regla color 2");
+                return true;
+            }else if (tipoH==2 && aplicadaReglaForma && aplicadaReglaColor==false){//detecta que aunque sea de la misma forma, la regla aplicada es de color
+                System.out.println("Salida regla Forma 2");
+                return true;
+            }
+            else if(i!=0){
+                System.out.println("Salida no hay nada");
+                return true;
+            }
+        }
+        System.out.println("Salida final regla 3");
+        return true;
+    }
+    public boolean reglas4(){
+                //VERTICAL
+                //COLOR
+                //ARRIBA
+                int contFichasVerticales = 1;
+                int tipoV = 0; //0 no asignado, 1 color, 2 forma
+                boolean aplicadaReglaForma =false;
+                boolean aplicadaReglaColor = false;
+                for (int i=0; i<6;i++){
+                    if (getTablero().casilla[xCas][yCas-i].getFicha() != null){
+                        System.out.println("Color mi ficha: "+ getJugadorEnTurno().getFichaSeleccionada().getColor());
+                        System.out.println("Color ficha Arriba: "+ getTablero().casilla[xCas][yCas-i].getFicha().getColor());
+                        if (getJugadorEnTurno().getFichaSeleccionada().getColor()==getTablero().casilla[xCas][yCas-i].getFicha().getColor()){
+                            System.out.println("Color igual Arriba");
+                            contFichasVerticales++;
+                            aplicadaReglaColor = true;
+                            tipoV=1;
+                        }else{
+                            System.out.println("Color diferente Arriba");
+                            if(aplicadaReglaColor){
+                                System.out.println("Salida incompatible color y forma");
                                 return false;
                             }
-                            aplicadaRegla=true;
-                            if (tipo==1){
+                        }
+                    }else if(i!=0){
+                        i=6;
+                    }
+                }
+                if (tipoV==0){
+                    tipoV=2;
+                }
+                //ABAJO
+                for (int i=0; i<6;i++){
+                    if (getTablero().casilla[xCas][yCas+i].getFicha() != null){
+                        System.out.println("Color mi ficha: "+ getJugadorEnTurno().getFichaSeleccionada().getColor());
+                        System.out.println("Color ficha Der: "+ getTablero().casilla[xCas][yCas+i].getFicha().getColor());
+                        if (getJugadorEnTurno().getFichaSeleccionada().getColor()==getTablero().casilla[xCas][yCas+i].getFicha().getColor()){
+                            System.out.println("Color igual Abajo");
+                            contFichasVerticales++;
+                            if(contFichasVerticales>6){
+                                System.out.println("Te pasaste de fichas Verticales mi chavo color");
+                                return false;
+                            }
+                            aplicadaReglaColor = true;
+                            tipoV=1;
+                        }else{
+                            System.out.println("Color diferente Abajo");
+                            if(aplicadaReglaColor){
+                                System.out.println("Salida incompatible color y forma");
+                                return false;
+                            }
+                        }
+                    }else if(i!=0){
+                        i=6;
+                    }
+                }
+                if (tipoV==0){
+                    tipoV=2;
+                }
+
+                //FORMA
+                //ARRIBA
+                for (int i=0; i<6;i++){
+                    if (getTablero().casilla[xCas][yCas-i].getFicha() != null){//Si la casilla no tiene ficha
+                        if (getJugadorEnTurno().getFichaSeleccionada().getForma()==getTablero().casilla[xCas][yCas-i].getFicha().getForma()){
+                            System.out.println("Forma igual Arriba");
+                            System.out.println("tipo: "+tipoV);
+                            contFichasVerticales++;
+                            aplicadaReglaForma =true;
+                            if (tipoV==1){
                                 System.out.println("Salida incompatible color con forma");
                                 return false;
                             }
-                            tipo=2;
-                        }else if (i==5){
+                            tipoV=2;
+                        }else if (contFichasVerticales==5){
                             System.out.println("Salida todo forma");
                             return true;
-                        }else if (tipo==2){
-                            System.out.println("Forma diferente Der");
+                        }else if (tipoV==2){
+                            System.out.println("Forma diferente Arriba");
                             return false;
                         }
-                    }else if(tipo==1){
-                        System.out.println("tipo = "+tipo);
-                        System.out.println("Salida regla color");
+                    }else if(tipoV==1 && aplicadaReglaForma==false){//si es con regla de color
+                        System.out.println("tipo = "+tipoV);
+                        System.out.println("Salida regla color 3");
                         return true;
-                    }else if (tipo==2 && aplicadaRegla){//detecta que aunque sea de la misma forma, la regla aplicada es de color
+                    }else if (tipoV==2 && aplicadaReglaForma && aplicadaReglaColor==false){
                         System.out.println("Salida regla Forma");
                         return true;
                     }
-                    else if(i!=0){//esto es para que si no respeta ninguna regla, no te deje
+                    else if(i!=0){
                         System.out.println("Salida no hay nada");
                         return false;
-                    }//dónde validas que si no hay ficha seleccioada, no hace nada ? ficha selccioada?
+                    }
                 }
-        System.out.println("Salida final");
-        return false;
-    }
-    public boolean reglas3(){
+                //ABAJO
+                for (int i=0; i<6;i++){
+                    if (getTablero().casilla[xCas][yCas+i].getFicha() != null){
+                        if (getJugadorEnTurno().getFichaSeleccionada().getForma()==getTablero().casilla[xCas][yCas+i].getFicha().getForma()){
+                            System.out.println("Forma igual Abajo");
+                            contFichasVerticales++;
+                            if(contFichasVerticales>6){
+                                System.out.println("Te pasaste de fichas horizontales mi chavo color");
+                                return false;
+                            }
+                            aplicadaReglaForma =true;
+                            if (tipoV==1){
+                                System.out.println("Salida incompatible color con forma");
+                                return false;
+                            }
+                            tipoV=2;
+                        }else if (i==5){
+                            System.out.println("Salida todo forma");
+                            return true;
+                        }else if (tipoV==2){
+                            System.out.println("Forma diferente Abajo");
+                            return false;
+                        }
+                    }else if(tipoV==1 && aplicadaReglaForma==false){
+                        System.out.println("tipo = "+tipoV);
+                        System.out.println("Salida regla color 4");
+                        return true;
+                    }else if (tipoV==2 && aplicadaReglaForma && aplicadaReglaColor==false){//detecta que aunque sea de la misma forma, la regla aplicada es de color
+                        System.out.println("Salida regla Forma");
+                        return true;
+                    }
+                    else if(i!=0){//esto es para que si no respeta ninguna regla, no te deje poner
+                        System.out.println("Salida no hay nada");
+                        return false;
+                    }
+                }
 
         return false;
     }
     public void asignarRegla(){
         getTablero().ponerFicha(getJugadorEnTurno().getFichaSeleccionada(),xCas,yCas);
+        jugadorEnTurno.removerFicha(jugadorEnTurno.getFichaSeleccionada());
     }
 }

@@ -1050,6 +1050,7 @@ public class FXMLDocumentController implements Initializable {
     Juego juego;
     int idFicha;
     boolean regla;
+    boolean reglaV;
     ImageView[] arregloImageView;
     ImageView arregloImageViewCambio[];
     ImageView arregloImageViewTablero[][];
@@ -1107,47 +1108,40 @@ public class FXMLDocumentController implements Initializable {
 
     @FXML
     private void ponerFicha(MouseEvent event) {
-
         for (int x = 0; x < this.arregloImageViewTablero.length; x++) {
             for (int y = 0; y < this.arregloImageViewTablero[x].length; y++) {
                 if (((ImageView) (event.getSource())).getId().equals(this.arregloImageViewTablero[x][y].getId())) {
                     System.out.println("ejes: " + x + ", " + y);
-                    //AQUÍ LLAMAS A TODOS TUS MÉTODOS Y AL FINAL NOS SALIMOS CON EL BREAK;
-                    regla = juego.reglas1(x, y);
+                    if (this.juego.getTablero().casilla[x][y].getFicha() != null){
+                        System.out.println(this.juego.getTablero().casilla[x][y].getFicha().getForma()+"  "+this.juego.getTablero().casilla[x][y].getFicha().getColor());
+                    }else{
+                        System.out.println("ES NULA LA FICHA");
+                    }
+                    //AQUÍ LLAMAS A TODOS TUS MÉTODOS Y AL FINAL NOS SALIMOS CON EL BREAK
+                    regla = juego.reglas1();
                     if (regla) {
-                        regla = juego.reglas2();
+                        regla = juego.reglas2(x,y);
                         if (regla) {
-                            juego.asignarRegla();
-                        }
-                        if (regla) {
-                            if (juego.getJugadorEnTurno().getFichaSeleccionada() != null) {
-                                ((ImageView) (event.getSource())).setImage(new Image("Fichas/Ficha" + this.juego.getJugadorEnTurno().getFichaSeleccionada().getId() + ".png"));
-                                this.juego.getJugadorEnTurno().removerFicha(this.juego.getJugadorEnTurno().getFichaSeleccionada());
+                            regla = juego.reglas3();
+                            reglaV=juego.reglas4();
+                            if(regla||reglaV){
+                                juego.asignarRegla();
                             }
-                            juego.getJugadorEnTurno().setFichaSeleccionada(null);
-                            //System.out.println("click en casilla");
-                            opacidad();
-                            this.actualizarFichasTablero();
+
+                            if(regla||reglaV){
+                                ((ImageView) (event.getSource())).setImage(new Image("Fichas/Ficha" + this.juego.getJugadorEnTurno().getFichaSeleccionada().getId() + ".png"));
+                                opacidad();
+                                this.actualizarFichasTablero();
+                                juego.getJugadorEnTurno().setFichaSeleccionada(null);
+                            }
                         }
-                    }
-                    if (regla) {
-                        if (juego.getJugadorEnTurno().getFichaSeleccionada() != null) {
-                            ((ImageView) (event.getSource())).setImage(new Image("Fichas/Ficha" + this.juego.getJugadorEnTurno().getFichaSeleccionada().getId() + ".png"));
-                            this.juego.getJugadorEnTurno().removerFicha(this.juego.getJugadorEnTurno().getFichaSeleccionada());
-                        }
-                        juego.getJugadorEnTurno().setFichaSeleccionada(null);
-                        //System.out.println("click en casilla");
-                        opacidad();
-                        this.actualizarFichasTablero();
-                    }
+
                     break;
+                    }
                 }
             }
         }
-
-
     }
-
     @FXML
     private void deshacer() {
         // {Construir deshacer}
@@ -1160,6 +1154,7 @@ public class FXMLDocumentController implements Initializable {
         while (this.juego.getJugadorEnTurno().getArregloFichas().length < 6) {
             this.juego.getJugadorEnTurno().setFicha(this.juego.sacarFichaBolsa());
         }
+        opacidad();
         this.actualizarFichasTablero();
     }
 
