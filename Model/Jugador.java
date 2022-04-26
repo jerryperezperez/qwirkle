@@ -73,7 +73,7 @@ public class Jugador {
     public void removerFichaSeleccionada(){
         this.fichaSeleccionada = null;
     }
-    public void quitarFichasJugadas(){
+   public void quitarFichasJugadas(){
         System.out.println("longitud: "+ this.fichas.size());
         for (int i=0;i<6;i++){
             this.fichas.remove(fichaVacia);
@@ -96,7 +96,7 @@ public class Jugador {
 
     public void removerFicha(Ficha ficha){
         //this.fichas.remove(ficha);
-        for (int i=0;i<6;i++){
+       for (int i=0;i<6;i++){
             if (ficha == this.fichas.get(i)){
                 this.fichas.set(i,fichaVacia);
             }
@@ -107,4 +107,3 @@ public class Jugador {
         this.cantidadFichasSeleccionadas = cantidadFichasSeleccionadas;
     }
 }
-//MÉTODOS DE RESTRICCIONES PARA PONER, CAMBIAR, ETC.
