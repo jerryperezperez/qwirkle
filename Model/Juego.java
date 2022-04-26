@@ -162,7 +162,7 @@ public class Juego {
         //FORMA
         //IZQUIERDA
         for (int i=0; i<6;i++){
-            if (getTablero().casilla[xCas-i][yCas].getFicha() != null){
+            if (getTablero().casilla[xCas-i][yCas].getFicha() != null){//Si la casilla no tiene ficha
                 if (getJugadorEnTurno().getFichaSeleccionada().getForma()==getTablero().casilla[xCas-i][yCas].getFicha().getForma()){
                     System.out.println("Forma igual Izq");
                     System.out.println("tipo: "+tipo);
@@ -180,7 +180,7 @@ public class Juego {
                     System.out.println("Forma diferente Izq");
                     return false;
                 }
-            }else if(tipo==1){
+            }else if(tipo==1){//si es con regla de color
                 System.out.println("tipo = "+tipo);
                 System.out.println("Salida regla color");
                 return true;
@@ -221,14 +221,14 @@ public class Juego {
                         System.out.println("tipo = "+tipo);
                         System.out.println("Salida regla color");
                         return true;
-                    }else if (tipo==2 && aplicadaRegla){
+                    }else if (tipo==2 && aplicadaRegla){//detecta que aunque sea de la misma forma, la regla aplicada es de color
                         System.out.println("Salida regla Forma");
                         return true;
                     }
-                    else if(i!=0){
+                    else if(i!=0){//esto es para que si no respeta ninguna regla, no te deje
                         System.out.println("Salida no hay nada");
                         return false;
-                    }
+                    }//dónde validas que si no hay ficha seleccioada, no hace nada ? ficha selccioada?
                 }
         System.out.println("Salida final");
         return false;

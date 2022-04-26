@@ -1092,10 +1092,15 @@ public class FXMLDocumentController implements Initializable {
 
     @FXML
     private void ponerFichaEnCambio(MouseEvent event) {
-        for (ImageView imageView : this.arregloImageViewCambio) {
-            if (((ImageView) (event.getSource())).getId().equals(imageView)){
-                ((ImageView) (event.getSource())).setImage(this.juego.getJugadorEnTurno().getFichaSeleccionada());
-                break;
+        if (this.juego.getJugadorEnTurno().getFichaSeleccionada() !=null){
+            for (ImageView imageView : this.arregloImageViewCambio) {
+                if (((ImageView) (event.getSource())).getId().equals(imageView.getId())){
+                    imageView.setImage(new Image("Fichas/Ficha" + this.juego.getJugadorEnTurno().getFichaSeleccionada().getId()+ ".png"));
+                    this.juego.getJugadorEnTurno().removerFicha(this.juego.getJugadorEnTurno().getFichaSeleccionada());
+                    juego.getJugadorEnTurno().setFichaSeleccionada(null);
+                    this.actualizarFichasTablero();
+                    break;
+                }
             }
         }
     }

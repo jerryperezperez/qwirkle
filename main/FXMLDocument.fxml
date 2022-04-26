@@ -1,14 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.effect.*?>
-<?import javafx.geometry.*?>
-<?import java.lang.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.image.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.shape.*?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -17,9 +11,9 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.shape.Rectangle?>
 
-<AnchorPane id="AnchorPane" prefHeight="470.0" prefWidth="680.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.FXMLDocumentController">
+<AnchorPane id="AnchorPane" prefHeight="470.0" prefWidth="680.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.FXMLDocumentController">
     <children>
-      <ImageView fitHeight="476.0" fitWidth="769.0" pickOnBounds="true" >
+      <ImageView fitHeight="476.0" fitWidth="769.0" pickOnBounds="true">
          <image>
             <Image url="@../Imagenes/madera.png" />
          </image>
@@ -27,7 +21,7 @@
       <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="56.0" layoutX="560.0" layoutY="22.0" stroke="BLACK" strokeType="INSIDE" style="-fx-arc-width: 8; -fx-arc-height: 8;" width="189.0" />
       <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="30.0" layoutX="489.0" layoutY="332.0" stroke="BLACK" strokeType="INSIDE" style="-fx-arc-width: 8; -fx-arc-height: 8;" width="257.0" />
       <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="58.0" layoutX="492.0" layoutY="87.0" stroke="BLACK" strokeType="INSIDE" style="-fx-arc-width: 8; -fx-arc-height: 8;" width="257.0" />
-      <ImageView fx:id="imgperfil" fitHeight="56.0" fitWidth="56.0" layoutX="493.0" layoutY="22.0" pickOnBounds="true" preserveRatio="true" >
+      <ImageView fx:id="imgperfil" fitHeight="56.0" fitWidth="56.0" layoutX="493.0" layoutY="22.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../Imagenes/Vulpixs.jpg" />
          </image>
@@ -404,7 +398,7 @@
             <ImageView fx:id="casilla_17_17" fitHeight="24.0" fitWidth="24.0" onMouseClicked="#ponerFicha" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="17" GridPane.rowIndex="17" />
          </children>
       </GridPane>
-      <ImageView fx:id="ficha_n1" fitHeight="34.0" fitWidth="34.0" layoutX="491.0" layoutY="196.0" onMouseClicked="#seleccionarFicha" pickOnBounds="true" preserveRatio="true" >
+      <ImageView fx:id="ficha_n1" fitHeight="34.0" fitWidth="34.0" layoutX="491.0" layoutY="196.0" onMouseClicked="#seleccionarFicha" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../Fichas/Ficha1.png" />
          </image>
@@ -412,7 +406,7 @@
             <DropShadow blurType="ONE_PASS_BOX" height="10.0" radius="4.5" width="10.0" />
          </effect>
       </ImageView>
-      <ImageView fx:id="ficha_n4" fitHeight="34.0" fitWidth="34.0" layoutX="490.0" layoutY="244.0" onMouseClicked="#seleccionarFicha" pickOnBounds="true" preserveRatio="true" >
+      <ImageView fx:id="ficha_n4" fitHeight="34.0" fitWidth="34.0" layoutX="490.0" layoutY="244.0" onMouseClicked="#seleccionarFicha" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../Fichas/Ficha2.png" />
          </image>
@@ -420,7 +414,7 @@
             <DropShadow blurType="ONE_PASS_BOX" height="10.0" radius="4.5" width="10.0" />
          </effect>
       </ImageView>
-      <ImageView fx:id="ficha_n2" fitHeight="34.0" fitWidth="34.0" layoutX="541.0" layoutY="196.0" onMouseClicked="#seleccionarFicha" pickOnBounds="true" preserveRatio="true" >
+      <ImageView fx:id="ficha_n2" fitHeight="34.0" fitWidth="34.0" layoutX="541.0" layoutY="196.0" onMouseClicked="#seleccionarFicha" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../Fichas/Ficha100.png" />
          </image>
@@ -428,7 +422,7 @@
             <DropShadow blurType="ONE_PASS_BOX" height="10.0" radius="4.5" width="10.0" />
          </effect>
       </ImageView>
-      <ImageView fx:id="ficha_n5" fitHeight="34.0" fitWidth="34.0" layoutX="541.0" layoutY="244.0" onMouseClicked="#seleccionarFicha" pickOnBounds="true" preserveRatio="true" >
+      <ImageView fx:id="ficha_n5" fitHeight="34.0" fitWidth="34.0" layoutX="541.0" layoutY="244.0" onMouseClicked="#seleccionarFicha" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../Fichas/Ficha50.png" />
          </image>
@@ -436,7 +430,7 @@
             <DropShadow blurType="ONE_PASS_BOX" height="10.0" radius="4.5" width="10.0" />
          </effect>
       </ImageView>
-      <ImageView fx:id="ficha_n3" fitHeight="34.0" fitWidth="34.0" layoutX="590.0" layoutY="196.0" onMouseClicked="#seleccionarFicha" pickOnBounds="true" preserveRatio="true" >
+      <ImageView fx:id="ficha_n3" fitHeight="34.0" fitWidth="34.0" layoutX="590.0" layoutY="196.0" onMouseClicked="#seleccionarFicha" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../Fichas/Ficha70.png" />
          </image>
@@ -444,7 +438,7 @@
             <DropShadow blurType="ONE_PASS_BOX" height="10.0" radius="4.5" width="10.0" />
          </effect>
       </ImageView>
-      <ImageView fx:id="ficha_n6" fitHeight="34.0" fitWidth="34.0" layoutX="590.0" layoutY="244.0" onMouseClicked="#seleccionarFicha" pickOnBounds="true" preserveRatio="true" >
+      <ImageView fx:id="ficha_n6" fitHeight="34.0" fitWidth="34.0" layoutX="590.0" layoutY="244.0" onMouseClicked="#seleccionarFicha" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../Fichas/Ficha72.png" />
          </image>
@@ -455,42 +449,42 @@
       <Button fx:id="cf" layoutX="632.0" layoutY="373.0" mnemonicParsing="false" prefHeight="82.0" prefWidth="115.0" text="Cambiar Fichas" />
       <Button fx:id="tt" layoutX="632.0" layoutY="197.0" mnemonicParsing="false" onAction="#terminarTurno" prefHeight="82.0" prefWidth="115.0" text="Terminar Turno" />
       <Label layoutX="580.0" layoutY="339.0" text="Zona de cambio" />
-      <ImageView fx:id="ficha_cambio_n1" fitHeight="34.0" fitWidth="34.0" layoutX="489.0" layoutY="374.0" pickOnBounds="true" preserveRatio="true" >
+      <ImageView fx:id="ficha_cambio_n1" fitHeight="34.0" fitWidth="34.0" layoutX="489.0" layoutY="374.0" onMouseClicked="#ponerFichaEnCambio" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../Fichas/Ficha0.png" />
          </image>
          <effect>
             <DropShadow blurType="ONE_PASS_BOX" height="10.0" radius="4.5" width="10.0" />
          </effect></ImageView>
-      <ImageView fx:id="ficha_cambio_n4" fitHeight="34.0" fitWidth="34.0" layoutX="489.0" layoutY="422.0" pickOnBounds="true" preserveRatio="true" >
+      <ImageView fx:id="ficha_cambio_n4" fitHeight="34.0" fitWidth="34.0" layoutX="489.0" layoutY="422.0" onMouseClicked="#ponerFichaEnCambio" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../Fichas/Ficha0.png" />
          </image>
          <effect>
             <DropShadow blurType="ONE_PASS_BOX" height="10.0" radius="4.5" width="10.0" />
          </effect></ImageView>
-      <ImageView fx:id="ficha_cambio_n2" fitHeight="34.0" fitWidth="34.0" layoutX="539.0" layoutY="374.0" pickOnBounds="true" preserveRatio="true" >
+      <ImageView fx:id="ficha_cambio_n2" fitHeight="34.0" fitWidth="34.0" layoutX="539.0" layoutY="374.0" onMouseClicked="#ponerFichaEnCambio" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../Fichas/Ficha0.png" />
          </image>
          <effect>
             <DropShadow blurType="ONE_PASS_BOX" height="10.0" radius="4.5" width="10.0" />
          </effect></ImageView>
-      <ImageView fx:id="ficha_cambio_n5" fitHeight="34.0" fitWidth="34.0" layoutX="539.0" layoutY="422.0" pickOnBounds="true" preserveRatio="true" >
+      <ImageView fx:id="ficha_cambio_n5" fitHeight="34.0" fitWidth="34.0" layoutX="539.0" layoutY="422.0" onMouseClicked="#ponerFichaEnCambio" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../Fichas/Ficha0.png" />
          </image>
          <effect>
             <DropShadow blurType="ONE_PASS_BOX" height="10.0" radius="4.5" width="10.0" />
          </effect></ImageView>
-      <ImageView fx:id="ficha_cambio_n3" fitHeight="34.0" fitWidth="34.0" layoutX="589.0" layoutY="374.0" pickOnBounds="true" preserveRatio="true" >
+      <ImageView fx:id="ficha_cambio_n3" fitHeight="34.0" fitWidth="34.0" layoutX="589.0" layoutY="374.0" onMouseClicked="#ponerFichaEnCambio" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../Fichas/Ficha0.png" />
          </image>
          <effect>
             <DropShadow blurType="ONE_PASS_BOX" height="10.0" radius="4.5" width="10.0" />
          </effect></ImageView>
-      <ImageView fx:id="ficha_cambio_n6" fitHeight="34.0" fitWidth="34.0" layoutX="589.0" layoutY="422.0" pickOnBounds="true" preserveRatio="true" >
+      <ImageView fx:id="ficha_cambio_n6" fitHeight="34.0" fitWidth="34.0" layoutX="589.0" layoutY="422.0" onMouseClicked="#ponerFichaEnCambio" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../Fichas/Ficha0.png" />
          </image>
@@ -508,6 +502,6 @@
       <Label fx:id="pj4" layoutX="697.0" layoutY="118.0" text="0pts" />
       <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="30.0" layoutX="491.0" layoutY="157.0" stroke="BLACK" strokeType="INSIDE" style="-fx-arc-width: 8; -fx-arc-height: 8;" width="257.0" />
       <Label layoutX="568.0" layoutY="164.0" text="Cartas del jugador" />
-      <Button fx:id="cambio" onAction="#deshacer" layoutX="490.0" layoutY="291.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="257.0" text="Deshacer movimiento" />
+      <Button fx:id="cambio" layoutX="490.0" layoutY="291.0" mnemonicParsing="false" onAction="#deshacer" prefHeight="30.0" prefWidth="257.0" text="Deshacer movimiento" />
     </children>
 </AnchorPane>
