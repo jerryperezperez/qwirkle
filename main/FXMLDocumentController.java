@@ -4,6 +4,7 @@ import java.awt.event.ActionEvent;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import Model.ExcepcionCasilla;
 import Model.Juego;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -15,6 +16,8 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
+
+import javax.swing.*;
 
 public class FXMLDocumentController implements Initializable {
 
@@ -1080,22 +1083,22 @@ public class FXMLDocumentController implements Initializable {
         String fs = event.getSource().toString();
         for (int i = 0; i < this.juego.getJugadorEnTurno().getArregloFichas().length; i++) {
             if (((ImageView) (event.getSource())).getId().equals(this.arregloImageView[i].getId())) {
-                System.out.println("abr: " + this.arregloImageView[i].getId());
                 ((ImageView) (event.getSource())).setOpacity(0.8);
                 ((ImageView) (event.getSource())).setEffect(new DropShadow(15, Color.BLACK));
-                if (this.juego.getJugadorEnTurno().getIdFicha(i) != 0) {
+                if (this.juego.getJugadorEnTurno().getIdFicha(i) != 0) {//validar que la ficha seleccionada no sea la fichaVacia
                     this.juego.getJugadorEnTurno().setFichaSeleccionada(this.juego.getJugadorEnTurno().getArregloFichas()[i]);
                 }
+                break;
             }
         }
     }
 
     @FXML
     private void ponerFichaEnCambio(MouseEvent event) {
-        if (this.juego.getJugadorEnTurno().getFichaSeleccionada() !=null){
+        if (this.juego.getJugadorEnTurno().getFichaSeleccionada() != null) {
             for (ImageView imageView : this.arregloImageViewCambio) {
-                if (((ImageView) (event.getSource())).getId().equals(imageView.getId())){
-                    imageView.setImage(new Image("Fichas/Ficha" + this.juego.getJugadorEnTurno().getFichaSeleccionada().getId()+ ".png"));
+                if (((ImageView) (event.getSource())).getId().equals(imageView.getId())) {
+                    imageView.setImage(new Image("Fichas/Ficha" + this.juego.getJugadorEnTurno().getFichaSeleccionada().getId() + ".png"));
                     this.juego.getJugadorEnTurno().removerFicha(this.juego.getJugadorEnTurno().getFichaSeleccionada());
                     juego.getJugadorEnTurno().setFichaSeleccionada(null);
                     this.actualizarFichasTablero();
@@ -1106,18 +1109,42 @@ public class FXMLDocumentController implements Initializable {
     }
 
     @FXML
-    private void ponerFicha(MouseEvent event) {
+    private void ponerFicha(MouseEvent event) throws ExcepcionCasilla {
 
-        for (int x = 0; x < this.arregloImageViewTablero.length; x++) {
-            for (int y = 0; y < this.arregloImageViewTablero[x].length; y++) {
-                if (((ImageView) (event.getSource())).getId().equals(this.arregloImageViewTablero[x][y].getId())) {
-                    System.out.println("ejes: " + x + ", " + y);
-                    //AQUÍ LLAMAS A TODOS TUS MÉTODOS Y AL FINAL NOS SALIMOS CON EL BREAK;
-                    regla = juego.reglas1(x, y);
-                    if (regla) {
-                        regla = juego.reglas2();
+        if (this.juego.getJugadorEnTurno().getFichaSeleccionada() != null) {
+            for (int x = 0; x < this.arregloImageViewTablero.length; x++) {
+                for (int y = 0; y < this.arregloImageViewTablero[x].length; y++) {
+                    if (((ImageView) (event.getSource())).getId().equals(this.arregloImageViewTablero[x][y].getId())) {
+                        System.out.println("ENTRA PARA VALIDAR");
+                        if (this.juego.isMovimientoValido(this.juego.getTablero().casilla[x][y])) {
+
+                            ((ImageView) (event.getSource())).setImage(new Image("Fichas/Ficha" + this.juego.getJugadorEnTurno().getFichaSeleccionada().getId() + ".png"));
+                           this.juego.getTablero().casilla[x][y].setFicha(this.juego.getJugadorEnTurno().getFichaSeleccionada());
+
+                            this.juego.getJugadorEnTurno().removerFicha(this.juego.getJugadorEnTurno().getFichaSeleccionada());
+                            juego.getJugadorEnTurno().setFichaSeleccionada(null);
+                            opacidad();
+                            this.actualizarFichasTablero();
+
+                        }
+                        break;
+                        //AQUÍ LLAMAS A TODOS TUS MÉTODOS Y AL FINAL NOS SALIMOS CON EL BREAK;
+                  /*      regla = juego.reglas1(x, y);
                         if (regla) {
-                            juego.asignarRegla();
+                            regla = juego.reglas2();
+                            if (regla) {
+                                juego.asignarRegla();
+                            }
+                            if (regla) {
+                                if (juego.getJugadorEnTurno().getFichaSeleccionada() != null) {
+                                    ((ImageView) (event.getSource())).setImage(new Image("Fichas/Ficha" + this.juego.getJugadorEnTurno().getFichaSeleccionada().getId() + ".png"));
+                                    this.juego.getJugadorEnTurno().removerFicha(this.juego.getJugadorEnTurno().getFichaSeleccionada());
+                                }
+                                juego.getJugadorEnTurno().setFichaSeleccionada(null);
+                                //System.out.println("click en casilla");
+                                opacidad();
+                                this.actualizarFichasTablero();
+                            }
                         }
                         if (regla) {
                             if (juego.getJugadorEnTurno().getFichaSeleccionada() != null) {
@@ -1129,20 +1156,12 @@ public class FXMLDocumentController implements Initializable {
                             opacidad();
                             this.actualizarFichasTablero();
                         }
+                        break;*/
                     }
-                    if (regla) {
-                        if (juego.getJugadorEnTurno().getFichaSeleccionada() != null) {
-                            ((ImageView) (event.getSource())).setImage(new Image("Fichas/Ficha" + this.juego.getJugadorEnTurno().getFichaSeleccionada().getId() + ".png"));
-                            this.juego.getJugadorEnTurno().removerFicha(this.juego.getJugadorEnTurno().getFichaSeleccionada());
-                        }
-                        juego.getJugadorEnTurno().setFichaSeleccionada(null);
-                        //System.out.println("click en casilla");
-                        opacidad();
-                        this.actualizarFichasTablero();
-                    }
-                    break;
                 }
             }
+        } else {
+            JOptionPane.showMessageDialog(null, "NO HAS SELECCIONADO ALGUNA FICHA");
         }
 
 
