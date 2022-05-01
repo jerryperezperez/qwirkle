@@ -1,13 +1,10 @@
 package Model;
 
-import java.lang.reflect.Array;
-import java.util.ArrayList;
-
 public class Juego {
 
     private Bolsa bolsa;
     private Tablero tablero;
-    private Estructura estructura;
+    private ControladorEstructura controladorEstructura;
     private Jugador jugadorEnTurno;
     private Casilla ultimaJugada;
     private Regla regla;
@@ -21,7 +18,7 @@ public class Juego {
         this.tablero = new Tablero();
         // this.estructura = new Estructura();
         this.jugadores = new Jugador[cantidadJugadores];
-        this.regla = new Regla(this.bolsa, this.tablero);
+        // this.regla = new Regla(this.bolsa, this.tablero);
 
 //creador de jugadores. TODO para crear métodos instanciadores como crearJugadores
         for (int i = 0; i < jugadores.length; i++) {
@@ -73,20 +70,17 @@ public class Juego {
         return this.bolsa.darFicha();
     }
 
-    public boolean isMovimientoValido(Casilla casilla) {
+    public boolean isMovimientoValido(Casilla casilla) throws Exception {
         if (this.primerMovimiento) {
             this.realizarPrimerMovimiento(casilla);
         } else {
             if (casilla.findCasilla(this.ultimaJugada)) {
-
-                if (this.estructura.agregar(casilla, this.jugadorEnTurno.getFichaSeleccionada())) {
+                if (this.controladorEstructura.agregar(casilla, this.jugadorEnTurno.getFichaSeleccionada())) {
                     this.realizarMovimiento(casilla);
-
                 } else {
                     return false;
                 }
             } else {
-
                 return false;
             }
         }
@@ -95,19 +89,15 @@ public class Juego {
 
 
     public void realizarPrimerMovimiento(Casilla casilla) {
-        System.out.println("ES PRIMER MOVIMIENTO VÁLIDO");
-        this.estructura = new Estructura(casilla);
+        this.controladorEstructura = new ControladorEstructura(casilla);
         this.realizarMovimiento(casilla);
-        //this.estructura.imprimirEstructuras();
         this.primerMovimiento = false;
     }
 
     private void realizarMovimiento(Casilla casilla) {
         this.ultimaJugada = casilla;
         this.tablero.casilla[casilla.getX()][casilla.getY()].setFicha(this.jugadorEnTurno.getFichaSeleccionada());
-        System.out.println("SE HA AGREGADO EXITOSAMENTE LA FICHA");
-        System.out.println("ULTIMA JUGADA: " + casilla.toString());
-       // this.estructura.imprimirEstructuras();
+        this.controladorEstructura.imprimirEstructuras();
 
     }
 

@@ -11,7 +11,14 @@ import java.util.Queue;
 public class Qwirkle2 {
 
     public static void main(String[] args) {
+        Regla regla = new Regla();
 
+        try {
+            regla.metodo1(1);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+        System.out.println(regla.cadena);
         // Juego juego = new Juego(2);
         //  juego.intercambiarFicha();
 
@@ -57,6 +64,7 @@ public class Qwirkle2 {
         }
 
     }
+
 
 }
 

@@ -63,11 +63,9 @@ public class Ficha implements  Comparable<Ficha> {
 
     @Override
     public boolean equals(Object o) {
-        System.out.println("ENTRA EN EQUALS");
         if (o instanceof Ficha) {
             Ficha ficha = (Ficha) o;
             if (this.color.equals(ficha.getColor()) && this.forma.equals(ficha.forma)) {
-                System.out.println("SON IGUALES LAS FICHAS");
                 return true;
             } else {
                 return false;

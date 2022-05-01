@@ -1109,59 +1109,30 @@ public class FXMLDocumentController implements Initializable {
     }
 
     @FXML
-    private void ponerFicha(MouseEvent event) throws ExcepcionCasilla {
-
-        if (this.juego.getJugadorEnTurno().getFichaSeleccionada() != null) {
-            for (int x = 0; x < this.arregloImageViewTablero.length; x++) {
-                for (int y = 0; y < this.arregloImageViewTablero[x].length; y++) {
-                    if (((ImageView) (event.getSource())).getId().equals(this.arregloImageViewTablero[x][y].getId())) {
-                        System.out.println("ENTRA PARA VALIDAR");
-                        if (this.juego.isMovimientoValido(this.juego.getTablero().casilla[x][y])) {
-
-                            ((ImageView) (event.getSource())).setImage(new Image("Fichas/Ficha" + this.juego.getJugadorEnTurno().getFichaSeleccionada().getId() + ".png"));
-                           this.juego.getTablero().casilla[x][y].setFicha(this.juego.getJugadorEnTurno().getFichaSeleccionada());
-
-                            this.juego.getJugadorEnTurno().removerFicha(this.juego.getJugadorEnTurno().getFichaSeleccionada());
-                            juego.getJugadorEnTurno().setFichaSeleccionada(null);
-                            opacidad();
-                            this.actualizarFichasTablero();
-
-                        }
-                        break;
-                        //AQUÍ LLAMAS A TODOS TUS MÉTODOS Y AL FINAL NOS SALIMOS CON EL BREAK;
-                  /*      regla = juego.reglas1(x, y);
-                        if (regla) {
-                            regla = juego.reglas2();
-                            if (regla) {
-                                juego.asignarRegla();
-                            }
-                            if (regla) {
-                                if (juego.getJugadorEnTurno().getFichaSeleccionada() != null) {
-                                    ((ImageView) (event.getSource())).setImage(new Image("Fichas/Ficha" + this.juego.getJugadorEnTurno().getFichaSeleccionada().getId() + ".png"));
-                                    this.juego.getJugadorEnTurno().removerFicha(this.juego.getJugadorEnTurno().getFichaSeleccionada());
-                                }
+    private void ponerFicha(MouseEvent event) throws Exception {
+        try {
+            if (this.juego.getJugadorEnTurno().getFichaSeleccionada() != null) {
+                for (int x = 0; x < this.arregloImageViewTablero.length; x++) {
+                    for (int y = 0; y < this.arregloImageViewTablero[x].length; y++) {
+                        if (((ImageView) (event.getSource())).getId().equals(this.arregloImageViewTablero[x][y].getId())) {
+                            if (this.juego.isMovimientoValido(this.juego.getTablero().casilla[x][y])) {
+                                ((ImageView) (event.getSource())).setImage(new Image("Fichas/Ficha" + this.juego.getJugadorEnTurno().getFichaSeleccionada().getId() + ".png"));
+                                this.juego.getTablero().casilla[x][y].setFicha(this.juego.getJugadorEnTurno().getFichaSeleccionada());
+                                this.juego.getJugadorEnTurno().removerFicha(this.juego.getJugadorEnTurno().getFichaSeleccionada());
                                 juego.getJugadorEnTurno().setFichaSeleccionada(null);
-                                //System.out.println("click en casilla");
                                 opacidad();
                                 this.actualizarFichasTablero();
                             }
+                            break;
+
                         }
-                        if (regla) {
-                            if (juego.getJugadorEnTurno().getFichaSeleccionada() != null) {
-                                ((ImageView) (event.getSource())).setImage(new Image("Fichas/Ficha" + this.juego.getJugadorEnTurno().getFichaSeleccionada().getId() + ".png"));
-                                this.juego.getJugadorEnTurno().removerFicha(this.juego.getJugadorEnTurno().getFichaSeleccionada());
-                            }
-                            juego.getJugadorEnTurno().setFichaSeleccionada(null);
-                            //System.out.println("click en casilla");
-                            opacidad();
-                            this.actualizarFichasTablero();
-                        }
-                        break;*/
                     }
                 }
+            } else {
+                JOptionPane.showMessageDialog(null, "NO HAS SELECCIONADO ALGUNA FICHA");
             }
-        } else {
-            JOptionPane.showMessageDialog(null, "NO HAS SELECCIONADO ALGUNA FICHA");
+        }catch (Exception e){
+            System.out.println(e.getMessage());
         }
 
 
