@@ -1080,7 +1080,6 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     private void seleccionarFicha(MouseEvent event) {
         opacidad();
-        String fs = event.getSource().toString();
         for (int i = 0; i < this.juego.getJugadorEnTurno().getArregloFichas().length; i++) {
             if (((ImageView) (event.getSource())).getId().equals(this.arregloImageView[i].getId())) {
                 ((ImageView) (event.getSource())).setOpacity(0.8);
@@ -1145,8 +1144,10 @@ public class FXMLDocumentController implements Initializable {
 
     @FXML
     private void terminarTurno() {
+        JOptionPane.showMessageDialog(null, "LOS PUNTOS OBTENIDOS SON: " + this.juego.getJugadorEnTurno().getPuntosJugador()) ;
        this.juego.terminarTurno();
         this.actualizarFichasTablero();
+        JOptionPane.showMessageDialog(null, "SE HA CAMBIADO AL JUGADOR " + (this.juego.getNumeroJugadorEnTurno()));
     }
 
     @Override

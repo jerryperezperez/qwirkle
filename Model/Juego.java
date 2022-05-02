@@ -2,6 +2,8 @@ package Model;
 
 import com.sun.org.apache.bcel.internal.generic.IF_ACMPEQ;
 
+import javax.swing.*;
+
 public class Juego {
 
     private Bolsa bolsa;
@@ -90,9 +92,8 @@ public class Juego {
                     }
                 }
             }
-            if (this.controladorEstructura.agregar(casilla, this.jugadorEnTurno.getFichaSeleccionada())) {
+            this.getJugadorEnTurno().sumarPuntos(this.controladorEstructura.agregar(casilla, this.jugadorEnTurno.getFichaSeleccionada()));
                 this.realizarMovimiento(casilla);
-            }
         }
         return true;
     }
@@ -116,14 +117,14 @@ public class Juego {
     }
 
     private void realizarMovimiento(Casilla casilla) {
-        if (this.direccion == null){
-            if (this.ultimaJugada != null){
+        if (this.direccion == null) {
+            if (this.ultimaJugada != null) {
                 this.definirDireccion(casilla);
             }
         }
-            this.ultimaJugada = casilla;
+        this.ultimaJugada = casilla;
         this.tablero.casilla[casilla.getX()][casilla.getY()].setFicha(this.jugadorEnTurno.getFichaSeleccionada());
-       this.controladorEstructura.imprimirEstructuras();
+        this.controladorEstructura.imprimirEstructuras();
     }
 
     public void terminarTurno() {
@@ -134,6 +135,18 @@ public class Juego {
         }
         this.ultimaJugada = null;
         this.direccion = null;
+        this.cambiarJugador();
     }
 
+    public void cambiarJugador() {
+        if (this.numeroJugadorEnTurno == this.jugadores.length - 1) {
+            this.numeroJugadorEnTurno = 0;
+        } else {
+            this.numeroJugadorEnTurno++;
+        }
+    }
+
+    public int getNumeroJugadorEnTurno() {
+        return numeroJugadorEnTurno;
+    }
 }

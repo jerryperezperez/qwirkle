@@ -46,7 +46,8 @@ public class ControladorEstructura {
         }
     }
 
-    public boolean agregar(Casilla casilla, Ficha ficha) throws Exception {
+    public int agregar(Casilla casilla, Ficha ficha) throws Exception {
+
         if (casilla.getCasillaIzquierda().getFicha() != null && casilla.getCasillaDerecha().getFicha() != null) {
             if (this.recuperarEstructuraInicial(this.estructuraFilas, casilla.getCasillaIzquierda()).getRestriccion().equals(this.recuperarEstructuraFinal(this.estructuraFilas, casilla.getCasillaDerecha()).getRestriccion())) {
 
@@ -57,14 +58,14 @@ public class ControladorEstructura {
         if (casilla.getCasillaIzquierda().getFicha() != null) {
             this.recuperarEstructuraInicial(this.estructuraFilas, casilla.getCasillaIzquierda()).isDuplicated(ficha);
             if (!this.recuperarEstructuraInicial(this.estructuraFilas, casilla.getCasillaIzquierda()).estaCondicionada()) {
-                System.out.println("ENTRA EN PRIMER IF");
+                System.out.println("ENTRA EN PRIMER IF de casilla izquierda");
                 this.recuperarEstructuraInicial(this.estructuraFilas, casilla.getCasillaIzquierda()).designarRestriccion(ficha);
             } else {
                 System.out.println("ENTRA EN ELSE");
                 this.recuperarEstructuraInicial(this.estructuraFilas, casilla.getCasillaIzquierda()).cumpleRestriccion(ficha);
             }
             this.recuperarEstructuraInicial(this.estructuraFilas, casilla.getCasillaIzquierda()).getCola().addLast(casilla);
-            this.crearEstructuraColumna(casilla);
+          //  System.out.println("PUNTOS GANADOS EN HORIZONTAL: " + this.recuperarEstructuraInicial(this.estructuraFilas, casilla).getCola().size());
         }
         if (casilla.getCasillaDerecha().getFicha() != null) {
             this.recuperarEstructuraFinal(this.estructuraFilas, casilla.getCasillaDerecha()).isDuplicated(ficha);
@@ -76,7 +77,8 @@ public class ControladorEstructura {
                 this.recuperarEstructuraFinal(this.estructuraFilas, casilla.getCasillaDerecha()).cumpleRestriccion(ficha);
             }
             this.recuperarEstructuraFinal(this.estructuraFilas, casilla.getCasillaDerecha()).getCola().addFirst(casilla);
-            this.crearEstructuraColumna(casilla);
+           // System.out.println("PUNTOS GANADOS EN HORIZONTAL: " + this.recuperarEstructuraFinal(this.estructuraFilas, casilla).getCola().size());
+
         }
         if (casilla.getCasillaSuperior().getFicha() != null) {
             this.recuperarEstructuraInicial(this.estructuraColumnas, casilla.getCasillaSuperior()).isDuplicated(ficha);
@@ -88,7 +90,8 @@ public class ControladorEstructura {
                 this.recuperarEstructuraInicial(this.estructuraColumnas, casilla.getCasillaSuperior()).cumpleRestriccion(ficha);
             }
             this.recuperarEstructuraInicial(this.estructuraColumnas, casilla.getCasillaSuperior()).getCola().addLast(casilla);
-            this.crearEstructuraFila(casilla);
+           // System.out.println("PUNTOS GANADOS EN VERTICAL: " + this.recuperarEstructuraInicial(this.estructuraColumnas, casilla).getCola().size());
+
         }
         if (casilla.getCasillaInferior().getFicha() != null) {
             this.recuperarEstructuraFinal(this.estructuraColumnas, casilla.getCasillaInferior()).isDuplicated(ficha);
@@ -100,9 +103,35 @@ public class ControladorEstructura {
                 this.recuperarEstructuraFinal(this.estructuraColumnas, casilla.getCasillaInferior()).cumpleRestriccion(ficha);
             }
             this.recuperarEstructuraFinal(this.estructuraColumnas, casilla.getCasillaInferior()).getCola().addFirst(casilla);
-            this.crearEstructuraFila(casilla);
+            //System.out.println("PUNTOS GANADOS EN VERTICAL: " + this.recuperarEstructuraFinal(this.estructuraColumnas, casilla).getCola().size());
+
         }
-        return true;
+        this.crearEstructuraFila(casilla);
+        this.crearEstructuraColumna(casilla);
+        this.imprimirEstructuras();
+        casilla.setFicha(ficha);
+        System.out.println("PUNTOS GANADOS:     " + this.recuperarLongitudEstructura(casilla));
+
+        return this.recuperarLongitudEstructura(casilla);
+    }
+
+    public int recuperarLongitudEstructura(Casilla casilla){
+        int puntos= 0;
+        for (Estructura estructuraFila: this.estructuraFilas) {
+            if (estructuraFila.getCola().contains(casilla)){
+                if (estructuraFila.getCola().size()>1){
+                    puntos = puntos + estructuraFila.getCola().size();
+                }
+            }
+        }
+        for (Estructura estructuraColumna: this.estructuraColumnas) {
+            if (estructuraColumna.getCola().contains(casilla)){
+                if (estructuraColumna.getCola().size()>1){
+                    puntos = puntos + estructuraColumna.getCola().size();
+                }
+            }
+        }
+        return puntos;
     }
 
     public Estructura recuperarEstructuraFinal(ArrayList<Estructura> estructuras, Casilla casilla) throws Exception {

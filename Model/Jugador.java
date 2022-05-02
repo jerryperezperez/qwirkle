@@ -24,6 +24,11 @@ public class Jugador {
         Jugador.ID += 1;
         this.fichas = new ArrayList<>();
         fichaVacia = new Ficha();
+        this.puntosJugador = 0;
+    }
+
+    public void sumarPuntos(int puntos) {
+        this.puntosJugador = puntos;
     }
 
     public int getPuntosObtenidos() {
@@ -70,35 +75,39 @@ public class Jugador {
         this.fichaSeleccionada = fichaSeleccionada;
     }
 
-    public void removerFichaSeleccionada(){
+    public void removerFichaSeleccionada() {
         this.fichaSeleccionada = null;
     }
-   public void quitarFichasJugadas(){
-        System.out.println("longitud: "+ this.fichas.size());
-        for (int i=0;i<6;i++){
+
+    public void quitarFichasJugadas() {
+        System.out.println("longitud: " + this.fichas.size());
+        for (int i = 0; i < 6; i++) {
             this.fichas.remove(fichaVacia);
         }
-        System.out.println("longitud: "+ this.fichas.size());
+        System.out.println("longitud: " + this.fichas.size());
     }
+
     public int getCantidadFichasSeleccionadas() {
         return cantidadFichasSeleccionadas;
     }
 
-    public int getIdFicha(int i){
+    public int getIdFicha(int i) {
         return this.fichas.get(i).getId();
     }
+
     public Ficha[] getArregloFichas() {
         return this.fichas.toArray(new Ficha[this.fichas.size()]);
     }
+
     public Ficha devolverFicha() {
-       return this.fichas.remove(1);
+        return this.fichas.remove(1);
     }
 
-    public void removerFicha(Ficha ficha){
+    public void removerFicha(Ficha ficha) {
         //this.fichas.remove(ficha);
-       for (int i=0;i<6;i++){
-            if (ficha == this.fichas.get(i)){
-                this.fichas.set(i,fichaVacia);
+        for (int i = 0; i < 6; i++) {
+            if (ficha == this.fichas.get(i)) {
+                this.fichas.set(i, fichaVacia);
             }
         }
     }
