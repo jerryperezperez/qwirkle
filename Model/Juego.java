@@ -1,5 +1,7 @@
 package Model;
 
+import com.sun.org.apache.bcel.internal.generic.IF_ACMPEQ;
+
 public class Juego {
 
     private Bolsa bolsa;
@@ -7,7 +9,7 @@ public class Juego {
     private ControladorEstructura controladorEstructura;
     private Jugador jugadorEnTurno;
     private Casilla ultimaJugada;
-    private Regla regla;
+    private String direccion;
     private int numeroJugadorEnTurno = 0; //apunta un jugador adelante. Posible cambio a proximoNumeroJugadorEnTurno
     public Jugador jugadores[];
 
@@ -74,19 +76,38 @@ public class Juego {
         if (this.primerMovimiento) {
             this.realizarPrimerMovimiento(casilla);
         } else {
-            if (casilla.findCasilla(this.ultimaJugada)) {
-                if (this.controladorEstructura.agregar(casilla, this.jugadorEnTurno.getFichaSeleccionada())) {
-                    this.realizarMovimiento(casilla);
-                } else {
-                    return false;
+            if (casilla.getFicha() != null) {
+                throw new Exception("ESTA CASILLA YA TIENE FICHA");
+            }
+            if (!casilla.hayFichaAdyacente()) {
+                throw new Exception("NO HAY FICHA ADYACENTE");
+            }
+            if (this.ultimaJugada != null) { // concatenar if anidado con &&
+                this.ultimaJugada.verificarCasillaAdyacente(casilla);
+                if (this.direccion != null) {
+                    if (!this.ultimaJugada.esMismaLinea(casilla, this.direccion)) {
+                        throw new Exception("NO ES EL MISMO VECTOR");
+                    }
                 }
-            } else {
-                return false;
+            }
+            if (this.controladorEstructura.agregar(casilla, this.jugadorEnTurno.getFichaSeleccionada())) {
+                this.realizarMovimiento(casilla);
             }
         }
         return true;
     }
 
+    public void definirDireccion(Casilla casilla) {
+        if (!this.ultimaJugada.equals(casilla)) {
+            if (this.ultimaJugada.getX() == casilla.getX()) {
+                this.direccion = "COLUMNA";
+            } else {
+                if (this.ultimaJugada.getY() == casilla.getY()) {
+                    this.direccion = "FILA";
+                }
+            }
+        }
+    }
 
     public void realizarPrimerMovimiento(Casilla casilla) {
         this.controladorEstructura = new ControladorEstructura(casilla);
@@ -95,10 +116,24 @@ public class Juego {
     }
 
     private void realizarMovimiento(Casilla casilla) {
-        this.ultimaJugada = casilla;
+        if (this.direccion == null){
+            if (this.ultimaJugada != null){
+                this.definirDireccion(casilla);
+            }
+        }
+            this.ultimaJugada = casilla;
         this.tablero.casilla[casilla.getX()][casilla.getY()].setFicha(this.jugadorEnTurno.getFichaSeleccionada());
-        this.controladorEstructura.imprimirEstructuras();
+       this.controladorEstructura.imprimirEstructuras();
+    }
 
+    public void terminarTurno() {
+        this.getJugadorEnTurno().removerFichaSeleccionada();
+        this.getJugadorEnTurno().quitarFichasJugadas();
+        while (this.getJugadorEnTurno().getArregloFichas().length < 6) {
+            this.getJugadorEnTurno().setFicha(this.sacarFichaBolsa());
+        }
+        this.ultimaJugada = null;
+        this.direccion = null;
     }
 
 }

@@ -1109,7 +1109,7 @@ public class FXMLDocumentController implements Initializable {
     }
 
     @FXML
-    private void ponerFicha(MouseEvent event) throws Exception {
+    private void ponerFicha(MouseEvent event){
         try {
             if (this.juego.getJugadorEnTurno().getFichaSeleccionada() != null) {
                 for (int x = 0; x < this.arregloImageViewTablero.length; x++) {
@@ -1145,11 +1145,7 @@ public class FXMLDocumentController implements Initializable {
 
     @FXML
     private void terminarTurno() {
-        this.juego.getJugadorEnTurno().removerFichaSeleccionada();
-        this.juego.getJugadorEnTurno().quitarFichasJugadas();
-        while (this.juego.getJugadorEnTurno().getArregloFichas().length < 6) {
-            this.juego.getJugadorEnTurno().setFicha(this.juego.sacarFichaBolsa());
-        }
+       this.juego.terminarTurno();
         this.actualizarFichasTablero();
     }
 

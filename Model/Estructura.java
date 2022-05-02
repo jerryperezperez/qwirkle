@@ -38,10 +38,10 @@ public class Estructura {
         }
     }
 
-    public boolean isDuplicated(Ficha ficha) {
+    public boolean isDuplicated(Ficha ficha) throws Exception {
         for (Casilla casilla : this.colas) {
             if (casilla.getFicha().equals(ficha)) {
-                return true;
+                throw new Exception("LA FICHA YA HA SIDO AGREGADA EN ESTA COLA");
             }
         }
         return false;
@@ -49,9 +49,6 @@ public class Estructura {
 
     public boolean cumpleRestriccion(Ficha ficha) throws Exception {
         switch (this.restriccion) {
-            case "LIBRE":
-                this.designarRestriccion(ficha);
-                break;
             case "FORMA":
                 if (!this.colas.getFirst().getFicha().getForma().equals(ficha.getForma())) {
                     throw new Exception("NO CUMPLE CON LA FORMA");
@@ -73,12 +70,31 @@ public class Estructura {
             if (this.colas.getFirst().getFicha().getForma().equals(ficha.getForma())) {
                 this.restriccion = "FORMA";
             } else {
-                throw new Exception("NO PUEDE CUMPLIR NI EN FORMA O COLOR");
+                throw new Exception("NO SE PUEDE ASIGNAR RESTRICCIÓN. NO ES NI EN COLOR O EN FORMA");
             }
         }
     }
 
-    public LinkedList<Casilla> getColas() {
+    public void encontrarColaIzquierda() {
+
+    }
+
+    public void encontrarColaDerecha() {
+
+    }
+
+    public String getRestriccion() {
+        return restriccion;
+    }
+
+    public boolean estaCondicionada() {
+        if (this.restriccion.equals("LIBRE")) {
+            return false;
+        }
+        return true;
+    }
+
+    public LinkedList<Casilla> getCola() {
         return colas;
     }
 

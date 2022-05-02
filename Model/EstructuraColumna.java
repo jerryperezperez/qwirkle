@@ -26,7 +26,7 @@ public class EstructuraColumna extends Estructura {
 
     public boolean agregarEnColaInferior(Casilla casilla, Ficha ficha) throws Exception {
         if (casilla.getCasillaInferior().getFicha() != null) {
-            if (this.getColas().getFirst().getFicha().getId() == casilla.getCasillaInferior().getFicha().getId()) {
+            if (this.getCola().getFirst().getFicha().getId() == casilla.getCasillaInferior().getFicha().getId()) {
                 if (!this.addToLeft(casilla, ficha)) {
                     throw new Exception("problema en agregarEnColaInferior");
                 }else{

@@ -5,9 +5,10 @@
  */
 package Model;
 
+import java.util.Comparator;
 import java.util.Objects;
 
-public class Ficha implements  Comparable<Ficha> {
+public class Ficha {
 
     private static int ID = 1;
     private int id = 1;
@@ -75,8 +76,5 @@ public class Ficha implements  Comparable<Ficha> {
         }
     }
 
-    @Override
-    public int compareTo(Ficha o) {
-        return 0;
-    }
+
 }

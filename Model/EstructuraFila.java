@@ -24,7 +24,7 @@ public class EstructuraFila extends Estructura {
 
     public boolean agregarEnColaDerecha(Casilla casilla, Ficha ficha) throws Exception {
             if (casilla.getCasillaDerecha().getFicha() != null) {
-                if (this.getColas().getFirst().getFicha().getId() == casilla.getCasillaDerecha().getFicha().getId()) {
+                if (this.getCola().getFirst().getFicha().getId() == casilla.getCasillaDerecha().getFicha().getId()) {
                     if (!this.addToLeft(casilla, ficha)) {
                         throw new Exception("problema en agregarEnColaDerecha");
                     }else{

@@ -86,17 +86,63 @@ public class Casilla implements Comparable<Casilla> {
         this.ficha = ficha;
     }
 
+    public boolean verificarCasillaAdyacente(Casilla casilla) throws Exception {
+        if (this.casillaSuperior.equals(casilla)) {
+            return true;
+        }
+        if (this.casillaInferior.equals(casilla)) {
+            return true;
+        }
+        if (this.casillaIzquierda.equals(casilla)) {
+            return true;
+        }
+        if (this.casillaDerecha.equals(casilla)) {
+            return true;
+        }
+        throw new Exception("NO COINCIDE CON LA ÚLTIMA JUGADA");
+    }
+
+    public boolean esMismaLinea(Casilla casilla, String direccion) {
+        if (direccion.equals("COLUMNA")) {
+            if (this.x == casilla.x) {
+                return true;
+            }
+        }
+        if (direccion.equals("FILA")) {
+            if (this.y == casilla.y) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean hayFichaAdyacente() {
+        if (this.casillaSuperior.getFicha() != null) {
+            return true;
+        }
+        if (this.casillaInferior.getFicha() != null) {
+            return true;
+        }
+        if (this.casillaIzquierda.getFicha() != null) {
+            return true;
+        }
+        if (this.casillaDerecha.getFicha() != null) {
+            return true;
+        }
+        return false;
+    }
+
     public boolean findCasilla(Casilla casilla) {
-        if (this.casillaSuperior.getFicha() != null && this.casillaSuperior.getFicha().equals(casilla.getFicha())) {
+        if (this.casillaSuperior.getFicha() != null && this.casillaSuperior.getFicha().getId() == casilla.getFicha().getId()) {
             return true;
         } else {
-            if (this.casillaInferior.getFicha() != null && this.casillaInferior.getFicha().equals(casilla.getFicha())) {
+            if (this.casillaInferior.getFicha() != null && this.casillaInferior.getFicha().getId() == casilla.getFicha().getId()) {
                 return true;
             } else {
-                if (this.casillaIzquierda.getFicha() != null && this.casillaIzquierda.getFicha().equals(casilla.getFicha())) {
+                if (this.casillaIzquierda.getFicha() != null && this.casillaIzquierda.getFicha().getId() == casilla.getFicha().getId()) {
                     return true;
                 } else {
-                    if (this.casillaDerecha.getFicha() != null && this.casillaDerecha.getFicha().equals(casilla.getFicha())) {
+                    if (this.casillaDerecha.getFicha() != null && this.casillaDerecha.getFicha().getId() == casilla.getFicha().getId()) {
                         return true;
                     } else {
                         return false;
