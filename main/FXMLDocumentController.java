@@ -1,6 +1,5 @@
 package main;
 
-import java.awt.event.ActionEvent;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -15,6 +14,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
+import jdk.management.resource.internal.inst.FileOutputStreamRMHooks;
 
 public class FXMLDocumentController implements Initializable {
 
@@ -1049,8 +1049,10 @@ public class FXMLDocumentController implements Initializable {
 
     Juego juego;
     int idFicha;
-    boolean regla;
-    boolean reglaV;
+    boolean regla=false;
+    boolean regla2=false;
+    boolean reglas[]= new boolean[]{false,false,false,false,true,true,false};
+
     ImageView[] arregloImageView;
     ImageView arregloImageViewCambio[];
     ImageView arregloImageViewTablero[][];
@@ -1118,25 +1120,70 @@ public class FXMLDocumentController implements Initializable {
                         System.out.println("ES NULA LA FICHA");
                     }
                     //AQUÍ LLAMAS A TODOS TUS MÉTODOS Y AL FINAL NOS SALIMOS CON EL BREAK
+                    regla2=false;
+                    reglas[6] = juego.reglas0();
+
                     regla = juego.reglas1();
                     if (regla) {
                         regla = juego.reglas2(x,y);
-                        if (regla) {
-                            regla = juego.reglas3();
-                            reglaV=juego.reglas4();
-                            if(regla||reglaV){
-                                juego.asignarRegla();
-                            }
-
-                            if(regla||reglaV){
-                                ((ImageView) (event.getSource())).setImage(new Image("Fichas/Ficha" + this.juego.getJugadorEnTurno().getFichaSeleccionada().getId() + ".png"));
-                                opacidad();
-                                this.actualizarFichasTablero();
-                                juego.getJugadorEnTurno().setFichaSeleccionada(null);
-                            }
+                        if (reglas[6]){
+                            juego.asignarRegla();
+                            ((ImageView) (event.getSource())).setImage(new Image("Fichas/Ficha" + this.juego.getJugadorEnTurno().getFichaSeleccionada().getId() + ".png"));
+                            opacidad();
+                            this.actualizarFichasTablero();
+                            juego.getJugadorEnTurno().setFichaSeleccionada(null);
                         }
-
-                    break;
+                        break;
+                    }
+                }
+            }
+        }
+        if (regla) {
+            regla=false;
+            reglas[0]= juego.reglas3();
+            reglas[1]=juego.reglas4();
+            reglas[2]=juego.reglas5();
+            reglas[3]=juego.reglas6();
+            System.out.println("color horizontal: "+reglas[0]);
+            System.out.println("forma horizontal: "+reglas[1]);
+            System.out.println("color vertical: "+reglas[2]);
+            System.out.println("forma vertical: "+reglas[3]);
+            System.out.println("reglas "+regla+" "+regla2);
+            if (reglas[0] ||reglas[1]){
+                System.out.println("entra regla 1");
+                regla=true;
+            }
+            if (reglas[2]||reglas[3]){
+                System.out.println("entra regla2");
+                regla2=true;
+            }
+            System.out.println("reglas "+regla+" "+regla2);
+            if(regla && regla2){
+                /*if (reglas[0]^reglas[1]){
+                    if (reglas[0]){
+                        reglas[4] = juego.reglas7(0);
+                    }
+                    if (reglas[1]){
+                        reglas[4] = juego.reglas7(1);
+                    }
+                }
+                if (reglas[2]^reglas[3]){
+                    if (reglas[2]){
+                        reglas[5] = juego.reglas7(2);
+                    }
+                    if (reglas[3]){
+                        reglas[5] = juego.reglas7(3);
+                    }
+                }*/
+                System.out.println("Nada repetido H "+reglas[4]+" V "+reglas[5]);
+                if (regla && regla2 && reglas[6]==false){
+                    regla=juego.reglas7();
+                    if (regla){
+                        juego.asignarRegla();
+                        ((ImageView) (event.getSource())).setImage(new Image("Fichas/Ficha" + this.juego.getJugadorEnTurno().getFichaSeleccionada().getId() + ".png"));
+                        opacidad();
+                        this.actualizarFichasTablero();
+                        juego.getJugadorEnTurno().setFichaSeleccionada(null);
                     }
                 }
             }
