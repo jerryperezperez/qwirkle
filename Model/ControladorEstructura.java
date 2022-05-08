@@ -17,6 +17,14 @@ public class ControladorEstructura {
         this.estructuraColumnas.add(new EstructuraColumna(casilla));
     }
 
+    public ArrayList<Estructura> getEstructuraFilas() {
+        return (ArrayList<Estructura>) estructuraFilas.clone();
+    }
+
+    public ArrayList<Estructura> getEstructuraColumnas() {
+        return (ArrayList<Estructura>) estructuraColumnas.clone();
+    }
+
     public void imprimirEstructuras() {
         System.out.println("IMPRIMIENDO ESTRUCTURA DE FILAS");
         for (Estructura estructuraFila : this.estructuraFilas) {

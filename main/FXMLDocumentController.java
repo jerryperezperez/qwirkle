@@ -4,6 +4,7 @@ import java.awt.event.ActionEvent;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import Model.Bot;
 import Model.ExcepcionCasilla;
 import Model.Juego;
 import javafx.fxml.FXML;
@@ -1146,13 +1147,19 @@ public class FXMLDocumentController implements Initializable {
     private void terminarTurno() {
         JOptionPane.showMessageDialog(null, "LOS PUNTOS OBTENIDOS SON: " + this.juego.getJugadorEnTurno().getPuntosJugador()) ;
        this.juego.terminarTurno();
-        this.actualizarFichasTablero();
-        JOptionPane.showMessageDialog(null, "SE HA CAMBIADO AL JUGADOR " + (this.juego.getNumeroJugadorEnTurno()));
+       if (this.juego.getJugadorEnTurno() instanceof Bot){
+           JOptionPane.showMessageDialog(null, "ES TURNO DEL BOT");
+
+       }else{
+           this.actualizarFichasTablero();
+           JOptionPane.showMessageDialog(null, "SE HA CAMBIADO AL JUGADOR " + (this.juego.getNumeroJugadorEnTurno() + 1));
+       }
+
     }
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        this.juego = new Juego(4);
+        this.juego = new Juego(2);
         this.arregloImageView = new ImageView[]{ficha_n1, ficha_n2, ficha_n3,
                 ficha_n4, ficha_n5, ficha_n6};
         this.arregloImageViewCambio = new ImageView[]{ficha_cambio_n1, ficha_cambio_n2, ficha_cambio_n3, ficha_cambio_n4,

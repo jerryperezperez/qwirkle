@@ -1,5 +1,6 @@
 package Model;
 
+import java.util.Comparator;
 import java.util.LinkedList;
 
 public class Estructura {
@@ -97,6 +98,5 @@ public class Estructura {
     public LinkedList<Casilla> getCola() {
         return colas;
     }
-
 
 }
