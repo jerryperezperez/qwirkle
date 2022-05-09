@@ -28,16 +28,10 @@ public class Jugador {
     }
 
     public void sumarPuntos(int puntos) {
-        this.puntosJugador = puntos;
+        this.puntosJugador += puntos;
     }
 
-    public int getPuntosObtenidos() {
-        return puntosObtenidos;
-    }
 
-    public void setPuntosObtenidos(int puntosObtenidos) {
-        this.puntosObtenidos = puntosObtenidos;
-    }
 
     public int getIdJugador() {
         return idJugador;

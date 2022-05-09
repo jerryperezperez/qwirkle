@@ -3,13 +3,16 @@ package Model;
 import com.sun.org.apache.bcel.internal.generic.IF_ACMPEQ;
 import com.sun.scenario.effect.impl.sw.sse.SSEBlend_SRC_OUTPeer;
 
+import javax.swing.*;
 import java.lang.reflect.Array;
 import java.util.*;
 
-public class ControladorEstructura implements Cloneable{
+public class ControladorEstructura implements Cloneable {
     private ArrayList<Estructura> estructuraFilas;
     private ArrayList<Estructura> estructuraColumnas;
-    private HashSet<Estructura>ultimasEstructurasModificadas;
+    private HashSet<Estructura> ultimasEstructurasModificadas;
+    private Casilla ultimaJugada;
+    private String direccion;
 
     public ControladorEstructura(Casilla casilla) {
         this.estructuraColumnas = new ArrayList<>();
@@ -17,34 +20,45 @@ public class ControladorEstructura implements Cloneable{
         this.estructuraFilas.add(new EstructuraFila(casilla));
         this.estructuraColumnas.add(new EstructuraColumna(casilla));
         ultimasEstructurasModificadas = new HashSet<>();
+        this.ultimaJugada = casilla;
     }
-    public ControladorEstructura(ControladorEstructura controlador){
+
+    public ControladorEstructura(ControladorEstructura controlador) {
         this.estructuraColumnas = new ArrayList<>();
         this.estructuraFilas = new ArrayList<>();
         ultimasEstructurasModificadas = new HashSet<>();
         this.clonarEstructuraFila(controlador.estructuraFilas);
         this.clonarEstructuraColumna(controlador.estructuraColumnas);
         this.clonarEstructuraHashSet(controlador.ultimasEstructurasModificadas);
+        //TODO corregir y decidir qué hacer con cómo conservar la última jugada
+        //this.ultimaJugada = new Casilla(controlador.ultimaJugada); EN SU MOVIMIENTO NO TIENE ULTIMA JUGADA
+        this.direccion = controlador.direccion;
     }
 
-    private void clonarEstructuraFila(ArrayList<Estructura> collection){
-        for (Estructura estructura: collection) {
+    public void setDireccion(String direccion) {
+        this.direccion = direccion;
+    }
+
+    private void clonarEstructuraFila(ArrayList<Estructura> collection) {
+        for (Estructura estructura : collection) {
             this.estructuraFilas.add(new Estructura(estructura));
         }
     }
-    private void clonarEstructuraColumna(ArrayList<Estructura> collection){
-        for (Estructura estructura: collection) {
+
+    private void clonarEstructuraColumna(ArrayList<Estructura> collection) {
+        for (Estructura estructura : collection) {
             this.estructuraColumnas.add(new Estructura(estructura));
         }
     }
-    private void clonarEstructuraHashSet(HashSet<Estructura> collection){
-        for (Estructura estructura: collection) {
+
+    private void clonarEstructuraHashSet(HashSet<Estructura> collection) {
+        for (Estructura estructura : collection) {
             this.ultimasEstructurasModificadas.add(new Estructura(estructura));
         }
     }
 
 
-    public void limpiarUltimasEstructurasModificadas(){
+    public void limpiarUltimasEstructurasModificadas() {
         this.ultimasEstructurasModificadas.clear();
     }
 
@@ -86,7 +100,17 @@ public class ControladorEstructura implements Cloneable{
     }
 
     public int agregar(Casilla casilla, Ficha ficha) throws Exception {
-
+        if (!casilla.hayFichaAdyacente()) {
+            throw new Exception("NO HAY FICHA ADYACENTE");
+        }
+        if (this.ultimaJugada != null) { // concatenar if anidado con &&
+            this.ultimaJugada.verificarCasillaAdyacente(casilla);
+            if (this.direccion != null) {
+                if (!this.ultimaJugada.esMismaLinea(casilla, this.direccion)) {
+                    throw new Exception("NO ES EL MISMO VECTOR");
+                }
+            }
+        }
         if (casilla.getCasillaIzquierda().getFicha() != null && casilla.getCasillaDerecha().getFicha() != null) {
             if (this.recuperarEstructuraInicial(this.estructuraFilas, casilla.getCasillaIzquierda()).getRestriccion().equals(this.recuperarEstructuraFinal(this.estructuraFilas, casilla.getCasillaDerecha()).getRestriccion())) {
 
@@ -97,15 +121,13 @@ public class ControladorEstructura implements Cloneable{
         if (casilla.getCasillaIzquierda().getFicha() != null) {
             this.recuperarEstructuraInicial(this.estructuraFilas, casilla.getCasillaIzquierda()).isDuplicated(ficha);
             if (!this.recuperarEstructuraInicial(this.estructuraFilas, casilla.getCasillaIzquierda()).estaCondicionada()) {
-                System.out.println("ENTRA EN PRIMER IF de casilla izquierda");
                 this.recuperarEstructuraInicial(this.estructuraFilas, casilla.getCasillaIzquierda()).designarRestriccion(ficha);
             } else {
-                System.out.println("ENTRA EN ELSE");
                 this.recuperarEstructuraInicial(this.estructuraFilas, casilla.getCasillaIzquierda()).cumpleRestriccion(ficha);
             }
             this.ultimasEstructurasModificadas.add(this.recuperarEstructuraInicial(this.estructuraFilas, casilla.getCasillaIzquierda()));
             this.recuperarEstructuraInicial(this.estructuraFilas, casilla.getCasillaIzquierda()).getCola().addLast(casilla);
-          //  System.out.println("PUNTOS GANADOS EN HORIZONTAL: " + this.recuperarEstructuraInicial(this.estructuraFilas, casilla).getCola().size());
+            //  System.out.println("PUNTOS GANADOS EN HORIZONTAL: " + this.recuperarEstructuraInicial(this.estructuraFilas, casilla).getCola().size());
         }
         if (casilla.getCasillaDerecha().getFicha() != null) {
             this.recuperarEstructuraFinal(this.estructuraFilas, casilla.getCasillaDerecha()).isDuplicated(ficha);
@@ -132,7 +154,7 @@ public class ControladorEstructura implements Cloneable{
             }
             this.ultimasEstructurasModificadas.add(this.recuperarEstructuraInicial(this.estructuraColumnas, casilla.getCasillaSuperior()));
             this.recuperarEstructuraInicial(this.estructuraColumnas, casilla.getCasillaSuperior()).getCola().addLast(casilla);
-           // System.out.println("PUNTOS GANADOS EN VERTICAL: " + this.recuperarEstructuraInicial(this.estructuraColumnas, casilla).getCola().size());
+            // System.out.println("PUNTOS GANADOS EN VERTICAL: " + this.recuperarEstructuraInicial(this.estructuraColumnas, casilla).getCola().size());
 
         }
         if (casilla.getCasillaInferior().getFicha() != null) {
@@ -149,27 +171,51 @@ public class ControladorEstructura implements Cloneable{
             //System.out.println("PUNTOS GANADOS EN VERTICAL: " + this.recuperarEstructuraFinal(this.estructuraColumnas, casilla).getCola().size());
 
         }
+        if (this.direccion == null) {
+            if (this.ultimaJugada != null) {
+                this.definirDireccion(casilla);
+                JOptionPane.showMessageDialog(null, "EL VECTOR ES: " + this.direccion);
+            }
+        }
+        this.ultimaJugada = casilla;
         this.crearEstructuraFila(casilla);
         this.crearEstructuraColumna(casilla);
         casilla.setFicha(ficha);
 
-
         return this.recuperarLongitudEstructura(casilla);
     }
 
-    public int recuperarLongitudEstructura(Casilla casilla){
-        int puntos= 0;
+    public void setUltimaJugada(Casilla ultimaJugada) {
+        this.ultimaJugada = ultimaJugada;
+    }
 
-        for (Estructura estructuraFila: this.estructuraFilas) {
-            if (estructuraFila.getCola().contains(casilla)){
-                if (estructuraFila.getCola().size()>1){
+    public Casilla getUltimaJugada() {
+        return ultimaJugada;
+    }
+
+    public void definirDireccion(Casilla casilla) {
+        if (this.ultimaJugada.getX() == casilla.getX()) {
+            this.direccion = "COLUMNA";
+        } else {
+            if (this.ultimaJugada.getY() == casilla.getY()) {
+                this.direccion = "FILA";
+            }
+        }
+    }
+
+    public int recuperarLongitudEstructura(Casilla casilla) {
+        int puntos = 0;
+
+        for (Estructura estructuraFila : this.estructuraFilas) {
+            if (estructuraFila.getCola().contains(casilla)) {
+                if (estructuraFila.getCola().size() > 1) {
                     puntos = puntos + estructuraFila.getCola().size();
                 }
             }
         }
-        for (Estructura estructuraColumna: this.estructuraColumnas) {
-            if (estructuraColumna.getCola().contains(casilla)){
-                if (estructuraColumna.getCola().size()>1){
+        for (Estructura estructuraColumna : this.estructuraColumnas) {
+            if (estructuraColumna.getCola().contains(casilla)) {
+                if (estructuraColumna.getCola().size() > 1) {
                     puntos = puntos + estructuraColumna.getCola().size();
                 }
             }
@@ -180,7 +226,8 @@ public class ControladorEstructura implements Cloneable{
     public HashSet<Estructura> getUltimasEstructurasModificadas() {
         return (HashSet<Estructura>) ultimasEstructurasModificadas.clone();
     }
-    public void encontrarEstructura(){
+
+    public void encontrarEstructura() {
 
     }
 

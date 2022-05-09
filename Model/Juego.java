@@ -5,6 +5,8 @@ import com.sun.org.apache.bcel.internal.generic.IF_ACMPEQ;
 import javax.swing.*;
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.Iterator;
+import java.util.function.Consumer;
 
 public class Juego {
 
@@ -27,10 +29,10 @@ public class Juego {
         // this.regla = new Regla(this.bolsa, this.tablero);
 
 //creador de jugadores. TODO para crear métodos instanciadores como crearJugadores
-        for (int i = 0; i < jugadores.length; i++) {
+        for (int i = 0; i < jugadores.length - 1; i++) {
             jugadores[i] = new Jugador();
         }
-     //   this.jugadores[this.jugadores.length - 1] = new Bot();
+        this.jugadores[this.jugadores.length - 1] = new Bot();
 
         this.asignarFichas();
     }
@@ -74,7 +76,7 @@ public class Juego {
             if (casilla.getFicha() != null) {
                 throw new Exception("ESTA CASILLA YA TIENE FICHA");
             }
-            if (!casilla.hayFichaAdyacente()) {
+       /*     if (!casilla.hayFichaAdyacente()) {
                 throw new Exception("NO HAY FICHA ADYACENTE");
             }
             if (this.ultimaJugada != null) { // concatenar if anidado con &&
@@ -84,14 +86,14 @@ public class Juego {
                         throw new Exception("NO ES EL MISMO VECTOR");
                     }
                 }
-            }
+            }*/
             this.getJugadorEnTurno().sumarPuntos(this.controladorEstructura.agregar(casilla, this.jugadores[numeroJugadorEnTurno].getFichaSeleccionada()));
             this.realizarMovimiento(casilla);
         }
         return true;
     }
 
-    public void definirDireccion(Casilla casilla) {
+    /*public void definirDireccion(Casilla casilla) {
         if (!this.ultimaJugada.equals(casilla)) {
             if (this.ultimaJugada.getX() == casilla.getX()) {
                 this.direccion = "COLUMNA";
@@ -101,7 +103,7 @@ public class Juego {
                 }
             }
         }
-    }
+    }*/
 
     public void realizarPrimerMovimiento(Casilla casilla) {
         this.controladorEstructura = new ControladorEstructura(casilla);
@@ -110,11 +112,11 @@ public class Juego {
     }
 
     private void realizarMovimiento(Casilla casilla) {
-        if (this.direccion == null) {
+        /*if (this.direccion == null) {
             if (this.ultimaJugada != null) {
                 this.definirDireccion(casilla);
             }
-        }
+        }*/
         this.ultimaJugada = casilla;
         this.tablero.casilla[casilla.getX()][casilla.getY()].setFicha(this.jugadores[numeroJugadorEnTurno].getFichaSeleccionada());
         //this.controladorEstructura.imprimirEstructuras();
@@ -136,14 +138,12 @@ public class Juego {
         this.getJugadorEnTurno().quitarFichasJugadas();
         this.jugadores[this.numeroJugadorEnTurno].sumarPuntos(this.calcularPuntos(this.controladorEstructura.getUltimasEstructurasModificadas()));
         JOptionPane.showMessageDialog(null, "PUNTOS GANADOS: " + this.jugadores[this.numeroJugadorEnTurno].getPuntosJugador());
-
-        //  System.out.println("PUNTOS OBTENIDOS REALES SON: " + this.calcularPuntos(this.controladorEstructura.getUltimasEstructurasModificadas()));
         while (this.getJugadorEnTurno().getArregloFichas().length < 6) {
             this.getJugadorEnTurno().setFicha(this.sacarFichaBolsa());
         }
         this.controladorEstructura.limpiarUltimasEstructurasModificadas();
-        this.ultimaJugada = null;
-        this.direccion = null;
+        this.controladorEstructura.setUltimaJugada(null);
+        this.controladorEstructura.setDireccion(null);
         this.cambiarJugador();
         this.cambioDisponible = true;
     }
@@ -160,19 +160,15 @@ public class Juego {
     }
 
     public void moverBot() throws Exception {
-        do {
-            this.jugadores[numeroJugadorEnTurno].setFichaSeleccionada(null);
-            ((Bot) this.jugadores[numeroJugadorEnTurno]).iniciar((ControladorEstructura) this.controladorEstructura.clone());
-            if (((Bot) this.jugadores[numeroJugadorEnTurno]).getCasilla() != null) {
-                JOptionPane.showMessageDialog(null, "ENTRA PARA EVALUAR LA OPCIÓN");
-                System.out.println("FLAG");
-                this.controladorEstructura.imprimirEstructuras();
-                this.isMovimientoValido(((Bot) this.jugadores[numeroJugadorEnTurno]).getCasilla());
-            }
 
-        } while (this.jugadores[numeroJugadorEnTurno].getFichaSeleccionada() != null);
-
-        this.terminarTurno();
+        this.jugadores[numeroJugadorEnTurno].setFichaSeleccionada(null);
+        ((Bot) this.jugadores[numeroJugadorEnTurno]).iniciar((ControladorEstructura) this.controladorEstructura.clone());
+        if (((Bot) this.jugadores[numeroJugadorEnTurno]).getCasilla() != null) {
+            JOptionPane.showMessageDialog(null, "ENTRA PARA EVALUAR LA OPCIÓN");
+            System.out.println("FLAG");
+            this.controladorEstructura.imprimirEstructuras();
+            this.isMovimientoValido(((Bot) this.jugadores[numeroJugadorEnTurno]).getCasilla());
+        }
     }
 
     public int getNumeroJugadorEnTurno() {

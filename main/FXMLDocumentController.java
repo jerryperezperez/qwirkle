@@ -1107,6 +1107,15 @@ public class FXMLDocumentController implements Initializable {
             }
         }
     }
+    private void pintarTablero(){
+        for (int x = 0; x < this.arregloImageViewTablero.length; x++) {
+            for (int y = 0; y < this.arregloImageViewTablero[x].length; y++) {
+                if (this.juego.getTablero().casilla[x][y].getFicha() != null) {
+                    this.arregloImageViewTablero[x][y].setImage(new Image("Fichas/Ficha" + this.juego.getTablero().casilla[x][y].getFicha().getId() + ".png"));
+                }
+            }
+        }
+    }
 
     @FXML
     private void ponerFicha(MouseEvent event){
@@ -1147,11 +1156,11 @@ public class FXMLDocumentController implements Initializable {
        if (this.juego.getJugadorEnTurno() instanceof Bot){
            JOptionPane.showMessageDialog(null, "ES TURNO DEL BOT");
             this.juego.moverBot();
-       }else{
+            this.terminarTurno();
+            this.pintarTablero();
+       }
            this.actualizarFichasTablero();
            JOptionPane.showMessageDialog(null, "SE HA CAMBIADO AL JUGADOR " + (this.juego.getNumeroJugadorEnTurno() + 1));
-       }
-
     }
 
     @Override
