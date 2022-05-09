@@ -18,7 +18,7 @@ public class Qwirkle2 {
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
-        System.out.println(regla.cadena);
+
         // Juego juego = new Juego(2);
         //  juego.intercambiarFicha();
 

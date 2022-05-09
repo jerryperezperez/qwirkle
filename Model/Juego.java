@@ -3,13 +3,14 @@ package Model;
 import com.sun.org.apache.bcel.internal.generic.IF_ACMPEQ;
 
 import javax.swing.*;
+import java.util.ArrayList;
+import java.util.HashSet;
 
 public class Juego {
 
     private Bolsa bolsa;
     private Tablero tablero;
     private ControladorEstructura controladorEstructura;
-    private Jugador jugadorEnTurno;
     private Casilla ultimaJugada;
     private String direccion;
     private int numeroJugadorEnTurno = 0; //apunta un jugador adelante. Posible cambio a proximoNumeroJugadorEnTurno
@@ -25,27 +26,19 @@ public class Juego {
         // this.regla = new Regla(this.bolsa, this.tablero);
 
 //creador de jugadores. TODO para crear métodos instanciadores como crearJugadores
-        for (int i = 0; i < jugadores.length; i++) {
+        for (int i = 0; i < jugadores.length-1; i++) {
             jugadores[i] = new Jugador();
         }
+        this.jugadores[this.jugadores.length-1] = new Bot();
+
         this.asignarFichas();
-        this.asignarTurno();
-
-
     }
 //Posible creación del método iniciar para evitar mucho código en el constructor
 
     public void iniciarJuego() {
     }
 
-    public void asignarTurno() {
-        this.jugadorEnTurno = this.jugadores[this.numeroJugadorEnTurno];
-        if (this.numeroJugadorEnTurno == 4) {
-            this.numeroJugadorEnTurno = 0;
-        } else {
-            this.numeroJugadorEnTurno += 1;
-        }
-    }
+
 
     public void asignarFichas() {
         for (int i = 0; i < jugadores.length; i++) {
@@ -56,7 +49,7 @@ public class Juego {
     }
 
     public Jugador getJugadorEnTurno() {
-        return this.jugadorEnTurno;
+        return this.jugadores[this.numeroJugadorEnTurno];
     }
 
     public Tablero getTablero() {
@@ -92,7 +85,7 @@ public class Juego {
                     }
                 }
             }
-            this.getJugadorEnTurno().sumarPuntos(this.controladorEstructura.agregar(casilla, this.jugadorEnTurno.getFichaSeleccionada()));
+            this.getJugadorEnTurno().sumarPuntos(this.controladorEstructura.agregar(casilla, this.jugadores[numeroJugadorEnTurno].getFichaSeleccionada()));
                 this.realizarMovimiento(casilla);
         }
         return true;
@@ -123,16 +116,29 @@ public class Juego {
             }
         }
         this.ultimaJugada = casilla;
-        this.tablero.casilla[casilla.getX()][casilla.getY()].setFicha(this.jugadorEnTurno.getFichaSeleccionada());
-        this.controladorEstructura.imprimirEstructuras();
+        this.tablero.casilla[casilla.getX()][casilla.getY()].setFicha(this.jugadores[numeroJugadorEnTurno].getFichaSeleccionada());
+        //this.controladorEstructura.imprimirEstructuras();
     }
 
+    public int calcularPuntos(HashSet<Estructura> estructuras){
+        int puntos = 0;
+        System.out.println("entraaaa en puntos");
+        for (Estructura estructura: estructuras) {
+            puntos = puntos + estructura.getCola().size();
+            System.out.println("hay estrcuturas");
+        }
+
+        return puntos;
+    }
     public void terminarTurno() {
         this.getJugadorEnTurno().removerFichaSeleccionada();
         this.getJugadorEnTurno().quitarFichasJugadas();
+        this.jugadores[this.numeroJugadorEnTurno].sumarPuntos(this.calcularPuntos(this.controladorEstructura.getUltimasEstructurasModificadas()));
+        System.out.println("PUNTOS OBTENIDOS REALES SON: " + this.calcularPuntos(this.controladorEstructura.getUltimasEstructurasModificadas()));
         while (this.getJugadorEnTurno().getArregloFichas().length < 6) {
             this.getJugadorEnTurno().setFicha(this.sacarFichaBolsa());
         }
+        this.controladorEstructura.limpiarUltimasEstructurasModificadas();
         this.ultimaJugada = null;
         this.direccion = null;
         this.cambiarJugador();
@@ -143,6 +149,9 @@ public class Juego {
             this.numeroJugadorEnTurno = 0;
         } else {
             this.numeroJugadorEnTurno++;
+        }
+        if (this.jugadores[numeroJugadorEnTurno] instanceof Bot){
+            ((Bot)this.jugadores[numeroJugadorEnTurno]).iniciar(this.controladorEstructura.getEstructuraFilas(), this.controladorEstructura.getEstructuraColumnas());
         }
     }
 
