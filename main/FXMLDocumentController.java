@@ -1124,7 +1124,6 @@ public class FXMLDocumentController implements Initializable {
                                 this.actualizarFichasTablero();
                             }
                             break;
-
                         }
                     }
                 }
@@ -1134,8 +1133,6 @@ public class FXMLDocumentController implements Initializable {
         }catch (Exception e){
             System.out.println(e.toString() );
         }
-
-
     }
 
     @FXML
@@ -1144,7 +1141,7 @@ public class FXMLDocumentController implements Initializable {
     }
 
     @FXML
-    private void terminarTurno() {
+    private void terminarTurno() throws Exception {
         JOptionPane.showMessageDialog(null, "LOS PUNTOS OBTENIDOS SON: " + this.juego.getJugadorEnTurno().getPuntosJugador()) ;
        this.juego.terminarTurno();
        if (this.juego.getJugadorEnTurno() instanceof Bot){

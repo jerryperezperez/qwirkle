@@ -5,31 +5,69 @@ import java.util.Arrays;
 import java.util.Comparator;
 
 public class Bot extends Jugador {
+    private ControladorEstructura controladorEstructura;
+private boolean jugadaLista;
+private boolean cambio;
     public Bot() {
     }
 
-    public void iniciar(ArrayList<Estructura> estructuraFilas, ArrayList<Estructura> estructuraColumnas){
+    public void iniciar(ControladorEstructura controlador) throws Exception {
         System.out.println("SOY EL BOT");
-        estructuraColumnas.sort(new Comparator<Estructura>() {
+        this.jugadaLista = false;
+        this.controladorEstructura = controlador;
+        this.controladorEstructura.getEstructuraColumnas().sort(new Comparator<Estructura>() {
             @Override
             public int compare(Estructura o1, Estructura o2) {
                 return o2.getCola().size() - o1.getCola().size();
             }
         });
         System.out.println("COLAS ORDENADAS POR EL BOT");
-
+        this.formarQwirkle();
+        if (this.getFichaSeleccionada() == null){
+            System.out.println("VOY A CAMBIAR MI PRIMERA FICHA PORQUE NO HAY QWIRKLE");
+            this.cambio = true;
+            this.cambiar();
+        }
     }
 
-    public void formarQwirkle(ArrayList<Estructura> estructuraFilas, ArrayList<Estructura> estructuraColumnas) throws Exception {
-        for (Estructura columna: estructuraColumnas) {
+    public void setControladorEstructura(ControladorEstructura controladorEstructura) {
+        this.controladorEstructura = controladorEstructura;
+    }
+
+    public boolean isCambio() {
+        return cambio;
+    }
+
+    public void cambiar(){
+        this.setFichaSeleccionada(this.fichas.get(1));
+    }
+
+    public void formarQwirkle() throws Exception {
+        for (Estructura columna: this.controladorEstructura.getEstructuraColumnas()) {
             if (columna.getCola().size() ==5){
                 for (Ficha ficha: this.getArregloFichas()) {
-                    if (Regla.cumpleRestriccion(columna,ficha )){
+                    if (Regla.cumpleRestriccion(columna,ficha)){
                         if (columna.getCola().getLast().getCasillaInferior() != null){
-
+                            try {
+                                this.controladorEstructura.agregar(columna.getCola().getLast().getCasillaInferior(), ficha);
+                                this.setFichaSeleccionada(ficha);
+                                this.cambio = false;
+                                System.out.println("YA HE ELEGIDO MI JUGADA");
+                                return;
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
                         }else{
                             if (columna.getCola().getFirst().getCasillaSuperior() != null){
-
+                                try{
+                                    this.controladorEstructura.agregar(columna.getCola().getLast().getCasillaSuperior(), ficha);
+                                    this.setFichaSeleccionada(ficha);
+                                    System.out.println("YA HE ELEGIDO MI JUGADA");
+                                    this.cambio = false;
+                                    return;
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                }
                             }
                         }
                     }
@@ -37,9 +75,38 @@ public class Bot extends Jugador {
             }
 
         }
-        for (Estructura columnas: estructuraColumnas) {
-            if (columnas.getCola().size() ==5)
-                System.out.println(columnas.getCola().size());
+        for (Estructura fila: this.controladorEstructura.getEstructuraColumnas()) {
+            if (fila.getCola().size() ==5){
+                for (Ficha ficha: this.getArregloFichas()) {
+                    if (Regla.cumpleRestriccion(fila,ficha)){
+                        if (fila.getCola().getLast().getCasillaIzquierda() != null){
+                            try {
+                                this.controladorEstructura.agregar(fila.getCola().getLast().getCasillaIzquierda(), ficha);
+                                this.setFichaSeleccionada(ficha);
+                                System.out.println("YA HE ELEGIDO MI JUGADA");
+                                this.cambio = false;
+                                return;
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                        }else{
+                            if (fila.getCola().getFirst().getCasillaDerecha() != null){
+                                try{
+                                    this.controladorEstructura.agregar(fila.getCola().getLast().getCasillaDerecha(), ficha);
+                                    this.setFichaSeleccionada(ficha);
+                                    System.out.println("YA HE ELEGIDO MI JUGADA");
+                                    this.cambio = false;
+                                    return;
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
         }
+
     }
 }

@@ -13,6 +13,7 @@ public class Juego {
     private ControladorEstructura controladorEstructura;
     private Casilla ultimaJugada;
     private String direccion;
+    private boolean cambioDisponible;
     private int numeroJugadorEnTurno = 0; //apunta un jugador adelante. Posible cambio a proximoNumeroJugadorEnTurno
     public Jugador jugadores[];
 
@@ -122,15 +123,15 @@ public class Juego {
 
     public int calcularPuntos(HashSet<Estructura> estructuras){
         int puntos = 0;
-        System.out.println("entraaaa en puntos");
         for (Estructura estructura: estructuras) {
             puntos = puntos + estructura.getCola().size();
-            System.out.println("hay estrcuturas");
+            if (estructura.getCola().size() == 6){
+                puntos += 6;
+            }
         }
-
         return puntos;
     }
-    public void terminarTurno() {
+    public void terminarTurno() throws Exception {
         this.getJugadorEnTurno().removerFichaSeleccionada();
         this.getJugadorEnTurno().quitarFichasJugadas();
         this.jugadores[this.numeroJugadorEnTurno].sumarPuntos(this.calcularPuntos(this.controladorEstructura.getUltimasEstructurasModificadas()));
@@ -142,16 +143,22 @@ public class Juego {
         this.ultimaJugada = null;
         this.direccion = null;
         this.cambiarJugador();
+        this.cambioDisponible = true;
     }
 
-    public void cambiarJugador() {
+    public void cambiarJugador() throws Exception {
         if (this.numeroJugadorEnTurno == this.jugadores.length - 1) {
             this.numeroJugadorEnTurno = 0;
         } else {
             this.numeroJugadorEnTurno++;
         }
         if (this.jugadores[numeroJugadorEnTurno] instanceof Bot){
-            ((Bot)this.jugadores[numeroJugadorEnTurno]).iniciar(this.controladorEstructura.getEstructuraFilas(), this.controladorEstructura.getEstructuraColumnas());
+            do{
+                ((Bot)this.jugadores[numeroJugadorEnTurno]).iniciar((ControladorEstructura) this.controladorEstructura.clone());
+                if (((Bot)this.jugadores[numeroJugadorEnTurno]).isCambio()){
+                   // this.intercambiarFicha((Bot)this.jugadores[numeroJugadorEnTurno].getFichaSeleccionada());
+                }
+            }while(this.jugadores[numeroJugadorEnTurno].getFichaSeleccionada() != null);
         }
     }
 

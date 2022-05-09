@@ -180,6 +180,10 @@ public class ControladorEstructura {
         throw new Exception("NO HAY COLA DERECHA");
     }
 
+    @Override
+    protected Object clone() throws CloneNotSupportedException {
+        return super.clone();
+    }
 }
 
 
