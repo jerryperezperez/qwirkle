@@ -74,11 +74,9 @@ public class Jugador {
     }
 
     public void quitarFichasJugadas() {
-        System.out.println("longitud: " + this.fichas.size());
         for (int i = 0; i < 6; i++) {
             this.fichas.remove(fichaVacia);
         }
-        System.out.println("longitud: " + this.fichas.size());
     }
 
     public int getCantidadFichasSeleccionadas() {
