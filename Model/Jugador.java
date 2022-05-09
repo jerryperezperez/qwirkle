@@ -20,8 +20,8 @@ public class Jugador {
     private int puntosObtenidos;
 
     public Jugador() {
-        this.idJugador = Jugador.ID;
         Jugador.ID += 1;
+        this.idJugador = Jugador.ID;
         this.fichas = new ArrayList<>();
         fichaVacia = new Ficha();
         this.puntosJugador = 0;

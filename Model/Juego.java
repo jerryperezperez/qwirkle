@@ -3,6 +3,8 @@ package Model;
 import com.sun.org.apache.bcel.internal.generic.IF_ACMPEQ;
 
 import javax.swing.*;
+import java.util.ArrayList;
+import java.util.HashSet;
 
 public class Juego {
 
@@ -118,12 +120,25 @@ public class Juego {
         //this.controladorEstructura.imprimirEstructuras();
     }
 
+    public int calcularPuntos(HashSet<Estructura> estructuras){
+        int puntos = 0;
+        System.out.println("entraaaa en puntos");
+        for (Estructura estructura: estructuras) {
+            puntos = puntos + estructura.getCola().size();
+            System.out.println("hay estrcuturas");
+        }
+
+        return puntos;
+    }
     public void terminarTurno() {
         this.getJugadorEnTurno().removerFichaSeleccionada();
         this.getJugadorEnTurno().quitarFichasJugadas();
+        this.jugadores[this.numeroJugadorEnTurno].sumarPuntos(this.calcularPuntos(this.controladorEstructura.getUltimasEstructurasModificadas()));
+        System.out.println("PUNTOS OBTENIDOS REALES SON: " + this.calcularPuntos(this.controladorEstructura.getUltimasEstructurasModificadas()));
         while (this.getJugadorEnTurno().getArregloFichas().length < 6) {
             this.getJugadorEnTurno().setFicha(this.sacarFichaBolsa());
         }
+        this.controladorEstructura.limpiarUltimasEstructurasModificadas();
         this.ultimaJugada = null;
         this.direccion = null;
         this.cambiarJugador();

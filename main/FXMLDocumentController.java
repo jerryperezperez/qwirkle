@@ -1132,7 +1132,7 @@ public class FXMLDocumentController implements Initializable {
                 JOptionPane.showMessageDialog(null, "NO HAS SELECCIONADO ALGUNA FICHA");
             }
         }catch (Exception e){
-            System.out.println(e.getMessage());
+            System.out.println(e.toString() );
         }
 
 
@@ -1159,7 +1159,7 @@ public class FXMLDocumentController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        this.juego = new Juego(2);
+        this.juego = new Juego(2 );
         this.arregloImageView = new ImageView[]{ficha_n1, ficha_n2, ficha_n3,
                 ficha_n4, ficha_n5, ficha_n6};
         this.arregloImageViewCambio = new ImageView[]{ficha_cambio_n1, ficha_cambio_n2, ficha_cambio_n3, ficha_cambio_n4,

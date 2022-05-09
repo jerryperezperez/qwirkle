@@ -9,12 +9,18 @@ import java.util.*;
 public class ControladorEstructura {
     private ArrayList<Estructura> estructuraFilas;
     private ArrayList<Estructura> estructuraColumnas;
+    private HashSet<Estructura>ultimasEstructurasModificadas;
 
     public ControladorEstructura(Casilla casilla) {
         this.estructuraColumnas = new ArrayList<>();
         this.estructuraFilas = new ArrayList<>();
         this.estructuraFilas.add(new EstructuraFila(casilla));
         this.estructuraColumnas.add(new EstructuraColumna(casilla));
+        ultimasEstructurasModificadas = new HashSet<>();
+    }
+
+    public void limpiarUltimasEstructurasModificadas(){
+        this.ultimasEstructurasModificadas.clear();
     }
 
     public ArrayList<Estructura> getEstructuraFilas() {
@@ -72,6 +78,7 @@ public class ControladorEstructura {
                 System.out.println("ENTRA EN ELSE");
                 this.recuperarEstructuraInicial(this.estructuraFilas, casilla.getCasillaIzquierda()).cumpleRestriccion(ficha);
             }
+            this.ultimasEstructurasModificadas.add(this.recuperarEstructuraInicial(this.estructuraFilas, casilla.getCasillaIzquierda()));
             this.recuperarEstructuraInicial(this.estructuraFilas, casilla.getCasillaIzquierda()).getCola().addLast(casilla);
           //  System.out.println("PUNTOS GANADOS EN HORIZONTAL: " + this.recuperarEstructuraInicial(this.estructuraFilas, casilla).getCola().size());
         }
@@ -79,14 +86,15 @@ public class ControladorEstructura {
             this.recuperarEstructuraFinal(this.estructuraFilas, casilla.getCasillaDerecha()).isDuplicated(ficha);
             if (!this.recuperarEstructuraFinal(this.estructuraFilas, casilla.getCasillaDerecha()).estaCondicionada()) {
                 this.recuperarEstructuraFinal(this.estructuraFilas, casilla.getCasillaDerecha()).designarRestriccion(ficha);
-                System.out.println("ENTRA EN PRIMER IF");
+                System.out.println("ENTRA EN PRIMER IF de casilla derecha");
             } else {
                 System.out.println("ENTRA EN PRIMER ELSE");
                 this.recuperarEstructuraFinal(this.estructuraFilas, casilla.getCasillaDerecha()).cumpleRestriccion(ficha);
             }
+            //LA RAZÓN POR LA QUE SE AGREGA ANTES QUE SE GUARDE EN LA ORIGINAL ES PORQUE UNA VEZ GUARDADO, AUN NO TIENE FICHA ASIGNADA O LA CASILLA
+            //DERECHA DEJA DE SER EL ÚLTIMO O PRIMER ELEMENTO Y POR LO TANTO, NO ENCUENTRA AL ARREGLO Y DEVUELVE NULL
+            System.out.println("agregaaaa" + this.ultimasEstructurasModificadas.add(this.recuperarEstructuraFinal(this.estructuraFilas, casilla.getCasillaDerecha())));
             this.recuperarEstructuraFinal(this.estructuraFilas, casilla.getCasillaDerecha()).getCola().addFirst(casilla);
-           // System.out.println("PUNTOS GANADOS EN HORIZONTAL: " + this.recuperarEstructuraFinal(this.estructuraFilas, casilla).getCola().size());
-
         }
         if (casilla.getCasillaSuperior().getFicha() != null) {
             this.recuperarEstructuraInicial(this.estructuraColumnas, casilla.getCasillaSuperior()).isDuplicated(ficha);
@@ -97,6 +105,7 @@ public class ControladorEstructura {
                 System.out.println("ENTRA EN ELSE");
                 this.recuperarEstructuraInicial(this.estructuraColumnas, casilla.getCasillaSuperior()).cumpleRestriccion(ficha);
             }
+            this.ultimasEstructurasModificadas.add(this.recuperarEstructuraInicial(this.estructuraColumnas, casilla.getCasillaSuperior()));
             this.recuperarEstructuraInicial(this.estructuraColumnas, casilla.getCasillaSuperior()).getCola().addLast(casilla);
            // System.out.println("PUNTOS GANADOS EN VERTICAL: " + this.recuperarEstructuraInicial(this.estructuraColumnas, casilla).getCola().size());
 
@@ -110,6 +119,7 @@ public class ControladorEstructura {
                 System.out.println("ENTRA EN PRIMER ELSE");
                 this.recuperarEstructuraFinal(this.estructuraColumnas, casilla.getCasillaInferior()).cumpleRestriccion(ficha);
             }
+            this.ultimasEstructurasModificadas.add(this.recuperarEstructuraFinal(this.estructuraColumnas, casilla.getCasillaInferior()));
             this.recuperarEstructuraFinal(this.estructuraColumnas, casilla.getCasillaInferior()).getCola().addFirst(casilla);
             //System.out.println("PUNTOS GANADOS EN VERTICAL: " + this.recuperarEstructuraFinal(this.estructuraColumnas, casilla).getCola().size());
 
@@ -125,6 +135,7 @@ public class ControladorEstructura {
 
     public int recuperarLongitudEstructura(Casilla casilla){
         int puntos= 0;
+
         for (Estructura estructuraFila: this.estructuraFilas) {
             if (estructuraFila.getCola().contains(casilla)){
                 if (estructuraFila.getCola().size()>1){
@@ -142,9 +153,17 @@ public class ControladorEstructura {
         return puntos;
     }
 
+    public HashSet<Estructura> getUltimasEstructurasModificadas() {
+        return (HashSet<Estructura>) ultimasEstructurasModificadas.clone();
+    }
+    public void encontrarEstructura(){
+
+    }
+
     public Estructura recuperarEstructuraFinal(ArrayList<Estructura> estructuras, Casilla casilla) throws Exception {
         for (Estructura estructura : estructuras) {
             if (estructura.getCola().getFirst().getFicha().getId() == casilla.getFicha().getId()) {
+                System.out.println("si hay la estructura" + estructura.getClass());
                 return estructura;
             }
         }
@@ -154,6 +173,7 @@ public class ControladorEstructura {
     public Estructura recuperarEstructuraInicial(ArrayList<Estructura> estructuras, Casilla casilla) throws Exception {
         for (Estructura estructura : estructuras) {
             if (estructura.getCola().getLast().getFicha().getId() == casilla.getFicha().getId()) {
+
                 return estructura;
             }
         }

@@ -6,11 +6,20 @@ import java.util.LinkedList;
 public class Estructura {
     protected LinkedList<Casilla> colas;
     protected String restriccion;
+    protected int id;
+    protected static int ID = 0;
 
     public Estructura(Casilla casilla) {
+        Estructura.ID += 1;
+        this.id = Estructura.ID;
         this.colas = new LinkedList<>();
         this.colas.add(casilla);
         this.restriccion = "LIBRE";
+
+    }
+
+    public int getId() {
+        return this.id;
     }
 
     public boolean addToRight(Casilla casilla, Ficha ficha) throws Exception {
@@ -99,4 +108,11 @@ public class Estructura {
         return colas;
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof Estructura){
+            return this.id ==( (Estructura) obj).id;
+        }
+       return false;
+    }
 }
