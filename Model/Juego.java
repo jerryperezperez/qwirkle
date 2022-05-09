@@ -27,10 +27,10 @@ public class Juego {
         // this.regla = new Regla(this.bolsa, this.tablero);
 
 //creador de jugadores. TODO para crear métodos instanciadores como crearJugadores
-        for (int i = 0; i < jugadores.length-1; i++) {
+        for (int i = 0; i < jugadores.length; i++) {
             jugadores[i] = new Jugador();
         }
-        this.jugadores[this.jugadores.length-1] = new Bot();
+     //   this.jugadores[this.jugadores.length - 1] = new Bot();
 
         this.asignarFichas();
     }
@@ -38,7 +38,6 @@ public class Juego {
 
     public void iniciarJuego() {
     }
-
 
 
     public void asignarFichas() {
@@ -58,10 +57,10 @@ public class Juego {
     }
 
     public void intercambiarFicha() {
-        jugadores[1].getArregloFichas();
-        Ficha fichaDeCambio = jugadores[1].devolverFicha();
-        jugadores[1].setFicha(bolsa.intercambiarFicha(fichaDeCambio));
-        jugadores[1].getArregloFichas();
+        jugadores[numeroJugadorEnTurno].getArregloFichas();
+        Ficha fichaDeCambio = jugadores[numeroJugadorEnTurno].devolverFicha();
+        jugadores[numeroJugadorEnTurno].setFicha(bolsa.intercambiarFicha(fichaDeCambio));
+        jugadores[numeroJugadorEnTurno].getArregloFichas();
     }
 
     public Ficha sacarFichaBolsa() {
@@ -87,7 +86,7 @@ public class Juego {
                 }
             }
             this.getJugadorEnTurno().sumarPuntos(this.controladorEstructura.agregar(casilla, this.jugadores[numeroJugadorEnTurno].getFichaSeleccionada()));
-                this.realizarMovimiento(casilla);
+            this.realizarMovimiento(casilla);
         }
         return true;
     }
@@ -121,21 +120,24 @@ public class Juego {
         //this.controladorEstructura.imprimirEstructuras();
     }
 
-    public int calcularPuntos(HashSet<Estructura> estructuras){
+    public int calcularPuntos(HashSet<Estructura> estructuras) {
         int puntos = 0;
-        for (Estructura estructura: estructuras) {
+        for (Estructura estructura : estructuras) {
             puntos = puntos + estructura.getCola().size();
-            if (estructura.getCola().size() == 6){
+            if (estructura.getCola().size() == 6) {
                 puntos += 6;
             }
         }
         return puntos;
     }
+
     public void terminarTurno() throws Exception {
         this.getJugadorEnTurno().removerFichaSeleccionada();
         this.getJugadorEnTurno().quitarFichasJugadas();
         this.jugadores[this.numeroJugadorEnTurno].sumarPuntos(this.calcularPuntos(this.controladorEstructura.getUltimasEstructurasModificadas()));
-        System.out.println("PUNTOS OBTENIDOS REALES SON: " + this.calcularPuntos(this.controladorEstructura.getUltimasEstructurasModificadas()));
+        JOptionPane.showMessageDialog(null, "PUNTOS GANADOS: " + this.jugadores[this.numeroJugadorEnTurno].getPuntosJugador());
+
+        //  System.out.println("PUNTOS OBTENIDOS REALES SON: " + this.calcularPuntos(this.controladorEstructura.getUltimasEstructurasModificadas()));
         while (this.getJugadorEnTurno().getArregloFichas().length < 6) {
             this.getJugadorEnTurno().setFicha(this.sacarFichaBolsa());
         }
@@ -152,14 +154,25 @@ public class Juego {
         } else {
             this.numeroJugadorEnTurno++;
         }
-        if (this.jugadores[numeroJugadorEnTurno] instanceof Bot){
-            do{
-                ((Bot)this.jugadores[numeroJugadorEnTurno]).iniciar((ControladorEstructura) this.controladorEstructura.clone());
-                if (((Bot)this.jugadores[numeroJugadorEnTurno]).isCambio()){
-                   // this.intercambiarFicha((Bot)this.jugadores[numeroJugadorEnTurno].getFichaSeleccionada());
-                }
-            }while(this.jugadores[numeroJugadorEnTurno].getFichaSeleccionada() != null);
-        }
+
+        //JOptionPane.showMessageDialog(null, "Ficha es: " + this.jugadores[numeroJugadorEnTurno].getFichaSeleccionada().toString());
+
+    }
+
+    public void moverBot() throws Exception {
+        do {
+            this.jugadores[numeroJugadorEnTurno].setFichaSeleccionada(null);
+            ((Bot) this.jugadores[numeroJugadorEnTurno]).iniciar((ControladorEstructura) this.controladorEstructura.clone());
+            if (((Bot) this.jugadores[numeroJugadorEnTurno]).getCasilla() != null) {
+                JOptionPane.showMessageDialog(null, "ENTRA PARA EVALUAR LA OPCIÓN");
+                System.out.println("FLAG");
+                this.controladorEstructura.imprimirEstructuras();
+                this.isMovimientoValido(((Bot) this.jugadores[numeroJugadorEnTurno]).getCasilla());
+            }
+
+        } while (this.jugadores[numeroJugadorEnTurno].getFichaSeleccionada() != null);
+
+        this.terminarTurno();
     }
 
     public int getNumeroJugadorEnTurno() {

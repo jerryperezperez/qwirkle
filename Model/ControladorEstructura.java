@@ -6,7 +6,7 @@ import com.sun.scenario.effect.impl.sw.sse.SSEBlend_SRC_OUTPeer;
 import java.lang.reflect.Array;
 import java.util.*;
 
-public class ControladorEstructura {
+public class ControladorEstructura implements Cloneable{
     private ArrayList<Estructura> estructuraFilas;
     private ArrayList<Estructura> estructuraColumnas;
     private HashSet<Estructura>ultimasEstructurasModificadas;
@@ -18,6 +18,31 @@ public class ControladorEstructura {
         this.estructuraColumnas.add(new EstructuraColumna(casilla));
         ultimasEstructurasModificadas = new HashSet<>();
     }
+    public ControladorEstructura(ControladorEstructura controlador){
+        this.estructuraColumnas = new ArrayList<>();
+        this.estructuraFilas = new ArrayList<>();
+        ultimasEstructurasModificadas = new HashSet<>();
+        this.clonarEstructuraFila(controlador.estructuraFilas);
+        this.clonarEstructuraColumna(controlador.estructuraColumnas);
+        this.clonarEstructuraHashSet(controlador.ultimasEstructurasModificadas);
+    }
+
+    private void clonarEstructuraFila(ArrayList<Estructura> collection){
+        for (Estructura estructura: collection) {
+            this.estructuraFilas.add(new Estructura(estructura));
+        }
+    }
+    private void clonarEstructuraColumna(ArrayList<Estructura> collection){
+        for (Estructura estructura: collection) {
+            this.estructuraColumnas.add(new Estructura(estructura));
+        }
+    }
+    private void clonarEstructuraHashSet(HashSet<Estructura> collection){
+        for (Estructura estructura: collection) {
+            this.ultimasEstructurasModificadas.add(new Estructura(estructura));
+        }
+    }
+
 
     public void limpiarUltimasEstructurasModificadas(){
         this.ultimasEstructurasModificadas.clear();
@@ -126,9 +151,8 @@ public class ControladorEstructura {
         }
         this.crearEstructuraFila(casilla);
         this.crearEstructuraColumna(casilla);
-        this.imprimirEstructuras();
         casilla.setFicha(ficha);
-        System.out.println("PUNTOS GANADOS:     " + this.recuperarLongitudEstructura(casilla));
+
 
         return this.recuperarLongitudEstructura(casilla);
     }

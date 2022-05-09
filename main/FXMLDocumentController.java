@@ -1142,11 +1142,11 @@ public class FXMLDocumentController implements Initializable {
 
     @FXML
     private void terminarTurno() throws Exception {
-        JOptionPane.showMessageDialog(null, "LOS PUNTOS OBTENIDOS SON: " + this.juego.getJugadorEnTurno().getPuntosJugador()) ;
+
        this.juego.terminarTurno();
        if (this.juego.getJugadorEnTurno() instanceof Bot){
            JOptionPane.showMessageDialog(null, "ES TURNO DEL BOT");
-
+            this.juego.moverBot();
        }else{
            this.actualizarFichasTablero();
            JOptionPane.showMessageDialog(null, "SE HA CAMBIADO AL JUGADOR " + (this.juego.getNumeroJugadorEnTurno() + 1));

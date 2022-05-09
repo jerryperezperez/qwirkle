@@ -18,6 +18,12 @@ public class Estructura {
 
     }
 
+    public Estructura(Estructura estructura){
+        this.id = estructura.id;
+        this.colas = (LinkedList<Casilla>) estructura.colas.clone();
+        this.restriccion = estructura.restriccion;
+    }
+
     public int getId() {
         return this.id;
     }
@@ -110,9 +116,9 @@ public class Estructura {
 
     @Override
     public boolean equals(Object obj) {
-        if (obj instanceof Estructura){
-            return this.id ==( (Estructura) obj).id;
+        if (obj instanceof Estructura) {
+            return this.id == ((Estructura) obj).id;
         }
-       return false;
+        return false;
     }
 }

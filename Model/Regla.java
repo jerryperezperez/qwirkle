@@ -14,12 +14,14 @@ public final class Regla {
       switch (estructura.getRestriccion()) {
           case "FORMA":
               if (!estructura.getCola().getFirst().getFicha().getForma().equals(ficha.getForma())) {
-                  throw new Exception("NO CUMPLE CON LA FORMA");
+                  return false;
+                 // throw new Exception("NO CUMPLE CON LA FORMA");
               }
               break;
           case "COLOR":
               if (!estructura.getCola().getFirst().getFicha().getColor().equals(ficha.getColor())) {
-                  throw new Exception("NO CUMPLE CON EL COLOR");
+                  return false;
+                 // throw new Exception("NO CUMPLE CON EL COLOR");
               }
               break;
       }
