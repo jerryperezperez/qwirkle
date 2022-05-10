@@ -29,10 +29,10 @@ public class Juego {
         // this.regla = new Regla(this.bolsa, this.tablero);
 
 //creador de jugadores. TODO para crear métodos instanciadores como crearJugadores
-        for (int i = 0; i < jugadores.length - 1; i++) {
+        for (int i = 0; i < jugadores.length; i++) {
             jugadores[i] = new Jugador();
         }
-        this.jugadores[this.jugadores.length - 1] = new Bot();
+        //this.jugadores[this.jugadores.length - 1] = new Bot();
 
         this.asignarFichas();
     }
@@ -136,27 +136,33 @@ public class Juego {
     public void terminarTurno() throws Exception {
         this.getJugadorEnTurno().removerFichaSeleccionada();
         this.getJugadorEnTurno().quitarFichasJugadas();
+       /* for (Estructura estructura: this.controladorEstructura.getUltimasEstructurasModificadas()) {
+            System.out.println(estructura.toString());
+        }*/
+        this.controladorEstructura.imprimirEstructuras();
         this.jugadores[this.numeroJugadorEnTurno].sumarPuntos(this.calcularPuntos(this.controladorEstructura.getUltimasEstructurasModificadas()));
-        JOptionPane.showMessageDialog(null, "PUNTOS GANADOS: " + this.jugadores[this.numeroJugadorEnTurno].getPuntosJugador());
+        JOptionPane.showMessageDialog(null, "PUNTOS GANADOS: " + this.calcularPuntos(this.controladorEstructura.getUltimasEstructurasModificadas()));
         while (this.getJugadorEnTurno().getArregloFichas().length < 6) {
             this.getJugadorEnTurno().setFicha(this.sacarFichaBolsa());
         }
-        this.controladorEstructura.limpiarUltimasEstructurasModificadas();
-        this.controladorEstructura.setUltimaJugada(null);
-        this.controladorEstructura.setDireccion(null);
+
+        this.limpiarControladorEstructura();
         this.cambiarJugador();
         this.cambioDisponible = true;
     }
 
-    public void cambiarJugador() throws Exception {
+    public void limpiarControladorEstructura(){
+        this.controladorEstructura.limpiarUltimasEstructurasModificadas();
+        this.controladorEstructura.setUltimaJugada(null);
+        this.controladorEstructura.setDireccion(null);
+    }
+
+    public void cambiarJugador() {
         if (this.numeroJugadorEnTurno == this.jugadores.length - 1) {
             this.numeroJugadorEnTurno = 0;
         } else {
             this.numeroJugadorEnTurno++;
         }
-
-        //JOptionPane.showMessageDialog(null, "Ficha es: " + this.jugadores[numeroJugadorEnTurno].getFichaSeleccionada().toString());
-
     }
 
     public void moverBot() throws Exception {
@@ -164,9 +170,7 @@ public class Juego {
         this.jugadores[numeroJugadorEnTurno].setFichaSeleccionada(null);
         ((Bot) this.jugadores[numeroJugadorEnTurno]).iniciar((ControladorEstructura) this.controladorEstructura.clone());
         if (((Bot) this.jugadores[numeroJugadorEnTurno]).getCasilla() != null) {
-            JOptionPane.showMessageDialog(null, "ENTRA PARA EVALUAR LA OPCIÓN");
-            System.out.println("FLAG");
-            this.controladorEstructura.imprimirEstructuras();
+           // this.controladorEstructura.imprimirEstructuras();
             this.isMovimientoValido(((Bot) this.jugadores[numeroJugadorEnTurno]).getCasilla());
         }
     }

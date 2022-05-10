@@ -65,7 +65,7 @@ public class Bot extends Jugador {
                                 this.cambio = false;
                                 return true;
                             } catch (Exception e) {
-                                e.printStackTrace();
+                                e.getMessage();
                             }
                         } else {
                             if (fila.getCola().getFirst().getCasillaIzquierda() != null) {
@@ -78,7 +78,7 @@ public class Bot extends Jugador {
                                     this.cambio = false;
                                     return true;
                                 } catch (Exception e) {
-                                    e.printStackTrace();
+                                    e.getMessage();
                                 }
                             }
                         }
@@ -104,7 +104,7 @@ public class Bot extends Jugador {
                                 this.casilla.setFicha(null);
                                 return true;
                             } catch (Exception e) {
-                                e.printStackTrace();
+                                e.getMessage();
                             }
                         } else {
                             if (columna.getCola().getFirst().getCasillaSuperior() != null) {
@@ -117,7 +117,7 @@ public class Bot extends Jugador {
                                     this.cambio = false;
                                     return true;
                                 } catch (Exception e) {
-                                    e.printStackTrace();
+                                    e.getMessage();
                                 }
                             }
                         }

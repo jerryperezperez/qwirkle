@@ -125,56 +125,56 @@ public class ControladorEstructura implements Cloneable {
             } else {
                 this.recuperarEstructuraInicial(this.estructuraFilas, casilla.getCasillaIzquierda()).cumpleRestriccion(ficha);
             }
-            this.ultimasEstructurasModificadas.add(this.recuperarEstructuraInicial(this.estructuraFilas, casilla.getCasillaIzquierda()));
+            if (this.ultimasEstructurasModificadas.add(this.recuperarEstructuraInicial(this.estructuraFilas, casilla.getCasillaIzquierda()))) {
+                System.out.println("ha agregado en caso casilla izquierda = " + this.recuperarEstructuraInicial(this.estructuraFilas, casilla.getCasillaIzquierda()).getCola().size());
+            }
             this.recuperarEstructuraInicial(this.estructuraFilas, casilla.getCasillaIzquierda()).getCola().addLast(casilla);
-            //  System.out.println("PUNTOS GANADOS EN HORIZONTAL: " + this.recuperarEstructuraInicial(this.estructuraFilas, casilla).getCola().size());
+
         }
         if (casilla.getCasillaDerecha().getFicha() != null) {
             this.recuperarEstructuraFinal(this.estructuraFilas, casilla.getCasillaDerecha()).isDuplicated(ficha);
             if (!this.recuperarEstructuraFinal(this.estructuraFilas, casilla.getCasillaDerecha()).estaCondicionada()) {
                 this.recuperarEstructuraFinal(this.estructuraFilas, casilla.getCasillaDerecha()).designarRestriccion(ficha);
-                System.out.println("ENTRA EN PRIMER IF de casilla derecha");
             } else {
-                System.out.println("ENTRA EN PRIMER ELSE");
                 this.recuperarEstructuraFinal(this.estructuraFilas, casilla.getCasillaDerecha()).cumpleRestriccion(ficha);
             }
             //LA RAZÓN POR LA QUE SE AGREGA ANTES QUE SE GUARDE EN LA ORIGINAL ES PORQUE UNA VEZ GUARDADO, AUN NO TIENE FICHA ASIGNADA O LA CASILLA
             //DERECHA DEJA DE SER EL ÚLTIMO O PRIMER ELEMENTO Y POR LO TANTO, NO ENCUENTRA AL ARREGLO Y DEVUELVE NULL
-            System.out.println("agregaaaa" + this.ultimasEstructurasModificadas.add(this.recuperarEstructuraFinal(this.estructuraFilas, casilla.getCasillaDerecha())));
+            if (this.ultimasEstructurasModificadas.add(this.recuperarEstructuraFinal(this.estructuraFilas, casilla.getCasillaDerecha()))) {
+                System.out.println("ha agregado en caso casilla derecha = " + this.recuperarEstructuraFinal(this.estructuraFilas, casilla.getCasillaDerecha()).getCola().size());
+            }
             this.recuperarEstructuraFinal(this.estructuraFilas, casilla.getCasillaDerecha()).getCola().addFirst(casilla);
         }
         if (casilla.getCasillaSuperior().getFicha() != null) {
             this.recuperarEstructuraInicial(this.estructuraColumnas, casilla.getCasillaSuperior()).isDuplicated(ficha);
             if (!this.recuperarEstructuraInicial(this.estructuraColumnas, casilla.getCasillaSuperior()).estaCondicionada()) {
-                System.out.println("ENTRA EN PRIMER IF");
                 this.recuperarEstructuraInicial(this.estructuraColumnas, casilla.getCasillaSuperior()).designarRestriccion(ficha);
             } else {
-                System.out.println("ENTRA EN ELSE");
                 this.recuperarEstructuraInicial(this.estructuraColumnas, casilla.getCasillaSuperior()).cumpleRestriccion(ficha);
             }
-            this.ultimasEstructurasModificadas.add(this.recuperarEstructuraInicial(this.estructuraColumnas, casilla.getCasillaSuperior()));
+            if (this.ultimasEstructurasModificadas.add(this.recuperarEstructuraInicial(this.estructuraColumnas, casilla.getCasillaSuperior()))) {
+                System.out.println("ha agregado en caso casilla superior = " + this.recuperarEstructuraInicial(this.estructuraColumnas, casilla.getCasillaSuperior()).getCola().size());
+            }
             this.recuperarEstructuraInicial(this.estructuraColumnas, casilla.getCasillaSuperior()).getCola().addLast(casilla);
-            // System.out.println("PUNTOS GANADOS EN VERTICAL: " + this.recuperarEstructuraInicial(this.estructuraColumnas, casilla).getCola().size());
 
         }
         if (casilla.getCasillaInferior().getFicha() != null) {
             this.recuperarEstructuraFinal(this.estructuraColumnas, casilla.getCasillaInferior()).isDuplicated(ficha);
             if (!this.recuperarEstructuraFinal(this.estructuraColumnas, casilla.getCasillaInferior()).estaCondicionada()) {
                 this.recuperarEstructuraFinal(this.estructuraColumnas, casilla.getCasillaInferior()).designarRestriccion(ficha);
-                System.out.println("ENTRA EN PRIMER IF");
             } else {
-                System.out.println("ENTRA EN PRIMER ELSE");
                 this.recuperarEstructuraFinal(this.estructuraColumnas, casilla.getCasillaInferior()).cumpleRestriccion(ficha);
             }
-            this.ultimasEstructurasModificadas.add(this.recuperarEstructuraFinal(this.estructuraColumnas, casilla.getCasillaInferior()));
+            if (this.ultimasEstructurasModificadas.add(this.recuperarEstructuraFinal(this.estructuraColumnas, casilla.getCasillaInferior()))) {
+                System.out.println("ha agregado en caso casilla inferior = " + this.recuperarEstructuraFinal(this.estructuraColumnas, casilla.getCasillaInferior()).getCola().size());
+
+            }
             this.recuperarEstructuraFinal(this.estructuraColumnas, casilla.getCasillaInferior()).getCola().addFirst(casilla);
-            //System.out.println("PUNTOS GANADOS EN VERTICAL: " + this.recuperarEstructuraFinal(this.estructuraColumnas, casilla).getCola().size());
 
         }
         if (this.direccion == null) {
             if (this.ultimaJugada != null) {
                 this.definirDireccion(casilla);
-                JOptionPane.showMessageDialog(null, "EL VECTOR ES: " + this.direccion);
             }
         }
         this.ultimaJugada = casilla;
@@ -205,7 +205,6 @@ public class ControladorEstructura implements Cloneable {
 
     public int recuperarLongitudEstructura(Casilla casilla) {
         int puntos = 0;
-
         for (Estructura estructuraFila : this.estructuraFilas) {
             if (estructuraFila.getCola().contains(casilla)) {
                 if (estructuraFila.getCola().size() > 1) {
@@ -232,24 +231,34 @@ public class ControladorEstructura implements Cloneable {
     }
 
     public Estructura recuperarEstructuraFinal(ArrayList<Estructura> estructuras, Casilla casilla) throws Exception {
-        for (Estructura estructura : estructuras) {
-            if (estructura.getCola().getFirst().getFicha().getId() == casilla.getFicha().getId()) {
-                System.out.println("si hay la estructura" + estructura.getClass());
-                return estructura;
+        try {
+            for (Estructura estructura : estructuras) {
+                if (estructura.getCola().getFirst().getFicha().getId() == casilla.getFicha().getId()) {
+                    return estructura;
+                }
             }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        throw new Exception("NO HAY COLA IZQUIERDA");
+        //throw new Exception("NO HAY COLA DERECHA O INFERIOR");
+        return null;
     }
 
-    public Estructura recuperarEstructuraInicial(ArrayList<Estructura> estructuras, Casilla casilla) throws Exception {
-        for (Estructura estructura : estructuras) {
-            if (estructura.getCola().getLast().getFicha().getId() == casilla.getFicha().getId()) {
+    public Estructura recuperarEstructuraInicial(ArrayList<Estructura> estructuras, Casilla casilla) {
+        try {
+            for (Estructura estructura : estructuras) {
+                if (estructura.getCola().getLast().getFicha().getId() == casilla.getFicha().getId()) {
 
-                return estructura;
+                    return estructura;
+                }
             }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        throw new Exception("NO HAY COLA DERECHA");
+        return null;
     }
+    //throw new Exception("NO HAY COLA IZQUIERDA O SUPERIOR");
+
 
     @Override
     protected Object clone() throws CloneNotSupportedException {

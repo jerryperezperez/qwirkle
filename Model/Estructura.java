@@ -121,4 +121,13 @@ public class Estructura {
         }
         return false;
     }
+
+    @Override
+    public String toString() {
+        return "Estructura{" +
+                "colas=" + colas +
+                ", restriccion='" + restriccion + '\'' +
+                ", id=" + id +
+                '}';
+    }
 }

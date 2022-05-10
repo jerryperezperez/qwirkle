@@ -1107,7 +1107,8 @@ public class FXMLDocumentController implements Initializable {
             }
         }
     }
-    private void pintarTablero(){
+
+    private void pintarTablero() {
         for (int x = 0; x < this.arregloImageViewTablero.length; x++) {
             for (int y = 0; y < this.arregloImageViewTablero[x].length; y++) {
                 if (this.juego.getTablero().casilla[x][y].getFicha() != null) {
@@ -1118,7 +1119,7 @@ public class FXMLDocumentController implements Initializable {
     }
 
     @FXML
-    private void ponerFicha(MouseEvent event){
+    private void ponerFicha(MouseEvent event) {
         try {
             if (this.juego.getJugadorEnTurno().getFichaSeleccionada() != null) {
                 for (int x = 0; x < this.arregloImageViewTablero.length; x++) {
@@ -1139,8 +1140,8 @@ public class FXMLDocumentController implements Initializable {
             } else {
                 JOptionPane.showMessageDialog(null, "NO HAS SELECCIONADO ALGUNA FICHA");
             }
-        }catch (Exception e){
-            System.out.println(e.toString() );
+        } catch (Exception e) {
+            System.out.println(e.toString());
         }
     }
 
@@ -1152,20 +1153,23 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     private void terminarTurno() throws Exception {
 
-       this.juego.terminarTurno();
-       if (this.juego.getJugadorEnTurno() instanceof Bot){
-           JOptionPane.showMessageDialog(null, "ES TURNO DEL BOT");
+        this.juego.terminarTurno();
+        JOptionPane.showMessageDialog(null, "SE HA CAMBIADO AL JUGADOR " + (this.juego.getNumeroJugadorEnTurno() + 1));
+
+        if (this.juego.getJugadorEnTurno() instanceof Bot) {
+            JOptionPane.showMessageDialog(null, "ES TURNO DEL BOT");
             this.juego.moverBot();
-            this.terminarTurno();
+            // this.terminarTurno();
+            this.juego.limpiarControladorEstructura();
             this.pintarTablero();
-       }
-           this.actualizarFichasTablero();
-           JOptionPane.showMessageDialog(null, "SE HA CAMBIADO AL JUGADOR " + (this.juego.getNumeroJugadorEnTurno() + 1));
+            this.juego.cambiarJugador();
+        }
+        this.actualizarFichasTablero();
     }
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        this.juego = new Juego(2 );
+        this.juego = new Juego(2);
         this.arregloImageView = new ImageView[]{ficha_n1, ficha_n2, ficha_n3,
                 ficha_n4, ficha_n5, ficha_n6};
         this.arregloImageViewCambio = new ImageView[]{ficha_cambio_n1, ficha_cambio_n2, ficha_cambio_n3, ficha_cambio_n4,
