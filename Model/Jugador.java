@@ -29,6 +29,7 @@ public class Jugador {
 
     public void sumarPuntos(int puntos) {
         this.puntosJugador += puntos;
+        System.out.println("los  puntos guardados son: " + this.puntosJugador);
     }
 
 

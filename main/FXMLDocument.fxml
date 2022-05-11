@@ -451,7 +451,7 @@
             <DropShadow blurType="ONE_PASS_BOX" height="10.0" radius="4.5" width="10.0" />
          </effect>
       </ImageView>
-      <Button fx:id="cf" layoutX="632.0" layoutY="373.0" mnemonicParsing="false" prefHeight="82.0" prefWidth="115.0" text="Cambiar Fichas" />
+      <Button fx:id="cf" layoutX="632.0" layoutY="373.0" mnemonicParsing="false" onMouseClicked="#cambiarFicha" prefHeight="82.0" prefWidth="115.0" text="Cambiar Fichas" />
       <Button fx:id="tt" layoutX="632.0" layoutY="197.0" mnemonicParsing="false" onAction="#terminarTurno" prefHeight="82.0" prefWidth="115.0" text="Terminar Turno" />
       <Label layoutX="580.0" layoutY="339.0" text="Zona de cambio" />
       <ImageView fx:id="ficha_cambio_n1" fitHeight="34.0" fitWidth="34.0" layoutX="489.0" layoutY="374.0" onMouseClicked="#ponerFichaEnCambio" pickOnBounds="true" preserveRatio="true">

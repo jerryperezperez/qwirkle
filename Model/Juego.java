@@ -15,17 +15,20 @@ public class Juego {
     private ControladorEstructura controladorEstructura;
     private Casilla ultimaJugada;
     private String direccion;
-    private boolean cambioDisponible;
+    private ArrayList<Ficha> fichasTramitadas;
+    private boolean fichaEncambio;
     private int numeroJugadorEnTurno = 0; //apunta un jugador adelante. Posible cambio a proximoNumeroJugadorEnTurno
     public Jugador jugadores[];
 
     boolean primerMovimiento = true;
 
-    public Juego(int cantidadJugadores) {//agregar como parámetro la cantidad de jugadores, esándar es de dos, a lo mejor se agregan otros
+    public Juego(int cantidadJugadores) throws Exception {//agregar como parámetro la cantidad de jugadores, esándar es de dos, a lo mejor se agregan otros
         this.bolsa = new Bolsa();
         this.tablero = new Tablero();
         // this.estructura = new Estructura();
         this.jugadores = new Jugador[cantidadJugadores];
+        this.fichaEncambio = false;
+        this.fichasTramitadas = new ArrayList<Ficha>();
         // this.regla = new Regla(this.bolsa, this.tablero);
 
 //creador de jugadores. TODO para crear métodos instanciadores como crearJugadores
@@ -36,13 +39,30 @@ public class Juego {
 
         this.asignarFichas();
     }
-//Posible creación del método iniciar para evitar mucho código en el constructor
+
+    public void agregarFichaCambio(Ficha ficha) {
+        this.fichasTramitadas.add(ficha);
+    }
+
+    public boolean isFichaEncambio() {
+        return fichaEncambio;
+    }
+
+    public void setFichaEncambio(boolean fichaEncambio) {
+        this.fichaEncambio = fichaEncambio;
+    }
+
+    public Bolsa getBolsa() {
+        return bolsa;
+    }
+
+    //Posible creación del método iniciar para evitar mucho código en el constructor
 
     public void iniciarJuego() {
     }
 
 
-    public void asignarFichas() {
+    public void asignarFichas() throws Exception {
         for (int i = 0; i < jugadores.length; i++) {
             for (int j = 0; j < 6; j++) {
                 jugadores[i].setFicha(this.bolsa.darFicha());
@@ -58,18 +78,13 @@ public class Juego {
         return this.tablero;
     }
 
-    public void intercambiarFicha() {
-        jugadores[numeroJugadorEnTurno].getArregloFichas();
-        Ficha fichaDeCambio = jugadores[numeroJugadorEnTurno].devolverFicha();
-        jugadores[numeroJugadorEnTurno].setFicha(bolsa.intercambiarFicha(fichaDeCambio));
-        jugadores[numeroJugadorEnTurno].getArregloFichas();
-    }
 
-    public Ficha sacarFichaBolsa() {
+    public Ficha sacarFichaBolsa() throws Exception {
         return this.bolsa.darFicha();
     }
 
     public boolean isMovimientoValido(Casilla casilla) throws Exception {
+
         if (this.primerMovimiento) {
             this.realizarPrimerMovimiento(casilla);
         } else {
@@ -87,7 +102,7 @@ public class Juego {
                     }
                 }
             }*/
-            this.getJugadorEnTurno().sumarPuntos(this.controladorEstructura.agregar(casilla, this.jugadores[numeroJugadorEnTurno].getFichaSeleccionada()));
+            this.controladorEstructura.agregar(casilla, this.jugadores[numeroJugadorEnTurno].getFichaSeleccionada());
             this.realizarMovimiento(casilla);
         }
         return true;
@@ -133,25 +148,39 @@ public class Juego {
         return puntos;
     }
 
+    public void terminarJuego() {
+
+    }
+
     public void terminarTurno() throws Exception {
         this.getJugadorEnTurno().removerFichaSeleccionada();
         this.getJugadorEnTurno().quitarFichasJugadas();
        /* for (Estructura estructura: this.controladorEstructura.getUltimasEstructurasModificadas()) {
             System.out.println(estructura.toString());
         }*/
-        this.controladorEstructura.imprimirEstructuras();
-        this.jugadores[this.numeroJugadorEnTurno].sumarPuntos(this.calcularPuntos(this.controladorEstructura.getUltimasEstructurasModificadas()));
-        JOptionPane.showMessageDialog(null, "PUNTOS GANADOS: " + this.calcularPuntos(this.controladorEstructura.getUltimasEstructurasModificadas()));
-        while (this.getJugadorEnTurno().getArregloFichas().length < 6) {
+        //this.controladorEstructura.imprimirEstructuras();
+        if (this.fichaEncambio == true) {
+            if (!this.fichasTramitadas.isEmpty()) {
+                for (Ficha ficha : this.fichasTramitadas) {
+                    this.bolsa.recibirFicha(ficha);
+                }
+            }
+        } else {
+            this.jugadores[this.numeroJugadorEnTurno].sumarPuntos(this.calcularPuntos(this.controladorEstructura.getUltimasEstructurasModificadas()));
+            JOptionPane.showMessageDialog(null, "PUNTOS GANADOS: " + this.calcularPuntos(this.controladorEstructura.getUltimasEstructurasModificadas()));
+            this.limpiarControladorEstructura();
+        }
+
+        while ((this.getJugadorEnTurno().getArregloFichas().length < 6) && (!this.bolsa.fichas.isEmpty())) {
             this.getJugadorEnTurno().setFicha(this.sacarFichaBolsa());
         }
 
-        this.limpiarControladorEstructura();
+
         this.cambiarJugador();
-        this.cambioDisponible = true;
+        this.fichaEncambio = false;
     }
 
-    public void limpiarControladorEstructura(){
+    public void limpiarControladorEstructura() {
         this.controladorEstructura.limpiarUltimasEstructurasModificadas();
         this.controladorEstructura.setUltimaJugada(null);
         this.controladorEstructura.setDireccion(null);
@@ -170,7 +199,7 @@ public class Juego {
         this.jugadores[numeroJugadorEnTurno].setFichaSeleccionada(null);
         ((Bot) this.jugadores[numeroJugadorEnTurno]).iniciar((ControladorEstructura) this.controladorEstructura.clone());
         if (((Bot) this.jugadores[numeroJugadorEnTurno]).getCasilla() != null) {
-           // this.controladorEstructura.imprimirEstructuras();
+            // this.controladorEstructura.imprimirEstructuras();
             this.isMovimientoValido(((Bot) this.jugadores[numeroJugadorEnTurno]).getCasilla());
         }
     }

@@ -1057,6 +1057,7 @@ public class FXMLDocumentController implements Initializable {
     ImageView[] arregloImageView;
     ImageView arregloImageViewCambio[];
     ImageView arregloImageViewTablero[][];
+    Label arregloPuntosJugador[];
 
 
     public void actualizarFichasTablero() {
@@ -1068,6 +1069,7 @@ public class FXMLDocumentController implements Initializable {
             //System.out.println("CANTIDAD DE FICHAS ACTUALES E MANO : " + juego.getJugadorEnTurno().getArregloFichas().length);
             idFicha = (juego.getJugadorEnTurno().getArregloFichas()[i].getId());
             arregloImageView[i].setImage(new Image("Fichas/Ficha" + idFicha + ".png"));
+
         }
     }
 
@@ -1075,6 +1077,15 @@ public class FXMLDocumentController implements Initializable {
         for (ImageView imageView : arregloImageView) {
             imageView.setOpacity(1);
             imageView.setEffect(null);
+        }
+    }
+
+    public void actualizarPuntos() {
+        for (int i = 0; i < this.juego.jugadores.length; i++) {
+            System.out.println("actualizando al jugador : " + i);
+            System.out.println(this.juego.jugadores[i].getPuntosJugador());
+            this.arregloPuntosJugador[i].setText(this.juego.jugadores[i].getPuntosJugador() + "pts");
+            System.out.println(this.arregloPuntosJugador[i].getText());
         }
     }
 
@@ -1099,9 +1110,12 @@ public class FXMLDocumentController implements Initializable {
             for (ImageView imageView : this.arregloImageViewCambio) {
                 if (((ImageView) (event.getSource())).getId().equals(imageView.getId())) {
                     imageView.setImage(new Image("Fichas/Ficha" + this.juego.getJugadorEnTurno().getFichaSeleccionada().getId() + ".png"));
+                    imageView.setDisable(true);
+                    this.juego.agregarFichaCambio(this.juego.getJugadorEnTurno().getFichaSeleccionada());
                     this.juego.getJugadorEnTurno().removerFicha(this.juego.getJugadorEnTurno().getFichaSeleccionada());
                     juego.getJugadorEnTurno().setFichaSeleccionada(null);
                     this.actualizarFichasTablero();
+                    this.juego.setFichaEncambio(true);
                     break;
                 }
             }
@@ -1120,34 +1134,48 @@ public class FXMLDocumentController implements Initializable {
 
     @FXML
     private void ponerFicha(MouseEvent event) {
-        try {
-            if (this.juego.getJugadorEnTurno().getFichaSeleccionada() != null) {
-                for (int x = 0; x < this.arregloImageViewTablero.length; x++) {
-                    for (int y = 0; y < this.arregloImageViewTablero[x].length; y++) {
-                        if (((ImageView) (event.getSource())).getId().equals(this.arregloImageViewTablero[x][y].getId())) {
-                            if (this.juego.isMovimientoValido(this.juego.getTablero().casilla[x][y])) {
-                                ((ImageView) (event.getSource())).setImage(new Image("Fichas/Ficha" + this.juego.getJugadorEnTurno().getFichaSeleccionada().getId() + ".png"));
-                                this.juego.getTablero().casilla[x][y].setFicha(this.juego.getJugadorEnTurno().getFichaSeleccionada());
-                                this.juego.getJugadorEnTurno().removerFicha(this.juego.getJugadorEnTurno().getFichaSeleccionada());
-                                juego.getJugadorEnTurno().setFichaSeleccionada(null);
-                                opacidad();
-                                this.actualizarFichasTablero();
+        if (!this.juego.isFichaEncambio()) {
+            try {
+                if (this.juego.getJugadorEnTurno().getFichaSeleccionada() != null) {
+                    for (int x = 0; x < this.arregloImageViewTablero.length; x++) {
+                        for (int y = 0; y < this.arregloImageViewTablero[x].length; y++) {
+                            if (((ImageView) (event.getSource())).getId().equals(this.arregloImageViewTablero[x][y].getId())) {
+                                if (this.juego.isMovimientoValido(this.juego.getTablero().casilla[x][y])) {
+                                    ((ImageView) (event.getSource())).setImage(new Image("Fichas/Ficha" + this.juego.getJugadorEnTurno().getFichaSeleccionada().getId() + ".png"));
+                                    this.juego.getTablero().casilla[x][y].setFicha(this.juego.getJugadorEnTurno().getFichaSeleccionada());
+                                    this.juego.getJugadorEnTurno().removerFicha(this.juego.getJugadorEnTurno().getFichaSeleccionada());
+                                    juego.getJugadorEnTurno().setFichaSeleccionada(null);
+                                    opacidad();
+                                    this.actualizarFichasTablero();
+                                }
+                                break;
                             }
-                            break;
                         }
                     }
+                } else {
+                    JOptionPane.showMessageDialog(null, "NO HAS SELECCIONADO ALGUNA FICHA");
                 }
-            } else {
-                JOptionPane.showMessageDialog(null, "NO HAS SELECCIONADO ALGUNA FICHA");
+            } catch (Exception e) {
+                System.out.println(e.toString());
             }
-        } catch (Exception e) {
-            System.out.println(e.toString());
+        } else {
+            JOptionPane.showMessageDialog(null, "YA HAS PUESTO FICHAS PARA CAMBIAR");
         }
     }
 
     @FXML
     private void deshacer() {
         // {Construir deshacer}
+    }
+
+    @FXML
+    private void cambiarFicha() throws Exception {
+        if (this.juego.isFichaEncambio()) {
+            JOptionPane.showMessageDialog(null, "YA VOY A CAMBIARLAS");
+            this.terminarTurno();
+        } else {
+            JOptionPane.showMessageDialog(null, "NO HAS SELECCIONADO FICHAS PARA CAMBIAR");
+        }
     }
 
     @FXML
@@ -1165,15 +1193,38 @@ public class FXMLDocumentController implements Initializable {
             this.juego.cambiarJugador();
         }
         this.actualizarFichasTablero();
+        this.actualizarPuntos();
+        this.actualizarFichasEnCambio();
+
+    }
+
+    private void actualizarFichasEnCambio() {
+        if (this.juego.getBolsa().fichas.isEmpty()) {
+            for (int i = 0; i < this.arregloImageViewCambio.length; i++) {
+                this.arregloImageViewCambio[i].setDisable(true);
+                this.arregloImageViewCambio[i].setOpacity(.8);
+            }
+        } else {
+            for (ImageView imageView : this.arregloImageViewCambio) {
+                imageView.setImage(new Image("Fichas/Ficha0.png"));
+                imageView.setDisable(false);
+            } 
+        }
+
     }
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        this.juego = new Juego(2);
+        try {
+            this.juego = new Juego(2);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         this.arregloImageView = new ImageView[]{ficha_n1, ficha_n2, ficha_n3,
                 ficha_n4, ficha_n5, ficha_n6};
         this.arregloImageViewCambio = new ImageView[]{ficha_cambio_n1, ficha_cambio_n2, ficha_cambio_n3, ficha_cambio_n4,
                 ficha_cambio_n5, ficha_cambio_n6};
+        this.arregloPuntosJugador = new Label[]{pj1, pj2, pj3, pj4};
 
         this.arregloImageViewTablero = new ImageView[][]
                 {{casilla_0_0, casilla_0_1, casilla_0_2, casilla_0_3, casilla_0_4, casilla_0_5, casilla_0_6, casilla_0_7, casilla_0_8, casilla_0_9, casilla_0_10, casilla_0_11, casilla_0_12, casilla_0_13, casilla_0_14, casilla_0_15, casilla_0_16, casilla_0_17},
