@@ -2,6 +2,7 @@ package Model;
 
 import com.sun.org.apache.bcel.internal.generic.IF_ACMPEQ;
 import com.sun.scenario.effect.impl.sw.sse.SSEBlend_SRC_OUTPeer;
+import javafx.scene.control.Alert;
 
 import javax.swing.*;
 import java.lang.reflect.Array;
@@ -101,7 +102,10 @@ public class ControladorEstructura implements Cloneable {
 
     public int agregar(Casilla casilla, Ficha ficha) throws Exception {
         if (!casilla.hayFichaAdyacente()) {
-            throw new Exception("NO HAY FICHA ADYACENTE");
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setContentText("NO HAY FICHA ADYACENTE");
+            alert.showAndWait();
+            throw new Exception();
         }
         if (this.ultimaJugada != null) { // concatenar if anidado con &&
             this.ultimaJugada.verificarCasillaAdyacente(casilla);
@@ -126,7 +130,7 @@ public class ControladorEstructura implements Cloneable {
                 this.recuperarEstructuraInicial(this.estructuraFilas, casilla.getCasillaIzquierda()).cumpleRestriccion(ficha);
             }
             if (this.ultimasEstructurasModificadas.add(this.recuperarEstructuraInicial(this.estructuraFilas, casilla.getCasillaIzquierda()))) {
-                System.out.println("ha agregado en caso casilla izquierda = " + this.recuperarEstructuraInicial(this.estructuraFilas, casilla.getCasillaIzquierda()).getCola().size());
+               // System.out.println("ha agregado en caso casilla izquierda = " + this.recuperarEstructuraInicial(this.estructuraFilas, casilla.getCasillaIzquierda()).getCola().size());
             }
             this.recuperarEstructuraInicial(this.estructuraFilas, casilla.getCasillaIzquierda()).getCola().addLast(casilla);
 
@@ -141,7 +145,7 @@ public class ControladorEstructura implements Cloneable {
             //LA RAZÓN POR LA QUE SE AGREGA ANTES QUE SE GUARDE EN LA ORIGINAL ES PORQUE UNA VEZ GUARDADO, AUN NO TIENE FICHA ASIGNADA O LA CASILLA
             //DERECHA DEJA DE SER EL ÚLTIMO O PRIMER ELEMENTO Y POR LO TANTO, NO ENCUENTRA AL ARREGLO Y DEVUELVE NULL
             if (this.ultimasEstructurasModificadas.add(this.recuperarEstructuraFinal(this.estructuraFilas, casilla.getCasillaDerecha()))) {
-                System.out.println("ha agregado en caso casilla derecha = " + this.recuperarEstructuraFinal(this.estructuraFilas, casilla.getCasillaDerecha()).getCola().size());
+              //  System.out.println("ha agregado en caso casilla derecha = " + this.recuperarEstructuraFinal(this.estructuraFilas, casilla.getCasillaDerecha()).getCola().size());
             }
             this.recuperarEstructuraFinal(this.estructuraFilas, casilla.getCasillaDerecha()).getCola().addFirst(casilla);
         }
@@ -153,7 +157,7 @@ public class ControladorEstructura implements Cloneable {
                 this.recuperarEstructuraInicial(this.estructuraColumnas, casilla.getCasillaSuperior()).cumpleRestriccion(ficha);
             }
             if (this.ultimasEstructurasModificadas.add(this.recuperarEstructuraInicial(this.estructuraColumnas, casilla.getCasillaSuperior()))) {
-                System.out.println("ha agregado en caso casilla superior = " + this.recuperarEstructuraInicial(this.estructuraColumnas, casilla.getCasillaSuperior()).getCola().size());
+              //  System.out.println("ha agregado en caso casilla superior = " + this.recuperarEstructuraInicial(this.estructuraColumnas, casilla.getCasillaSuperior()).getCola().size());
             }
             this.recuperarEstructuraInicial(this.estructuraColumnas, casilla.getCasillaSuperior()).getCola().addLast(casilla);
 
@@ -166,7 +170,7 @@ public class ControladorEstructura implements Cloneable {
                 this.recuperarEstructuraFinal(this.estructuraColumnas, casilla.getCasillaInferior()).cumpleRestriccion(ficha);
             }
             if (this.ultimasEstructurasModificadas.add(this.recuperarEstructuraFinal(this.estructuraColumnas, casilla.getCasillaInferior()))) {
-                System.out.println("ha agregado en caso casilla inferior = " + this.recuperarEstructuraFinal(this.estructuraColumnas, casilla.getCasillaInferior()).getCola().size());
+               // System.out.println("ha agregado en caso casilla inferior = " + this.recuperarEstructuraFinal(this.estructuraColumnas, casilla.getCasillaInferior()).getCola().size());
 
             }
             this.recuperarEstructuraFinal(this.estructuraColumnas, casilla.getCasillaInferior()).getCola().addFirst(casilla);
@@ -231,6 +235,33 @@ public class ControladorEstructura implements Cloneable {
     }
 
     public Estructura recuperarEstructuraFinal(ArrayList<Estructura> estructuras, Casilla casilla) throws Exception {
+
+        for (Estructura estructura : estructuras) {
+            try {
+                if (estructura.getCola().getFirst().getFicha().getId() == casilla.getFicha().getId()) {
+                    return estructura;
+                }
+            }catch (Exception e){
+                estructura.getCola().removeFirst();
+            }
+        }
+        //throw new Exception("NO HAY COLA DERECHA O INFERIOR");
+        return null;
+    }
+    public Estructura recuperarEstructuraInicial(ArrayList<Estructura> estructuras, Casilla casilla) {
+            for (Estructura estructura : estructuras) {
+                try {
+                    if (estructura.getCola().getLast().getFicha().getId() == casilla.getFicha().getId()) {
+                        return estructura;
+                    }
+                }catch (Exception e){
+                    estructura.getCola().removeLast();
+                }
+            }
+        return null;
+    }
+//MODIFICACIÓN DEL MÉTODO ESTRUCTURA QUE PUEDE ESTAR PROVOCANDO ERROR EN
+/*    public Estructura recuperarEstructuraFinal(ArrayList<Estructura> estructuras, Casilla casilla) throws Exception {
         try {
             for (Estructura estructura : estructuras) {
                 if (estructura.getCola().getFirst().getFicha().getId() == casilla.getFicha().getId()) {
@@ -238,12 +269,13 @@ public class ControladorEstructura implements Cloneable {
                 }
             }
         } catch (Exception e) {
+
             e.printStackTrace();
         }
         //throw new Exception("NO HAY COLA DERECHA O INFERIOR");
         return null;
-    }
-
+    }*/
+/*
     public Estructura recuperarEstructuraInicial(ArrayList<Estructura> estructuras, Casilla casilla) {
         try {
             for (Estructura estructura : estructuras) {
@@ -256,7 +288,7 @@ public class ControladorEstructura implements Cloneable {
             e.printStackTrace();
         }
         return null;
-    }
+    }*/
     //throw new Exception("NO HAY COLA IZQUIERDA O SUPERIOR");
 
 

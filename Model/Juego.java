@@ -32,12 +32,15 @@ public class Juego {
         // this.regla = new Regla(this.bolsa, this.tablero);
 
 //creador de jugadores. TODO para crear métodos instanciadores como crearJugadores
-        for (int i = 0; i < jugadores.length; i++) {
+        for (int i = 0; i < jugadores.length - 1; i++) {
             jugadores[i] = new Jugador();
         }
-        //this.jugadores[this.jugadores.length - 1] = new Bot();
+        this.jugadores[this.jugadores.length - 1] = new Bot();
 
         this.asignarFichas();
+        for (Ficha ficha:this.jugadores[this.jugadores.length-1].getArregloFichas()) {
+            System.out.println(ficha.toString());
+        }
     }
 
     public void agregarFichaCambio(Ficha ficha) {
@@ -134,7 +137,7 @@ public class Juego {
         }*/
         this.ultimaJugada = casilla;
         this.tablero.casilla[casilla.getX()][casilla.getY()].setFicha(this.jugadores[numeroJugadorEnTurno].getFichaSeleccionada());
-        //this.controladorEstructura.imprimirEstructuras();
+     //   this.controladorEstructura.imprimirEstructuras();
     }
 
     public int calcularPuntos(HashSet<Estructura> estructuras) {
@@ -174,8 +177,6 @@ public class Juego {
         while ((this.getJugadorEnTurno().getArregloFichas().length < 6) && (!this.bolsa.fichas.isEmpty())) {
             this.getJugadorEnTurno().setFicha(this.sacarFichaBolsa());
         }
-
-
         this.cambiarJugador();
         this.fichaEncambio = false;
     }

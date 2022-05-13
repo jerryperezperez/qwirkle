@@ -10,7 +10,7 @@ import java.util.Random;
 public class Bolsa {
 
     public ArrayList<Ficha> fichas = new ArrayList<>();
-    private static String formas[] = {"cuadrado", "circulo", "rombo", "tacha", "cruz", "estrella"};
+    private static String formas[] = {"cuadrado", "circulo", "rombo", "trebol", "tacha", "estrella"};
     private static String colores[] = {"verde", "rojo", "morado", "amarillo", "azul", "naranja"};
 
     public Bolsa() {

@@ -5,6 +5,8 @@
  */
 package Model;
 
+import javafx.scene.control.Alert;
+
 import javax.xml.bind.SchemaOutputResolver;
 import java.util.Objects;
 
@@ -107,6 +109,9 @@ public class Casilla implements Comparable<Casilla> {
         if (this.casillaDerecha.equals(casilla)) {
             return true;
         }
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setContentText("NO COINCIDE CON LA ÚLTIMA JUGADA");
+        alert.showAndWait();
         throw new Exception("NO COINCIDE CON LA ÚLTIMA JUGADA");
     }
 

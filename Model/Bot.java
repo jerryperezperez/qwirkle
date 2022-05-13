@@ -4,18 +4,22 @@ import javax.swing.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
+import java.util.Stack;
 
 public class Bot extends Jugador {
     private ControladorEstructura controladorEstructura;
     private boolean jugadaLista;
     private boolean cambio;
     private Casilla casilla;
+    private ArrayList<Nodo> arregloNodos;
+    Algoritmo algoritmo;
 
     public Bot() {
+        arregloNodos = new ArrayList<>();
     }
 
     public void iniciar(ControladorEstructura controlador) throws Exception {
-        this.jugadaLista = false;
+        // this.jugadaLista = false;
         this.casilla = null;
         this.controladorEstructura = new ControladorEstructura(controlador);
         this.controladorEstructura.getEstructuraColumnas().sort(new Comparator<Estructura>() {
@@ -25,27 +29,34 @@ public class Bot extends Jugador {
             }
         });
         this.formarQwirkle();
-
-      /*  if (this.getFichaSeleccionada() == null){
-            System.out.println("VOY A CAMBIAR MI PRIMERA FICHA PORQUE NO HAY QWIRKLE");
-            this.cambio = true;
-            this.cambiar();
+    /*    if (casilla == null && this.arregloNodos.isEmpty()) {
+            Nodo nodo = new Nodo(this.controladorEstructura, this.getFichas2());
+            Algoritmo algoritmo = new Algoritmo(nodo);
+            this.arregloNodos.addAll(algoritmo.mejorRuta);
+        }
+        if (this.arregloNodos.isEmpty()) {
+            this.casilla = null;
+        } else {
+            Thread.sleep(3000);
+            this.setFichaSeleccionada(this.arregloNodos.get(0).fichaBot);
+            this.casilla = this.arregloNodos.get(0).casillaBot;
+            this.arregloNodos.remove(0);
         }*/
+
     }
 
     public Casilla getCasilla() {
         return casilla;
     }
 
+
     public void formarQwirkle() throws Exception {
         for (int i = 5; i > 0; i--) {
             if (this.isJugadaEncontradaFilas(i)) {
                 JOptionPane.showMessageDialog(null, "HE ENCONTRADO FICHA Y CASILLA");
-                break;
             } else {
                 if (this.isJugadaEncontradaColumnas(i)) {
                     JOptionPane.showMessageDialog(null, "HE ENCONTRADO FICHA Y CASILLA");
-                    break;
                 }
             }
         }

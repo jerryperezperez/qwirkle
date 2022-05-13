@@ -29,7 +29,7 @@ public class Jugador {
 
     public void sumarPuntos(int puntos) {
         this.puntosJugador += puntos;
-        System.out.println("los  puntos guardados son: " + this.puntosJugador);
+      //  System.out.println("los  puntos guardados son: " + this.puntosJugador);
     }
 
 
@@ -90,6 +90,9 @@ public class Jugador {
 
     public Ficha[] getArregloFichas() {
         return this.fichas.toArray(new Ficha[this.fichas.size()]);
+    }
+    public ArrayList<Ficha> getFichas2(){
+        return (ArrayList<Ficha>) this.fichas.clone();
     }
 
     public Ficha devolverFicha() {

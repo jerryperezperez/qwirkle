@@ -9,6 +9,7 @@ import Model.ExcepcionCasilla;
 import Model.Juego;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 
@@ -1082,10 +1083,10 @@ public class FXMLDocumentController implements Initializable {
 
     public void actualizarPuntos() {
         for (int i = 0; i < this.juego.jugadores.length; i++) {
-            System.out.println("actualizando al jugador : " + i);
-            System.out.println(this.juego.jugadores[i].getPuntosJugador());
+          //  System.out.println("actualizando al jugador : " + i);
+            //System.out.println(this.juego.jugadores[i].getPuntosJugador());
             this.arregloPuntosJugador[i].setText(this.juego.jugadores[i].getPuntosJugador() + "pts");
-            System.out.println(this.arregloPuntosJugador[i].getText());
+           // System.out.println(this.arregloPuntosJugador[i].getText());
         }
     }
 
@@ -1159,7 +1160,10 @@ public class FXMLDocumentController implements Initializable {
                 System.out.println(e.toString());
             }
         } else {
-            JOptionPane.showMessageDialog(null, "YA HAS PUESTO FICHAS PARA CAMBIAR");
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setContentText("YA HAS PUESTO FICHAS PARA CAMBIAR");
+            alert.showAndWait();
+            //JOptionPane.showMessageDialog(null, "YA HAS PUESTO FICHAS PARA CAMBIAR");
         }
     }
 
@@ -1171,9 +1175,15 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     private void cambiarFicha() throws Exception {
         if (this.juego.isFichaEncambio()) {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setContentText("SE HA CAMBIADO AL JUGADOR " + (this.juego.getNumeroJugadorEnTurno() + 1));
+            alert.showAndWait();
             JOptionPane.showMessageDialog(null, "YA VOY A CAMBIARLAS");
             this.terminarTurno();
         } else {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setContentText("NO HAS SELECCIONADO FICHAS PARA CAMBIAR");
+            alert.showAndWait();
             JOptionPane.showMessageDialog(null, "NO HAS SELECCIONADO FICHAS PARA CAMBIAR");
         }
     }
@@ -1182,15 +1192,18 @@ public class FXMLDocumentController implements Initializable {
     private void terminarTurno() throws Exception {
 
         this.juego.terminarTurno();
+        this.actualizarPuntos();
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setContentText("SE HA CAMBIADO AL JUGADOR " + (this.juego.getNumeroJugadorEnTurno() + 1));
+        alert.showAndWait();
         JOptionPane.showMessageDialog(null, "SE HA CAMBIADO AL JUGADOR " + (this.juego.getNumeroJugadorEnTurno() + 1));
 
         if (this.juego.getJugadorEnTurno() instanceof Bot) {
             JOptionPane.showMessageDialog(null, "ES TURNO DEL BOT");
             this.juego.moverBot();
-            // this.terminarTurno();
+            this.juego.terminarTurno();
             this.juego.limpiarControladorEstructura();
             this.pintarTablero();
-            this.juego.cambiarJugador();
         }
         this.actualizarFichasTablero();
         this.actualizarPuntos();
@@ -1208,7 +1221,7 @@ public class FXMLDocumentController implements Initializable {
             for (ImageView imageView : this.arregloImageViewCambio) {
                 imageView.setImage(new Image("Fichas/Ficha0.png"));
                 imageView.setDisable(false);
-            } 
+            }
         }
 
     }
