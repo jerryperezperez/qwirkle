@@ -116,11 +116,19 @@ public class ControladorEstructura implements Cloneable {
             }
         }
         if (casilla.getCasillaIzquierda().getFicha() != null && casilla.getCasillaDerecha().getFicha() != null) {
-            if (this.recuperarEstructuraInicial(this.estructuraFilas, casilla.getCasillaIzquierda()).getRestriccion().equals(this.recuperarEstructuraFinal(this.estructuraFilas, casilla.getCasillaDerecha()).getRestriccion())) {
 
+            throw new Exception("MEJOR NO ENTRA PORQUE PUEDE ESTALLAR");
+           /* if (this.recuperarEstructuraInicial(this.estructuraFilas, casilla.getCasillaIzquierda()).getRestriccion().equals(this.recuperarEstructuraFinal(this.estructuraFilas, casilla.getCasillaDerecha()).getRestriccion())) {
             } else {
                 throw new Exception("TIENEN DIFERENTES RESTRICCIONES LAS COLAS, NO ES POSIBLE SU UNIÓN.");
-            }
+            }*/
+        }
+        if (casilla.getCasillaSuperior().getFicha() != null && casilla.getCasillaInferior().getFicha() != null) {
+            throw new Exception("MEJOR NO ENTRA PORQUE PUEDE ESTALLAR");
+         /*   if (this.recuperarEstructuraInicial(this.estructuraColumnas, casilla.getCasillaIzquierda()).getRestriccion().equals(this.recuperarEstructuraFinal(this.estructuraFilas, casilla.getCasillaDerecha()).getRestriccion())) {
+            } else {
+                throw new Exception("TIENEN DIFERENTES RESTRICCIONES LAS COLAS, NO ES POSIBLE SU UNIÓN.");
+            }*/
         }
         if (casilla.getCasillaIzquierda().getFicha() != null) {
             this.recuperarEstructuraInicial(this.estructuraFilas, casilla.getCasillaIzquierda()).isDuplicated(ficha);

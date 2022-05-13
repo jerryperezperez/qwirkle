@@ -21,6 +21,7 @@ public class Bot extends Jugador {
     public void iniciar(ControladorEstructura controlador) throws Exception {
         // this.jugadaLista = false;
         this.casilla = null;
+
         this.controladorEstructura = new ControladorEstructura(controlador);
         this.controladorEstructura.getEstructuraColumnas().sort(new Comparator<Estructura>() {
             @Override
@@ -52,12 +53,16 @@ public class Bot extends Jugador {
 
     public void formarQwirkle() throws Exception {
         for (int i = 5; i > 0; i--) {
-            if (this.isJugadaEncontradaFilas(i)) {
-                JOptionPane.showMessageDialog(null, "HE ENCONTRADO FICHA Y CASILLA");
-            } else {
-                if (this.isJugadaEncontradaColumnas(i)) {
+            if (this.casilla == null) {
+                if (this.isJugadaEncontradaFilas(i)) {
                     JOptionPane.showMessageDialog(null, "HE ENCONTRADO FICHA Y CASILLA");
+                } else {
+                    if (this.isJugadaEncontradaColumnas(i)) {
+                        JOptionPane.showMessageDialog(null, "HE ENCONTRADO FICHA Y CASILLA");
+                    }
                 }
+            } else {
+                break;
             }
         }
     }
@@ -76,7 +81,9 @@ public class Bot extends Jugador {
                                 this.cambio = false;
                                 return true;
                             } catch (Exception e) {
-                                e.getMessage();
+                                //   e.printStackTrace();
+                                e.getLocalizedMessage();
+                                System.out.println("revienta el juegoooo");
                             }
                         } else {
                             if (fila.getCola().getFirst().getCasillaIzquierda() != null) {
@@ -89,9 +96,13 @@ public class Bot extends Jugador {
                                     this.cambio = false;
                                     return true;
                                 } catch (Exception e) {
-                                    e.getMessage();
+                                    //    e.printStackTrace();
+                                    e.getLocalizedMessage();
+
+                                    System.out.println("revienta el juegoooo");
                                 }
                             }
+
                         }
                     }
                 }
@@ -115,7 +126,10 @@ public class Bot extends Jugador {
                                 this.casilla.setFicha(null);
                                 return true;
                             } catch (Exception e) {
-                                e.getMessage();
+                                // e.printStackTrace();
+                                e.getLocalizedMessage();
+
+                                System.out.println("revienta el juegoooo");
                             }
                         } else {
                             if (columna.getCola().getFirst().getCasillaSuperior() != null) {
@@ -128,11 +142,15 @@ public class Bot extends Jugador {
                                     this.cambio = false;
                                     return true;
                                 } catch (Exception e) {
-                                    e.getMessage();
+                                    //   e.printStackTrace();
+                                    e.getLocalizedMessage();
+
+                                    System.out.println("revienta el juegoooo");
                                 }
                             }
                         }
                     }
+
                 }
             }
         }

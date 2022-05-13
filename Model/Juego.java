@@ -38,9 +38,17 @@ public class Juego {
         this.jugadores[this.jugadores.length - 1] = new Bot();
 
         this.asignarFichas();
-        for (Ficha ficha:this.jugadores[this.jugadores.length-1].getArregloFichas()) {
+        for (Ficha ficha : this.jugadores[this.jugadores.length - 1].getArregloFichas()) {
             System.out.println(ficha.toString());
         }
+    }
+
+    public void setUltimaJugada(Casilla ultimaJugada) {
+        this.ultimaJugada = ultimaJugada;
+    }
+
+    public void setDireccion(String direccion) {
+        this.direccion = direccion;
     }
 
     public void agregarFichaCambio(Ficha ficha) {
@@ -59,6 +67,9 @@ public class Juego {
         return bolsa;
     }
 
+    public ControladorEstructura getControladorEstructura() {
+        return controladorEstructura;
+    }
     //Posible creación del método iniciar para evitar mucho código en el constructor
 
     public void iniciarJuego() {
@@ -107,6 +118,13 @@ public class Juego {
             }*/
             this.controladorEstructura.agregar(casilla, this.jugadores[numeroJugadorEnTurno].getFichaSeleccionada());
             this.realizarMovimiento(casilla);
+            // ESTO ESTÁ IGUAL EN EL CONTROLLER, SE DEBE ESTAR DUPLICANDO PERO NO DEBERÍA AFECTAR LA INTERACIÓN DEL JUEGO
+            //SE DUPLICA AQUÍ PARA PROBAR CON LA FUNCIONALIDAD DEL BOT
+            if (this.getJugadorEnTurno() instanceof Bot) {
+                this.getJugadorEnTurno().removerFicha(this.getJugadorEnTurno().getFichaSeleccionada());
+                this.getJugadorEnTurno().setFichaSeleccionada(null);
+            }
+
         }
         return true;
     }
@@ -137,7 +155,7 @@ public class Juego {
         }*/
         this.ultimaJugada = casilla;
         this.tablero.casilla[casilla.getX()][casilla.getY()].setFicha(this.jugadores[numeroJugadorEnTurno].getFichaSeleccionada());
-     //   this.controladorEstructura.imprimirEstructuras();
+        //   this.controladorEstructura.imprimirEstructuras();
     }
 
     public int calcularPuntos(HashSet<Estructura> estructuras) {
@@ -171,9 +189,9 @@ public class Juego {
         } else {
             this.jugadores[this.numeroJugadorEnTurno].sumarPuntos(this.calcularPuntos(this.controladorEstructura.getUltimasEstructurasModificadas()));
             JOptionPane.showMessageDialog(null, "PUNTOS GANADOS: " + this.calcularPuntos(this.controladorEstructura.getUltimasEstructurasModificadas()));
-            this.limpiarControladorEstructura();
-        }
 
+        }
+        this.limpiarControladorEstructura();
         while ((this.getJugadorEnTurno().getArregloFichas().length < 6) && (!this.bolsa.fichas.isEmpty())) {
             this.getJugadorEnTurno().setFicha(this.sacarFichaBolsa());
         }
@@ -196,12 +214,14 @@ public class Juego {
     }
 
     public void moverBot() throws Exception {
-
         this.jugadores[numeroJugadorEnTurno].setFichaSeleccionada(null);
+        //System.out.println("LA ULTIMA JUGADA ES: " + this.controladorEstructura.getUltimaJugada().toString());
         ((Bot) this.jugadores[numeroJugadorEnTurno]).iniciar((ControladorEstructura) this.controladorEstructura.clone());
         if (((Bot) this.jugadores[numeroJugadorEnTurno]).getCasilla() != null) {
             // this.controladorEstructura.imprimirEstructuras();
+
             this.isMovimientoValido(((Bot) this.jugadores[numeroJugadorEnTurno]).getCasilla());
+
         }
     }
 

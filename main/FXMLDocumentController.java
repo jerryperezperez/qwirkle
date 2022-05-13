@@ -6,6 +6,7 @@ import java.util.ResourceBundle;
 
 import Model.Bot;
 import Model.ExcepcionCasilla;
+import Model.Ficha;
 import Model.Juego;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -1083,10 +1084,10 @@ public class FXMLDocumentController implements Initializable {
 
     public void actualizarPuntos() {
         for (int i = 0; i < this.juego.jugadores.length; i++) {
-          //  System.out.println("actualizando al jugador : " + i);
+            //  System.out.println("actualizando al jugador : " + i);
             //System.out.println(this.juego.jugadores[i].getPuntosJugador());
             this.arregloPuntosJugador[i].setText(this.juego.jugadores[i].getPuntosJugador() + "pts");
-           // System.out.println(this.arregloPuntosJugador[i].getText());
+            // System.out.println(this.arregloPuntosJugador[i].getText());
         }
     }
 
@@ -1144,6 +1145,9 @@ public class FXMLDocumentController implements Initializable {
                                 if (this.juego.isMovimientoValido(this.juego.getTablero().casilla[x][y])) {
                                     ((ImageView) (event.getSource())).setImage(new Image("Fichas/Ficha" + this.juego.getJugadorEnTurno().getFichaSeleccionada().getId() + ".png"));
                                     this.juego.getTablero().casilla[x][y].setFicha(this.juego.getJugadorEnTurno().getFichaSeleccionada());
+                                    //TODO LÍNEA PARA VER CUÁLES FUERON LAS ÚLTIMAS FICHAS PUESTAS, PERO HACE FALTA CREAR MÉTODO QUE ELIMINE EL EFECTO
+                                    // ((ImageView) (event.getSource())).setOpacity(.3);
+                                    //DESCOMENTAR SI SE AFECTA CON LA PARTE DE JUEGO
                                     this.juego.getJugadorEnTurno().removerFicha(this.juego.getJugadorEnTurno().getFichaSeleccionada());
                                     juego.getJugadorEnTurno().setFichaSeleccionada(null);
                                     opacidad();
@@ -1197,11 +1201,26 @@ public class FXMLDocumentController implements Initializable {
         alert.setContentText("SE HA CAMBIADO AL JUGADOR " + (this.juego.getNumeroJugadorEnTurno() + 1));
         alert.showAndWait();
         JOptionPane.showMessageDialog(null, "SE HA CAMBIADO AL JUGADOR " + (this.juego.getNumeroJugadorEnTurno() + 1));
-
+        this.juego.limpiarControladorEstructura();
+        this.pintarTablero();
         if (this.juego.getJugadorEnTurno() instanceof Bot) {
             JOptionPane.showMessageDialog(null, "ES TURNO DEL BOT");
-            this.juego.moverBot();
-            this.juego.terminarTurno();
+            this.juego.limpiarControladorEstructura();
+            do {
+                for (Ficha ficha: this.juego.getJugadorEnTurno().getArregloFichas()) {
+                    System.out.println(ficha.toString());
+                }
+                try {
+                    this.juego.moverBot();
+                }catch (Exception e){
+                    System.out.println("YA NO PUEDE O DEBE PONER MÁS");
+                    this.terminarTurno();
+                }
+              //  this.juego.getControladorEstructura().imprimirEstructuras();
+                this.pintarTablero();
+
+            } while ((this.juego.getJugadorEnTurno() instanceof Bot) && ((Bot) this.juego.getJugadorEnTurno()).getCasilla() != null);
+          // this.juego.terminarTurno();
             this.juego.limpiarControladorEstructura();
             this.pintarTablero();
         }
