@@ -1200,7 +1200,6 @@ public class FXMLDocumentController implements Initializable {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setContentText("SE HA CAMBIADO AL JUGADOR " + (this.juego.getNumeroJugadorEnTurno() + 1));
         alert.showAndWait();
-        JOptionPane.showMessageDialog(null, "SE HA CAMBIADO AL JUGADOR " + (this.juego.getNumeroJugadorEnTurno() + 1));
         this.juego.limpiarControladorEstructura();
         this.pintarTablero();
         if (this.juego.getJugadorEnTurno() instanceof Bot) {

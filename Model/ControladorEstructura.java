@@ -102,9 +102,9 @@ public class ControladorEstructura implements Cloneable {
 
     public int agregar(Casilla casilla, Ficha ficha) throws Exception {
         if (!casilla.hayFichaAdyacente()) {
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+           /* Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setContentText("NO HAY FICHA ADYACENTE");
-            alert.showAndWait();
+            alert.showAndWait();*/
             throw new Exception();
         }
         if (this.ultimaJugada != null) { // concatenar if anidado con &&

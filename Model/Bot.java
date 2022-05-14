@@ -8,15 +8,15 @@ import java.util.Stack;
 
 public class Bot extends Jugador {
     private ControladorEstructura controladorEstructura;
-    private boolean jugadaLista;
-    private boolean cambio;
     private Casilla casilla;
-    private ArrayList<Nodo> arregloNodos;
-    Algoritmo algoritmo;
+    //   private ArrayList<Nodo> arregloNodos;
+    // Algoritmo algoritmo;
 
-    public Bot() {
-        arregloNodos = new ArrayList<>();
-    }
+    //public Bot() {
+    //  arregloNodos = new ArrayList<>();
+//}
+//TODO Hacer clase Bot abstarcta y crear clase específica para el bot
+    //public abstract void  emplearEstrategia();
 
     public void iniciar(ControladorEstructura controlador) throws Exception {
         // this.jugadaLista = false;
@@ -55,10 +55,10 @@ public class Bot extends Jugador {
         for (int i = 5; i > 0; i--) {
             if (this.casilla == null) {
                 if (this.isJugadaEncontradaFilas(i)) {
-                    JOptionPane.showMessageDialog(null, "HE ENCONTRADO FICHA Y CASILLA");
+                    // JOptionPane.showMessageDialog(null, "HE ENCONTRADO FICHA Y CASILLA");
                 } else {
                     if (this.isJugadaEncontradaColumnas(i)) {
-                        JOptionPane.showMessageDialog(null, "HE ENCONTRADO FICHA Y CASILLA");
+                        // JOptionPane.showMessageDialog(null, "HE ENCONTRADO FICHA Y CASILLA");
                     }
                 }
             } else {
@@ -78,11 +78,9 @@ public class Bot extends Jugador {
                                 this.setFichaSeleccionada(ficha);
                                 fila.getCola().getLast().setFicha(null);
                                 this.casilla = fila.getCola().getLast();
-                                this.cambio = false;
                                 return true;
                             } catch (Exception e) {
                                 //   e.printStackTrace();
-                                e.getLocalizedMessage();
                                 System.out.println("revienta el juegoooo");
                             }
                         } else {
@@ -93,12 +91,9 @@ public class Bot extends Jugador {
                                     fila.getCola().getFirst().setFicha(null);
                                     this.casilla = fila.getCola().getFirst();
                                     this.casilla.setFicha(null);
-                                    this.cambio = false;
                                     return true;
                                 } catch (Exception e) {
                                     //    e.printStackTrace();
-                                    e.getLocalizedMessage();
-
                                     System.out.println("revienta el juegoooo");
                                 }
                             }
@@ -120,15 +115,13 @@ public class Bot extends Jugador {
                             try {
                                 this.controladorEstructura.agregar(columna.getCola().getLast().getCasillaInferior(), ficha);
                                 this.setFichaSeleccionada(ficha);
-                                this.cambio = false;
+
                                 columna.getCola().getLast().setFicha(null);
                                 this.casilla = columna.getCola().getLast();
                                 this.casilla.setFicha(null);
                                 return true;
                             } catch (Exception e) {
                                 // e.printStackTrace();
-                                e.getLocalizedMessage();
-
                                 System.out.println("revienta el juegoooo");
                             }
                         } else {
@@ -139,12 +132,10 @@ public class Bot extends Jugador {
                                     columna.getCola().getFirst().setFicha(null);
                                     this.casilla = columna.getCola().getFirst();
                                     this.casilla.setFicha(null);
-                                    this.cambio = false;
+
                                     return true;
                                 } catch (Exception e) {
                                     //   e.printStackTrace();
-                                    e.getLocalizedMessage();
-
                                     System.out.println("revienta el juegoooo");
                                 }
                             }
