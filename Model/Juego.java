@@ -22,11 +22,11 @@ public class Juego {
 
     boolean primerMovimiento = true;
 
-    public Juego(int cantidadJugadores) throws Exception {//agregar como parámetro la cantidad de jugadores, esándar es de dos, a lo mejor se agregan otros
+    public Juego(ArrayList<String> listaJugadores) throws Exception {//agregar como parámetro la cantidad de jugadores, esándar es de dos, a lo mejor se agregan otros
         this.bolsa = new Bolsa();
         this.tablero = new Tablero();
         // this.estructura = new Estructura();
-        this.jugadores = new Jugador[cantidadJugadores];
+        this.jugadores = new Jugador[listaJugadores.size()];
         this.fichaEncambio = false;
         this.fichasTramitadas = new ArrayList<Ficha>();
         // this.regla = new Regla(this.bolsa, this.tablero);
@@ -35,7 +35,7 @@ public class Juego {
         for (int i = 0; i < jugadores.length - 1; i++) {
             jugadores[i] = new Jugador();
         }
-        this.jugadores[this.jugadores.length - 1] = new Bot();
+       // this.jugadores[this.jugadores.length - 1] = new Bot();
 
         this.asignarFichas();
         for (Ficha ficha : this.jugadores[this.jugadores.length - 1].getArregloFichas()) {

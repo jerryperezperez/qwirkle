@@ -2,6 +2,9 @@ package main;
 
 import java.awt.event.ActionEvent;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.ResourceBundle;
 
 import Model.Bot;
@@ -14,6 +17,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 
+import javafx.scene.control.ListView;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -1060,6 +1064,7 @@ public class FXMLDocumentController implements Initializable {
     ImageView arregloImageViewCambio[];
     ImageView arregloImageViewTablero[][];
     Label arregloPuntosJugador[];
+    ArrayList<String> listaJugadores;
 
 
     public void actualizarFichasTablero() {
@@ -1103,6 +1108,13 @@ public class FXMLDocumentController implements Initializable {
                 }
                 break;
             }
+        }
+    }
+
+    public void setJugadores(ListView listView) {
+        System.out.println("LOS DATOS LLEGAN");
+        for (Object cadena : listView.getItems()) {
+            this.listaJugadores.add((String) cadena);
         }
     }
 
@@ -1152,6 +1164,7 @@ public class FXMLDocumentController implements Initializable {
                                     juego.getJugadorEnTurno().setFichaSeleccionada(null);
                                     opacidad();
                                     this.actualizarFichasTablero();
+                                    this.resaltarUltimaFicha();
                                 }
                                 break;
                             }
@@ -1167,7 +1180,6 @@ public class FXMLDocumentController implements Initializable {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setContentText("YA HAS PUESTO FICHAS PARA CAMBIAR");
             alert.showAndWait();
-            //JOptionPane.showMessageDialog(null, "YA HAS PUESTO FICHAS PARA CAMBIAR");
         }
     }
 
@@ -1192,10 +1204,30 @@ public class FXMLDocumentController implements Initializable {
         }
     }
 
+    private void borrarResaltado() {
+        for (ImageView[] imageView : this.arregloImageViewTablero) {
+            for (ImageView imageView2 : imageView) {
+                imageView2.setEffect(null);
+            }
+        }
+    }
+
+    private void resaltarUltimaFicha() {
+        for (int i = 0; i < this.juego.getTablero().casilla.length; i++) {
+            for (int j = 0; j < this.juego.getTablero().casilla[i].length; j++) {
+                if (this.juego.getControladorEstructura().getUltimaJugada() != null && this.juego.getControladorEstructura().getUltimaJugada().equals(this.juego.getTablero().casilla[i][j])) {
+                    System.out.println("encontró la última jugada del tablero");
+                    this.arregloImageViewTablero[i][j].setEffect(new DropShadow(15, Color.BROWN));
+                }
+            }
+        }
+    }
+
     @FXML
     private void terminarTurno() throws Exception {
 
         this.juego.terminarTurno();
+        this.borrarResaltado();
         this.actualizarPuntos();
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setContentText("SE HA CAMBIADO AL JUGADOR " + (this.juego.getNumeroJugadorEnTurno() + 1));
@@ -1204,22 +1236,17 @@ public class FXMLDocumentController implements Initializable {
         this.pintarTablero();
         if (this.juego.getJugadorEnTurno() instanceof Bot) {
             JOptionPane.showMessageDialog(null, "ES TURNO DEL BOT");
-            this.juego.limpiarControladorEstructura();
-            do {
-                for (Ficha ficha: this.juego.getJugadorEnTurno().getArregloFichas()) {
-                    System.out.println(ficha.toString());
-                }
+            for (int i = 0; i < 6; i++) {
                 try {
                     this.juego.moverBot();
-                }catch (Exception e){
+                    this.resaltarUltimaFicha();
+                } catch (Exception e) {
                     System.out.println("YA NO PUEDE O DEBE PONER MÁS");
-                    this.terminarTurno();
-                }
-              //  this.juego.getControladorEstructura().imprimirEstructuras();
-                this.pintarTablero();
 
-            } while ((this.juego.getJugadorEnTurno() instanceof Bot) && ((Bot) this.juego.getJugadorEnTurno()).getCasilla() != null);
-          // this.juego.terminarTurno();
+                }
+            }
+            this.juego.terminarTurno();
+            // this.juego.terminarTurno();
             this.juego.limpiarControladorEstructura();
             this.pintarTablero();
         }
@@ -1246,6 +1273,8 @@ public class FXMLDocumentController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+
+        this.listaJugadores = new ArrayList<>();
         try {
             this.juego = new Juego(2);
         } catch (Exception e) {

@@ -4,13 +4,23 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 
 import javax.swing.*;
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+
+import static javafx.fxml.FXMLLoader.getDefaultClassLoader;
 
 public class FXMLPrincipalController implements Initializable {
     @FXML
@@ -56,9 +66,29 @@ public class FXMLPrincipalController implements Initializable {
     }
 
     @FXML
-    public void eventoJugar(MouseEvent mouseEvent) {
-        if (this.listaJugadores.getItems().get(0).equals("Jugador Humano")) {
+    public void eventoJugar(MouseEvent mouseEvent) throws IOException {
+        if (!(this.listaJugadores.getItems().get(0).equals("Jugador Humano"))) {
             JOptionPane.showMessageDialog(null, "NO puede empezar un bot");
+        } else {
+
+            Node source = (Node) mouseEvent.getSource();     //Me devuelve el elemento al que hice click
+            Stage stage2 = (Stage) source.getScene().getWindow();    //Me devuelve la ventana donde se encuentra el elemento
+            stage2.close();
+
+            FXMLLoader fxmlLoader = new FXMLLoader();
+            fxmlLoader.setLocation(getClass().getResource("FXMLDocument.fxml"));
+
+            Scene scene = new Scene(fxmlLoader.load());
+            Stage stage = new Stage();
+            stage.setScene(scene);
+            stage.initModality(Modality.APPLICATION_MODAL);
+            FXMLDocumentController controlador = (FXMLDocumentController) fxmlLoader.getController();
+            controlador.setJugadores(this.listaJugadores);
+            stage.showAndWait();
+
+
         }
+
+
     }
 }
