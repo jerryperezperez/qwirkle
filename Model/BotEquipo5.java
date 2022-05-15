@@ -11,19 +11,33 @@ public class BotEquipo5 extends Bot {
 
     @Override
     public void analizarEstrategia() throws Exception {
-        for (int i = 5; i > 0; i--) {
-            if (this.casilla == null) {
-                if (this.isJugadaEncontradaFilas(i)) {
-                    // JOptionPane.showMessageDialog(null, "HE ENCONTRADO FICHA Y CASILLA");
-                } else {
-                    if (this.isJugadaEncontradaColumnas(i)) {
+        System.out.println(this.controladorEstructura.getEstructuraFilas().size());
+        System.out.println(this.controladorEstructura.getEstructuraFilas().size());
+        if (this.controladorEstructura.getEstructuraFilas().isEmpty() && this.controladorEstructura.getEstructuraFilas().isEmpty()) {
+            System.out.println("NO HAY FICHAS EN EL TABLERO");
+            this.iniciarPartida();
+        }else{
+            //  System.out.println("HAY FICHAS EN EL TABLERO PERO NO SÉ POR QUÉ");
+            for (int i = 5; i > 0; i--) {
+
+                if (this.casilla == null) {
+                    if (this.isJugadaEncontradaFilas(i)) {
                         // JOptionPane.showMessageDialog(null, "HE ENCONTRADO FICHA Y CASILLA");
+                    } else {
+                        if (this.isJugadaEncontradaColumnas(i)) {
+                            // JOptionPane.showMessageDialog(null, "HE ENCONTRADO FICHA Y CASILLA");
+                        }
                     }
+                } else {
+                    break;
                 }
-            } else {
-                break;
             }
         }
+    }
+
+    public void iniciarPartida() {
+        this.setFichaSeleccionada(this.fichas.get(0));
+        this.casilla = new Casilla(10, 10);
     }
 
     public boolean isJugadaEncontradaFilas(int i) throws Exception {

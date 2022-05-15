@@ -238,10 +238,15 @@ public class Juego {
         }
     }
 
-    public void moverBot() throws Exception {
+    public void moverBot(int iterador) throws Exception {
         this.jugadores[numeroJugadorEnTurno].setFichaSeleccionada(null);
         //System.out.println("LA ULTIMA JUGADA ES: " + this.controladorEstructura.getUltimaJugada().toString());
-        ((Bot) this.jugadores[numeroJugadorEnTurno]).iniciar((ControladorEstructura) this.controladorEstructura.clone());
+        if (this.controladorEstructura == null){
+            ((Bot) this.jugadores[numeroJugadorEnTurno]).iniciarPartida();
+           ((Bot) this.jugadores[numeroJugadorEnTurno]).setCasilla(this.tablero.casilla[10][10]);
+        }else{
+            ((Bot) this.jugadores[numeroJugadorEnTurno]).iniciar((ControladorEstructura) this.controladorEstructura.clone(), iterador);
+        }
         if (((Bot) this.jugadores[numeroJugadorEnTurno]).getCasilla() != null) {
             // this.controladorEstructura.imprimirEstructuras();
             this.isMovimientoValido(((Bot) this.jugadores[numeroJugadorEnTurno]).getCasilla());

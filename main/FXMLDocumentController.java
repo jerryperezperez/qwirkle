@@ -1117,12 +1117,7 @@ public class FXMLDocumentController {
             this.listaJugadores.add((String) cadena);
         }
 
-        try {
-            this.juego = new Juego(this.listaJugadores);
-        } catch (Exception e) {
-            e.printStackTrace();
-            System.out.println("NO HAE JUEGO");
-        }
+
         this.arregloImageView = new ImageView[]{ficha_n1, ficha_n2, ficha_n3,
                 ficha_n4, ficha_n5, ficha_n6};
         this.arregloImageViewCambio = new ImageView[]{ficha_cambio_n1, ficha_cambio_n2, ficha_cambio_n3, ficha_cambio_n4,
@@ -1149,7 +1144,20 @@ public class FXMLDocumentController {
                         {casilla_16_0, casilla_16_1, casilla_16_2, casilla_16_3, casilla_16_4, casilla_16_5, casilla_16_6, casilla_16_7, casilla_16_8, casilla_16_9, casilla_16_10, casilla_16_11, casilla_16_12, casilla_16_13, casilla_16_14, casilla_16_15, casilla_16_16, casilla_16_17},
                         {casilla_17_1, casilla_17_2, casilla_17_3, casilla_17_4, casilla_17_5, casilla_17_6, casilla_17_7, casilla_17_8, casilla_17_9, casilla_17_10, casilla_17_11, casilla_17_12, casilla_17_13, casilla_17_14, casilla_17_15, casilla_17_16, casilla_17_17}};
 
-        this.actualizarFichasTablero();
+
+
+        /*try {
+            this.juego = new Juego(this.listaJugadores);
+            if (this.juego.getJugadorEnTurno() instanceof Bot) {
+
+                this.turnarBot();
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println("NO HAE JUEGO");
+        }
+        this.actualizarFichasTablero();*/
 
     }
 
@@ -1258,39 +1266,39 @@ public class FXMLDocumentController {
         }
     }
 
-    private void turnarBot(){
+    private void turnarBot() throws Exception {
+        JOptionPane.showMessageDialog(null, "ES TURNO DEL BOT");
+        for (int i = 0; i < 6; i++) {
+            try {
+                this.juego.moverBot(i);
+                this.resaltarUltimaFicha();
+            } catch (Exception e) {
+                System.out.println("YA NO PUEDE O DEBE PONER MÁS");
 
+            }
+        }
+        this.terminarTurno();
     }
 
     @FXML
     private void terminarTurno() throws Exception {
-        this.juego.terminarTurno();
         this.borrarResaltado();
+
+
+        this.juego.terminarTurno();
         this.actualizarPuntos();
+        this.actualizarFichasTablero();
+        this.actualizarFichasEnCambio();
+        this.pintarTablero();
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setContentText("SE HA CAMBIADO AL JUGADOR " + (this.juego.getNumeroJugadorEnTurno() + 1));
         alert.showAndWait();
-        this.juego.limpiarControladorEstructura();
-        this.pintarTablero();
-        if (this.juego.getJugadorEnTurno() instanceof Bot) {
-            JOptionPane.showMessageDialog(null, "ES TURNO DEL BOT");
-            for (int i = 0; i < 6; i++) {
-                try {
-                    this.juego.moverBot();
-                    this.resaltarUltimaFicha();
-                } catch (Exception e) {
-                    System.out.println("YA NO PUEDE O DEBE PONER MÁS");
 
-                }
-            }
-            this.juego.terminarTurno();
-            // this.juego.terminarTurno();
-            this.juego.limpiarControladorEstructura();
-            this.pintarTablero();
+
+        if (this.juego.getJugadorEnTurno() instanceof Bot) {
+            this.turnarBot();
         }
-        this.actualizarFichasTablero();
-        this.actualizarPuntos();
-        this.actualizarFichasEnCambio();
+
 
     }
 

@@ -9,6 +9,7 @@ import java.util.Stack;
 public abstract class Bot extends Jugador {
     protected ControladorEstructura controladorEstructura;
     protected Casilla casilla;
+    protected int iterador;
     //   private ArrayList<Nodo> arregloNodos;
     // Algoritmo algoritmo;
 
@@ -18,7 +19,7 @@ public abstract class Bot extends Jugador {
 //TODO Hacer clase Bot abstarcta y crear clase específica para el bot
     //public abstract void  emplearEstrategia();
 
-    public void iniciar(ControladorEstructura controlador) throws Exception {
+    public void iniciar(ControladorEstructura controlador, int iterador) throws Exception {
         // this.jugadaLista = false;
         this.casilla = null;
 
@@ -47,7 +48,12 @@ public abstract class Bot extends Jugador {
 
     }
 
+    public void setCasilla(Casilla casilla) {
+        this.casilla = casilla;
+    }
+
     public abstract void analizarEstrategia() throws Exception;
+    public abstract void iniciarPartida();
 
     public Casilla getCasilla() {
         return casilla;

@@ -67,27 +67,22 @@ public class FXMLPrincipalController implements Initializable {
 
     @FXML
     public void eventoJugar(MouseEvent mouseEvent) throws IOException {
-        if (!(this.listaJugadores.getItems().get(0).equals("Jugador Humano"))) {
-            JOptionPane.showMessageDialog(null, "NO puede empezar un bot");
-        } else {
-
-            Node source = (Node) mouseEvent.getSource();     //Me devuelve el elemento al que hice click
-            Stage stage2 = (Stage) source.getScene().getWindow();    //Me devuelve la ventana donde se encuentra el elemento
-            stage2.close();
-
-            FXMLLoader fxmlLoader = new FXMLLoader();
-            fxmlLoader.setLocation(getClass().getResource("FXMLDocument.fxml"));
-
-            Scene scene = new Scene(fxmlLoader.load());
-            Stage stage = new Stage();
-            stage.setScene(scene);
-            stage.initModality(Modality.APPLICATION_MODAL);
-            FXMLDocumentController controlador = (FXMLDocumentController) fxmlLoader.getController();
-            controlador.setJugadores(this.listaJugadores);
-            stage.showAndWait();
 
 
-        }
+        Node source = (Node) mouseEvent.getSource();     //Me devuelve el elemento al que hice click
+        Stage stage2 = (Stage) source.getScene().getWindow();    //Me devuelve la ventana donde se encuentra el elemento
+        stage2.close();
+
+        FXMLLoader fxmlLoader = new FXMLLoader();
+        fxmlLoader.setLocation(getClass().getResource("FXMLDocument.fxml"));
+
+        Scene scene = new Scene(fxmlLoader.load());
+        Stage stage = new Stage();
+        stage.setScene(scene);
+        stage.initModality(Modality.APPLICATION_MODAL);
+        FXMLDocumentController controlador = (FXMLDocumentController) fxmlLoader.getController();
+        controlador.setJugadores(this.listaJugadores);
+        stage.showAndWait();
 
 
     }
