@@ -26,7 +26,7 @@ import javafx.scene.paint.Color;
 
 import javax.swing.*;
 
-public class FXMLDocumentController implements Initializable {
+public class FXMLDocumentController {
 
     @FXML
     private Label label;
@@ -1112,10 +1112,45 @@ public class FXMLDocumentController implements Initializable {
     }
 
     public void setJugadores(ListView listView) {
-        System.out.println("LOS DATOS LLEGAN");
+        this.listaJugadores = new ArrayList<>();
         for (Object cadena : listView.getItems()) {
             this.listaJugadores.add((String) cadena);
         }
+
+        try {
+            this.juego = new Juego(this.listaJugadores);
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println("NO HAE JUEGO");
+        }
+        this.arregloImageView = new ImageView[]{ficha_n1, ficha_n2, ficha_n3,
+                ficha_n4, ficha_n5, ficha_n6};
+        this.arregloImageViewCambio = new ImageView[]{ficha_cambio_n1, ficha_cambio_n2, ficha_cambio_n3, ficha_cambio_n4,
+                ficha_cambio_n5, ficha_cambio_n6};
+        this.arregloPuntosJugador = new Label[]{pj1, pj2, pj3, pj4};
+
+        this.arregloImageViewTablero = new ImageView[][]
+                {{casilla_0_0, casilla_0_1, casilla_0_2, casilla_0_3, casilla_0_4, casilla_0_5, casilla_0_6, casilla_0_7, casilla_0_8, casilla_0_9, casilla_0_10, casilla_0_11, casilla_0_12, casilla_0_13, casilla_0_14, casilla_0_15, casilla_0_16, casilla_0_17},
+                        {casilla_1_0, casilla_1_1, casilla_1_2, casilla_1_3, casilla_1_4, casilla_1_5, casilla_1_6, casilla_1_7, casilla_1_8, casilla_1_9, casilla_1_10, casilla_1_11, casilla_1_12, casilla_1_13, casilla_1_14, casilla_1_15, casilla_1_16, casilla_1_17},
+                        {casilla_2_0, casilla_2_1, casilla_2_2, casilla_2_3, casilla_2_4, casilla_2_5, casilla_2_6, casilla_2_7, casilla_2_8, casilla_2_9, casilla_2_10, casilla_2_11, casilla_2_12, casilla_2_13, casilla_2_14, casilla_2_15, casilla_2_16, casilla_2_17},
+                        {casilla_3_0, casilla_3_1, casilla_3_2, casilla_3_3, casilla_3_4, casilla_3_5, casilla_3_6, casilla_3_7, casilla_3_8, casilla_3_9, casilla_3_10, casilla_3_11, casilla_3_12, casilla_3_13, casilla_3_14, casilla_3_15, casilla_3_16, casilla_3_17},
+                        {casilla_4_0, casilla_4_1, casilla_4_2, casilla_4_3, casilla_4_4, casilla_4_5, casilla_4_6, casilla_4_7, casilla_4_8, casilla_4_9, casilla_4_10, casilla_4_11, casilla_4_12, casilla_4_13, casilla_4_14, casilla_4_15, casilla_4_16, casilla_4_17},
+                        {casilla_5_0, casilla_5_1, casilla_5_2, casilla_5_3, casilla_5_4, casilla_5_5, casilla_5_6, casilla_5_7, casilla_5_8, casilla_5_9, casilla_5_10, casilla_5_11, casilla_5_12, casilla_5_13, casilla_5_14, casilla_5_15, casilla_5_16, casilla_5_17},
+                        {casilla_6_0, casilla_6_1, casilla_6_2, casilla_6_3, casilla_6_4, casilla_6_5, casilla_6_6, casilla_6_7, casilla_6_8, casilla_6_9, casilla_6_10, casilla_6_11, casilla_6_12, casilla_6_13, casilla_6_14, casilla_6_15, casilla_6_16, casilla_6_17},
+                        {casilla_7_0, casilla_7_1, casilla_7_2, casilla_7_3, casilla_7_4, casilla_7_5, casilla_7_6, casilla_7_7, casilla_7_8, casilla_7_9, casilla_7_10, casilla_7_11, casilla_7_12, casilla_7_13, casilla_7_14, casilla_7_15, casilla_7_16, casilla_7_17},
+                        {casilla_8_0, casilla_8_1, casilla_8_2, casilla_8_3, casilla_8_4, casilla_8_5, casilla_8_6, casilla_8_7, casilla_8_8, casilla_8_9, casilla_8_10, casilla_8_11, casilla_8_12, casilla_8_13, casilla_8_14, casilla_8_15, casilla_8_16, casilla_8_17},
+                        {casilla_9_0, casilla_9_1, casilla_9_2, casilla_9_3, casilla_9_4, casilla_9_5, casilla_9_6, casilla_9_7, casilla_9_8, casilla_9_9, casilla_9_10, casilla_9_11, casilla_9_12, casilla_9_13, casilla_9_14, casilla_9_15, casilla_9_16, casilla_9_17},
+                        {casilla_10_0, casilla_10_1, casilla_10_2, casilla_10_3, casilla_10_4, casilla_10_5, casilla_10_6, casilla_10_7, casilla_10_8, casilla_10_9, casilla_10_10, casilla_10_11, casilla_10_12, casilla_10_13, casilla_10_14, casilla_10_15, casilla_10_16, casilla_10_17},
+                        {casilla_11_0, casilla_11_1, casilla_11_2, casilla_11_3, casilla_11_4, casilla_11_5, casilla_11_6, casilla_11_7, casilla_11_8, casilla_11_9, casilla_11_10, casilla_11_11, casilla_11_12, casilla_11_13, casilla_11_14, casilla_11_15, casilla_11_16, casilla_11_17},
+                        {casilla_12_0, casilla_12_1, casilla_12_2, casilla_12_3, casilla_12_4, casilla_12_5, casilla_12_6, casilla_12_7, casilla_12_8, casilla_12_9, casilla_12_10, casilla_12_11, casilla_12_12, casilla_12_13, casilla_12_14, casilla_12_15, casilla_12_16, casilla_12_17},
+                        {casilla_13_0, casilla_13_1, casilla_13_2, casilla_13_3, casilla_13_4, casilla_13_5, casilla_13_6, casilla_13_7, casilla_13_8, casilla_13_9, casilla_13_10, casilla_13_11, casilla_13_12, casilla_13_13, casilla_13_14, casilla_13_15, casilla_13_16, casilla_13_17},
+                        {casilla_14_0, casilla_14_1, casilla_14_2, casilla_14_3, casilla_14_4, casilla_14_5, casilla_14_6, casilla_14_7, casilla_14_8, casilla_14_9, casilla_14_10, casilla_14_11, casilla_14_12, casilla_14_13, casilla_14_14, casilla_14_15, casilla_14_16, casilla_14_17},
+                        {casilla_15_0, casilla_15_1, casilla_15_2, casilla_15_3, casilla_15_4, casilla_15_5, casilla_15_6, casilla_15_7, casilla_15_8, casilla_15_9, casilla_15_10, casilla_15_11, casilla_15_12, casilla_15_13, casilla_15_14, casilla_15_15, casilla_15_16, casilla_15_17},
+                        {casilla_16_0, casilla_16_1, casilla_16_2, casilla_16_3, casilla_16_4, casilla_16_5, casilla_16_6, casilla_16_7, casilla_16_8, casilla_16_9, casilla_16_10, casilla_16_11, casilla_16_12, casilla_16_13, casilla_16_14, casilla_16_15, casilla_16_16, casilla_16_17},
+                        {casilla_17_1, casilla_17_2, casilla_17_3, casilla_17_4, casilla_17_5, casilla_17_6, casilla_17_7, casilla_17_8, casilla_17_9, casilla_17_10, casilla_17_11, casilla_17_12, casilla_17_13, casilla_17_14, casilla_17_15, casilla_17_16, casilla_17_17}};
+
+        this.actualizarFichasTablero();
+
     }
 
     @FXML
@@ -1271,14 +1306,15 @@ public class FXMLDocumentController implements Initializable {
 
     }
 
-    @Override
+    /*@Override
     public void initialize(URL url, ResourceBundle rb) {
 
         this.listaJugadores = new ArrayList<>();
         try {
-            this.juego = new Juego(2);
+            this.juego = new Juego(this.listaJugadores);
         } catch (Exception e) {
             e.printStackTrace();
+            System.out.println("NO HAE JUEGO");
         }
         this.arregloImageView = new ImageView[]{ficha_n1, ficha_n2, ficha_n3,
                 ficha_n4, ficha_n5, ficha_n6};
@@ -1307,6 +1343,6 @@ public class FXMLDocumentController implements Initializable {
                         {casilla_17_1, casilla_17_2, casilla_17_3, casilla_17_4, casilla_17_5, casilla_17_6, casilla_17_7, casilla_17_8, casilla_17_9, casilla_17_10, casilla_17_11, casilla_17_12, casilla_17_13, casilla_17_14, casilla_17_15, casilla_17_16, casilla_17_17}};
 
         this.actualizarFichasTablero();
-    }
+    }*/
 
 }

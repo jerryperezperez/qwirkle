@@ -1,6 +1,7 @@
 package Model;
 
 import com.sun.org.apache.bcel.internal.generic.IF_ACMPEQ;
+import com.sun.scenario.effect.impl.sw.sse.SSEBlend_SRC_OUTPeer;
 
 import javax.swing.*;
 import java.util.ArrayList;
@@ -32,14 +33,37 @@ public class Juego {
         // this.regla = new Regla(this.bolsa, this.tablero);
 
 //creador de jugadores. TODO para crear métodos instanciadores como crearJugadores
-        for (int i = 0; i < jugadores.length - 1; i++) {
+
+        this.crearJugadores(listaJugadores);
+        /*for (int i = 0; i < jugadores.length - 1; i++) {
             jugadores[i] = new Jugador();
-        }
-       // this.jugadores[this.jugadores.length - 1] = new Bot();
+        }*/
+        // this.jugadores[this.jugadores.length - 1] = new Bot();
 
         this.asignarFichas();
-        for (Ficha ficha : this.jugadores[this.jugadores.length - 1].getArregloFichas()) {
+       /* for (Ficha ficha : this.jugadores[this.jugadores.length - 1].getArregloFichas()) {
             System.out.println(ficha.toString());
+        }*/
+    }
+
+    private void crearJugadores(ArrayList<String> listaJugadores) {
+        for (int i = 0; i < listaJugadores.size(); i++) {
+            System.out.println(listaJugadores.get(i));
+            switch (listaJugadores.get(i)) {
+                case "Jugador Humano":
+                    System.out.println("ENTRA A  CREAR JUGADOR");
+                    this.jugadores[i] = new Jugador();
+                    break;
+                case "BotEquipo5":
+                    this.jugadores[i] = new Bot();
+                    break;
+                case "BotEquipo6":
+                    break;
+                case "BotEquipo7":
+                    break;
+                case "BotEquipo5Avanzado":
+                    break;
+            }
         }
     }
 
