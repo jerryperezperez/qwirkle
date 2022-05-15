@@ -1258,9 +1258,12 @@ public class FXMLDocumentController {
         }
     }
 
+    private void turnarBot(){
+
+    }
+
     @FXML
     private void terminarTurno() throws Exception {
-
         this.juego.terminarTurno();
         this.borrarResaltado();
         this.actualizarPuntos();

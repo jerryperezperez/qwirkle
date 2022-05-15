@@ -32,36 +32,6 @@ public class Qwirkle2 {
         arreglo.add(cola);
 
 
-        for (LinkedList<String> colita : arreglo) {
-            System.out.println("IMPRESION PRIMERA COLA");
-            for (String elemento : colita) {
-                System.out.println(elemento);
-            }
-        }
-        System.out.println("Recorrer por la izquierda, ultimo elemento");
-        for (LinkedList<String> colita : arreglo) {
-            if (colita.getLast().equals("d")) {
-                System.out.println("encontró estructura a la izquierda");
-                System.out.println("Retonar estructura.Casi imposible que no encuentre la estructura");
-            }
-        }
-
-        System.out.println("Recorrer por la derecha, primer elemento");
-        for (LinkedList<String> colita : arreglo) {
-            if (colita.getFirst().equals("a")) {
-                System.out.println("encontró estructura a la derecha");
-                System.out.println("Retonar estructura.Casi imposible que no encuentre la estructura");
-            }
-        }
-        cola2.add("c");
-        cola2.addAll(arreglo.remove(arreglo.indexOf(cola)));
-
-        for (LinkedList<String> colita : arreglo) {
-            System.out.println("IMPRESION PRIMERA COLA");
-            for (String elemento : colita) {
-                System.out.println(elemento);
-            }
-        }
 
     }
 

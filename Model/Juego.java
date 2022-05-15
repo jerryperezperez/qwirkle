@@ -54,8 +54,9 @@ public class Juego {
                     System.out.println("ENTRA A  CREAR JUGADOR");
                     this.jugadores[i] = new Jugador();
                     break;
-                case "BotEquipo5":
-                    this.jugadores[i] = new Bot();
+                case "Bot Equipo 5":
+                    System.out.println("ENTRA A  CREAR JUGADOR");
+                    this.jugadores[i] = new BotEquipo5();
                     break;
                 case "BotEquipo6":
                     break;
@@ -243,7 +244,6 @@ public class Juego {
         ((Bot) this.jugadores[numeroJugadorEnTurno]).iniciar((ControladorEstructura) this.controladorEstructura.clone());
         if (((Bot) this.jugadores[numeroJugadorEnTurno]).getCasilla() != null) {
             // this.controladorEstructura.imprimirEstructuras();
-
             this.isMovimientoValido(((Bot) this.jugadores[numeroJugadorEnTurno]).getCasilla());
 
         }
