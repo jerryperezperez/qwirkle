@@ -9,7 +9,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.function.Consumer;
 
-public class Juego {
+public class Juego extends Thread {
 
     private Bolsa bolsa;
     private Tablero tablero;
@@ -60,7 +60,8 @@ public class Juego {
                     break;
                 case "BotEquipo6":
                     break;
-                case "BotEquipo7":
+                case "Bot Equipo 7":
+                    this.jugadores[i] = new BotEquipo7();
                     break;
                 case "BotEquipo5Avanzado":
                     break;
@@ -78,6 +79,11 @@ public class Juego {
 
     public void agregarFichaCambio(Ficha ficha) {
         this.fichasTramitadas.add(ficha);
+    }
+
+    public void agregarFichaCambio(ArrayList<Ficha> arreglo) {
+        System.out.println("SE AGREGAN FICAHS DE CAMBIO");
+        this.fichasTramitadas.addAll(arreglo);
     }
 
     public boolean isFichaEncambio() {
@@ -222,6 +228,7 @@ public class Juego {
         }
         this.cambiarJugador();
         this.fichaEncambio = false;
+        this.fichasTramitadas.clear();
     }
 
     public void limpiarControladorEstructura() {
@@ -241,10 +248,10 @@ public class Juego {
     public void moverBot(int iterador) throws Exception {
         this.jugadores[numeroJugadorEnTurno].setFichaSeleccionada(null);
         //System.out.println("LA ULTIMA JUGADA ES: " + this.controladorEstructura.getUltimaJugada().toString());
-        if (this.controladorEstructura == null){
+        if (this.controladorEstructura == null) {
             ((Bot) this.jugadores[numeroJugadorEnTurno]).iniciarPartida();
-           ((Bot) this.jugadores[numeroJugadorEnTurno]).setCasilla(this.tablero.casilla[10][10]);
-        }else{
+            ((Bot) this.jugadores[numeroJugadorEnTurno]).setCasilla(this.tablero.casilla[10][10]);
+        } else {
             ((Bot) this.jugadores[numeroJugadorEnTurno]).iniciar((ControladorEstructura) this.controladorEstructura.clone(), iterador);
         }
         if (((Bot) this.jugadores[numeroJugadorEnTurno]).getCasilla() != null) {
@@ -256,5 +263,10 @@ public class Juego {
 
     public int getNumeroJugadorEnTurno() {
         return numeroJugadorEnTurno;
+    }
+
+    @Override
+    public void run() {
+
     }
 }

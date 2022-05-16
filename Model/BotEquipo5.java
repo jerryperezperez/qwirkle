@@ -11,12 +11,17 @@ public class BotEquipo5 extends Bot {
 
     @Override
     public void analizarEstrategia() throws Exception {
-        System.out.println(this.controladorEstructura.getEstructuraFilas().size());
-        System.out.println(this.controladorEstructura.getEstructuraFilas().size());
+        this.controladorEstructura.getEstructuraColumnas().sort(new Comparator<Estructura>() {
+            @Override
+            public int compare(Estructura o1, Estructura o2) {
+                return o2.getCola().size() - o1.getCola().size();
+            }
+        });
+
         if (this.controladorEstructura.getEstructuraFilas().isEmpty() && this.controladorEstructura.getEstructuraFilas().isEmpty()) {
             System.out.println("NO HAY FICHAS EN EL TABLERO");
             this.iniciarPartida();
-        }else{
+        } else {
             //  System.out.println("HAY FICHAS EN EL TABLERO PERO NO SÉ POR QUÉ");
             for (int i = 5; i > 0; i--) {
 
@@ -40,6 +45,15 @@ public class BotEquipo5 extends Bot {
         this.casilla = new Casilla(10, 10);
     }
 
+    @Override
+    public ArrayList<Ficha> cambiarFichas() {
+        ArrayList<Ficha> arregloCambioFichas = new ArrayList<>();
+        arregloCambioFichas.add(this.fichas.get(0));
+        arregloCambioFichas.add(this.fichas.get(2));
+        arregloCambioFichas.add(this.fichas.get(5));
+        return arregloCambioFichas;
+    }
+
     public boolean isJugadaEncontradaFilas(int i) throws Exception {
         for (Estructura fila : this.controladorEstructura.getEstructuraFilas()) {
             if (fila.getCola().size() == i) {
@@ -54,7 +68,6 @@ public class BotEquipo5 extends Bot {
                                 return true;
                             } catch (Exception e) {
                                 //   e.printStackTrace();
-                                System.out.println("revienta el juegoooo");
                             }
                         } else {
                             if (fila.getCola().getFirst().getCasillaIzquierda() != null) {
@@ -67,7 +80,6 @@ public class BotEquipo5 extends Bot {
                                     return true;
                                 } catch (Exception e) {
                                     //    e.printStackTrace();
-                                    System.out.println("revienta el juegoooo");
                                 }
                             }
 
@@ -95,7 +107,6 @@ public class BotEquipo5 extends Bot {
                                 return true;
                             } catch (Exception e) {
                                 // e.printStackTrace();
-                                System.out.println("revienta el juegoooo");
                             }
                         } else {
                             if (columna.getCola().getFirst().getCasillaSuperior() != null) {
@@ -109,12 +120,10 @@ public class BotEquipo5 extends Bot {
                                     return true;
                                 } catch (Exception e) {
                                     //   e.printStackTrace();
-                                    System.out.println("revienta el juegoooo");
                                 }
                             }
                         }
                     }
-
                 }
             }
         }

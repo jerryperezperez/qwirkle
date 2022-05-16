@@ -10,28 +10,29 @@ public abstract class Bot extends Jugador {
     protected ControladorEstructura controladorEstructura;
     protected Casilla casilla;
     protected int iterador;
+    private ArrayList<Ficha> arregloCambioFichas;
+    protected boolean cambioFichaDisponible = true;
     //   private ArrayList<Nodo> arregloNodos;
     // Algoritmo algoritmo;
 
-    //public Bot() {
-    //  arregloNodos = new ArrayList<>();
-//}
+    public Bot() {
+        arregloCambioFichas = new ArrayList<>();
+        //  arregloNodos = new ArrayList<>();
+    }
 //TODO Hacer clase Bot abstarcta y crear clase específica para el bot
     //public abstract void  emplearEstrategia();
 
     public void iniciar(ControladorEstructura controlador, int iterador) throws Exception {
         // this.jugadaLista = false;
         this.casilla = null;
+        this.iterador = iterador;
 
+        if (iterador == 0) {
+            this.cambioFichaDisponible = true;
+        }
         this.controladorEstructura = new ControladorEstructura(controlador);
         this.analizarEstrategia();
-        this.controladorEstructura.getEstructuraColumnas().sort(new Comparator<Estructura>() {
-            @Override
-            public int compare(Estructura o1, Estructura o2) {
-                return o2.getCola().size() - o1.getCola().size();
-            }
-        });
-        this.analizarEstrategia();
+
     /*    if (casilla == null && this.arregloNodos.isEmpty()) {
             Nodo nodo = new Nodo(this.controladorEstructura, this.getFichas2());
             Algoritmo algoritmo = new Algoritmo(nodo);
@@ -48,16 +49,23 @@ public abstract class Bot extends Jugador {
 
     }
 
+    public boolean isCambioFichaDisponible() {
+        return cambioFichaDisponible;
+    }
+
     public void setCasilla(Casilla casilla) {
         this.casilla = casilla;
     }
 
     public abstract void analizarEstrategia() throws Exception;
+
     public abstract void iniciarPartida();
 
     public Casilla getCasilla() {
         return casilla;
     }
+
+    public abstract ArrayList<Ficha>  cambiarFichas();
 
 
 }

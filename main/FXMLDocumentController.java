@@ -1145,9 +1145,10 @@ public class FXMLDocumentController {
                         {casilla_17_1, casilla_17_2, casilla_17_3, casilla_17_4, casilla_17_5, casilla_17_6, casilla_17_7, casilla_17_8, casilla_17_9, casilla_17_10, casilla_17_11, casilla_17_12, casilla_17_13, casilla_17_14, casilla_17_15, casilla_17_16, casilla_17_17}};
 
 
+        try {
 
-        /*try {
             this.juego = new Juego(this.listaJugadores);
+            // this.juego.start();
             if (this.juego.getJugadorEnTurno() instanceof Bot) {
 
                 this.turnarBot();
@@ -1157,7 +1158,7 @@ public class FXMLDocumentController {
             e.printStackTrace();
             System.out.println("NO HAE JUEGO");
         }
-        this.actualizarFichasTablero();*/
+        this.actualizarFichasTablero();
 
     }
 
@@ -1268,8 +1269,12 @@ public class FXMLDocumentController {
 
     private void turnarBot() throws Exception {
         JOptionPane.showMessageDialog(null, "ES TURNO DEL BOT");
+        for (Ficha ficha: this.juego.getJugadorEnTurno().fichas) {
+            System.out.println(ficha.toString());
+        }
         for (int i = 0; i < 6; i++) {
             try {
+
                 this.juego.moverBot(i);
                 this.resaltarUltimaFicha();
             } catch (Exception e) {
@@ -1277,14 +1282,16 @@ public class FXMLDocumentController {
 
             }
         }
+        if ( ((Bot) this.juego.getJugadorEnTurno()).isCambioFichaDisponible()){
+            System.out.println("DEBERÍA CAMBIAR LAS FICHAS");
+            this.juego.agregarFichaCambio(((Bot) this.juego.getJugadorEnTurno()).cambiarFichas());
+        }
         this.terminarTurno();
     }
 
     @FXML
     private void terminarTurno() throws Exception {
         this.borrarResaltado();
-
-
         this.juego.terminarTurno();
         this.actualizarPuntos();
         this.actualizarFichasTablero();

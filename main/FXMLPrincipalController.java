@@ -1,5 +1,6 @@
 package main;
 
+import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
@@ -19,7 +20,9 @@ import javax.swing.*;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.logging.Logger;
 
+import static java.lang.Thread.sleep;
 import static javafx.fxml.FXMLLoader.getDefaultClassLoader;
 
 public class FXMLPrincipalController implements Initializable {
@@ -81,8 +84,10 @@ public class FXMLPrincipalController implements Initializable {
         stage.setScene(scene);
         stage.initModality(Modality.APPLICATION_MODAL);
         FXMLDocumentController controlador = (FXMLDocumentController) fxmlLoader.getController();
+        stage.show();
         controlador.setJugadores(this.listaJugadores);
-        stage.showAndWait();
+
+
 
 
     }
