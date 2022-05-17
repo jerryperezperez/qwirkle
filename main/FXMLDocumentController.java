@@ -1125,7 +1125,7 @@ public class FXMLDocumentController {
         this.arregloPuntosJugador = new Label[]{pj1, pj2, pj3, pj4};
 
         this.arregloImageViewTablero = new ImageView[][]
-                {{casilla_0_0, casilla_0_1, casilla_0_2, casilla_0_3, casilla_0_4, casilla_0_5, casilla_0_6, casilla_0_7, casilla_0_8, casilla_0_9, casilla_0_10, casilla_0_11, casilla_0_12, casilla_0_13, casilla_0_14, casilla_0_15, casilla_0_16, casilla_0_17},
+                       {{casilla_0_0, casilla_0_1, casilla_0_2, casilla_0_3, casilla_0_4, casilla_0_5, casilla_0_6, casilla_0_7, casilla_0_8, casilla_0_9, casilla_0_10, casilla_0_11, casilla_0_12, casilla_0_13, casilla_0_14, casilla_0_15, casilla_0_16, casilla_0_17},
                         {casilla_1_0, casilla_1_1, casilla_1_2, casilla_1_3, casilla_1_4, casilla_1_5, casilla_1_6, casilla_1_7, casilla_1_8, casilla_1_9, casilla_1_10, casilla_1_11, casilla_1_12, casilla_1_13, casilla_1_14, casilla_1_15, casilla_1_16, casilla_1_17},
                         {casilla_2_0, casilla_2_1, casilla_2_2, casilla_2_3, casilla_2_4, casilla_2_5, casilla_2_6, casilla_2_7, casilla_2_8, casilla_2_9, casilla_2_10, casilla_2_11, casilla_2_12, casilla_2_13, casilla_2_14, casilla_2_15, casilla_2_16, casilla_2_17},
                         {casilla_3_0, casilla_3_1, casilla_3_2, casilla_3_3, casilla_3_4, casilla_3_5, casilla_3_6, casilla_3_7, casilla_3_8, casilla_3_9, casilla_3_10, casilla_3_11, casilla_3_12, casilla_3_13, casilla_3_14, casilla_3_15, casilla_3_16, casilla_3_17},
@@ -1142,8 +1142,7 @@ public class FXMLDocumentController {
                         {casilla_14_0, casilla_14_1, casilla_14_2, casilla_14_3, casilla_14_4, casilla_14_5, casilla_14_6, casilla_14_7, casilla_14_8, casilla_14_9, casilla_14_10, casilla_14_11, casilla_14_12, casilla_14_13, casilla_14_14, casilla_14_15, casilla_14_16, casilla_14_17},
                         {casilla_15_0, casilla_15_1, casilla_15_2, casilla_15_3, casilla_15_4, casilla_15_5, casilla_15_6, casilla_15_7, casilla_15_8, casilla_15_9, casilla_15_10, casilla_15_11, casilla_15_12, casilla_15_13, casilla_15_14, casilla_15_15, casilla_15_16, casilla_15_17},
                         {casilla_16_0, casilla_16_1, casilla_16_2, casilla_16_3, casilla_16_4, casilla_16_5, casilla_16_6, casilla_16_7, casilla_16_8, casilla_16_9, casilla_16_10, casilla_16_11, casilla_16_12, casilla_16_13, casilla_16_14, casilla_16_15, casilla_16_16, casilla_16_17},
-                        {casilla_17_1, casilla_17_2, casilla_17_3, casilla_17_4, casilla_17_5, casilla_17_6, casilla_17_7, casilla_17_8, casilla_17_9, casilla_17_10, casilla_17_11, casilla_17_12, casilla_17_13, casilla_17_14, casilla_17_15, casilla_17_16, casilla_17_17}};
-
+                        {casilla_17_0, casilla_17_1, casilla_17_2, casilla_17_3, casilla_17_4, casilla_17_5, casilla_17_6, casilla_17_7, casilla_17_8, casilla_17_9, casilla_17_10, casilla_17_11, casilla_17_12, casilla_17_13, casilla_17_14, casilla_17_15, casilla_17_16, casilla_17_17}};
 
         try {
 
@@ -1203,7 +1202,7 @@ public class FXMLDocumentController {
                                     this.juego.getTablero().casilla[x][y].setFicha(this.juego.getJugadorEnTurno().getFichaSeleccionada());
                                     //TODO LÍNEA PARA VER CUÁLES FUERON LAS ÚLTIMAS FICHAS PUESTAS, PERO HACE FALTA CREAR MÉTODO QUE ELIMINE EL EFECTO
                                     // ((ImageView) (event.getSource())).setOpacity(.3);
-                                    //DESCOMENTAR SI SE AFECTA CON LA PARTE DE JUEGO
+                                    // DESCOMENTAR SI SE AFECTA CON LA PARTE DE JUEGO
                                     this.juego.getJugadorEnTurno().removerFicha(this.juego.getJugadorEnTurno().getFichaSeleccionada());
                                     juego.getJugadorEnTurno().setFichaSeleccionada(null);
                                     opacidad();
@@ -1215,7 +1214,9 @@ public class FXMLDocumentController {
                         }
                     }
                 } else {
-                    JOptionPane.showMessageDialog(null, "NO HAS SELECCIONADO ALGUNA FICHA");
+                    Alert alert2 = new Alert(Alert.AlertType.INFORMATION);
+                    alert2.setContentText("NO HAS SELECCIONADO ALGUNA FICHA");
+                    alert2.showAndWait();
                 }
             } catch (Exception e) {
                 System.out.println(e.toString());
@@ -1238,13 +1239,17 @@ public class FXMLDocumentController {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setContentText("SE HA CAMBIADO AL JUGADOR " + (this.juego.getNumeroJugadorEnTurno() + 1));
             alert.showAndWait();
-            JOptionPane.showMessageDialog(null, "YA VOY A CAMBIARLAS");
+            Alert alert2 = new Alert(Alert.AlertType.INFORMATION);
+            alert2.setContentText("YA VOY A CAMBIARLAS");
+            alert2.showAndWait();
             this.terminarTurno();
         } else {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setContentText("NO HAS SELECCIONADO FICHAS PARA CAMBIAR");
             alert.showAndWait();
-            JOptionPane.showMessageDialog(null, "NO HAS SELECCIONADO FICHAS PARA CAMBIAR");
+            Alert alert2 = new Alert(Alert.AlertType.INFORMATION);
+            alert2.setContentText("NO HAS SELECCIONADO FICHAS PARA CAMBIAR");
+            alert2.showAndWait();
         }
     }
 
@@ -1268,7 +1273,9 @@ public class FXMLDocumentController {
     }
 
     private void turnarBot() throws Exception {
-        JOptionPane.showMessageDialog(null, "ES TURNO DEL BOT");
+        Alert alert2 = new Alert(Alert.AlertType.INFORMATION);
+        alert2.setContentText("ES TURNO DEL BOT");
+        alert2.showAndWait();
         for (Ficha ficha: this.juego.getJugadorEnTurno().fichas) {
             System.out.println(ficha.toString());
         }

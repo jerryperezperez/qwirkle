@@ -71,6 +71,8 @@ public class ControladorEstructura implements Cloneable {
         return (ArrayList<Estructura>) estructuraColumnas.clone();
     }
 
+    public String getDireccion () { return this.direccion; }
+
     public void imprimirEstructuras() {
         System.out.println("IMPRIMIENDO ESTRUCTURA DE FILAS");
         for (Estructura estructuraFila : this.estructuraFilas) {

@@ -27,6 +27,9 @@ public class Estructura {
     public int getId() {
         return this.id;
     }
+    public int getID() {
+        return this.ID;
+    }
 
     public boolean addToRight(Casilla casilla, Ficha ficha) throws Exception {
         if (!this.isDuplicated(ficha)) {

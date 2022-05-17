@@ -1,7 +1,9 @@
 package Model;
 
+import Debug.DebugExt;
 import com.sun.org.apache.bcel.internal.generic.IF_ACMPEQ;
 import com.sun.scenario.effect.impl.sw.sse.SSEBlend_SRC_OUTPeer;
+import javafx.scene.control.Alert;
 
 import javax.swing.*;
 import java.util.ArrayList;
@@ -20,8 +22,9 @@ public class Juego extends Thread {
     private boolean fichaEncambio;
     private int numeroJugadorEnTurno = 0; //apunta un jugador adelante. Posible cambio a proximoNumeroJugadorEnTurno
     public Jugador jugadores[];
-
+    DebugExt debug = null;
     boolean primerMovimiento = true;
+    Thread run = null;
 
     public Juego(ArrayList<String> listaJugadores) throws Exception {//agregar como parámetro la cantidad de jugadores, esándar es de dos, a lo mejor se agregan otros
         this.bolsa = new Bolsa();
@@ -30,6 +33,17 @@ public class Juego extends Thread {
         this.jugadores = new Jugador[listaJugadores.size()];
         this.fichaEncambio = false;
         this.fichasTramitadas = new ArrayList<Ficha>();
+
+        Runnable ventana = new Runnable() {
+            @Override
+            public void run() {
+                debugger();
+            }
+        };
+
+        this.run = new Thread(ventana);
+        this.run.start();
+
         // this.regla = new Regla(this.bolsa, this.tablero);
 
 //creador de jugadores. TODO para crear métodos instanciadores como crearJugadores
@@ -44,6 +58,31 @@ public class Juego extends Thread {
        /* for (Ficha ficha : this.jugadores[this.jugadores.length - 1].getArregloFichas()) {
             System.out.println(ficha.toString());
         }*/
+    }
+
+    private void debugger ()
+    {
+        this.debug = new DebugExt(null, false);
+        this.debug.jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                try {
+                    actualizarDatos(evt);
+                }
+
+                catch (Exception err)
+                {
+                    System.out.println("Datos no existentes");
+                }
+            }
+        });
+        this.debug.setVisible(true);
+    }
+
+    private void actualizarDatos (java.awt.event.ActionEvent evt)
+    {
+        this.debug.updateDebug(this.controladorEstructura.getEstructuraFilas(), this.controladorEstructura.getEstructuraColumnas(),
+        this.controladorEstructura.getUltimasEstructurasModificadas(), this.controladorEstructura.getUltimaJugada(), this.controladorEstructura.getDireccion());
+        System.out.println("Actualizado");
     }
 
     private void crearJugadores(ArrayList<String> listaJugadores) {
@@ -219,7 +258,9 @@ public class Juego extends Thread {
             }
         } else {
             this.jugadores[this.numeroJugadorEnTurno].sumarPuntos(this.calcularPuntos(this.controladorEstructura.getUltimasEstructurasModificadas()));
-            JOptionPane.showMessageDialog(null, "PUNTOS GANADOS: " + this.calcularPuntos(this.controladorEstructura.getUltimasEstructurasModificadas()));
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setContentText("PUNTOS GANADOS: " + this.calcularPuntos(this.controladorEstructura.getUltimasEstructurasModificadas()));
+            alert.showAndWait();
 
         }
         this.limpiarControladorEstructura();
