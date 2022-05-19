@@ -27,7 +27,10 @@ import javafx.scene.paint.Color;
 import javax.swing.*;
 
 public class FXMLDocumentController {
-
+    @FXML
+    public ListView<String> listaPuntajesJugador;
+    @FXML
+    public Label labelJugadorEnTurno;
     @FXML
     private Label label;
 
@@ -1091,7 +1094,7 @@ public class FXMLDocumentController {
         for (int i = 0; i < this.juego.jugadores.length; i++) {
             //  System.out.println("actualizando al jugador : " + i);
             //System.out.println(this.juego.jugadores[i].getPuntosJugador());
-            this.arregloPuntosJugador[i].setText(this.juego.jugadores[i].getPuntosJugador() + "pts");
+           // this.arregloPuntosJugador[i].setText(this.juego.jugadores[i].getPuntosJugador() + "pts");
             // System.out.println(this.arregloPuntosJugador[i].getText());
         }
     }
@@ -1111,13 +1114,17 @@ public class FXMLDocumentController {
         }
     }
 
+    public void actualizarTablaPuntaje() {
+        for (int i = 0; i < this.juego.jugadores.length; i++) {
+            this.listaPuntajesJugador.getItems().set(i, ("Jugador " + i + ": " + this.juego.jugadores[i].getPuntosJugador() + "puntos"));
+        }
+    }
+
     public void setJugadores(ListView listView) {
         this.listaJugadores = new ArrayList<>();
         for (Object cadena : listView.getItems()) {
             this.listaJugadores.add((String) cadena);
         }
-
-
         this.arregloImageView = new ImageView[]{ficha_n1, ficha_n2, ficha_n3,
                 ficha_n4, ficha_n5, ficha_n6};
         this.arregloImageViewCambio = new ImageView[]{ficha_cambio_n1, ficha_cambio_n2, ficha_cambio_n3, ficha_cambio_n4,
@@ -1125,7 +1132,7 @@ public class FXMLDocumentController {
         this.arregloPuntosJugador = new Label[]{pj1, pj2, pj3, pj4};
 
         this.arregloImageViewTablero = new ImageView[][]
-                       {{casilla_0_0, casilla_0_1, casilla_0_2, casilla_0_3, casilla_0_4, casilla_0_5, casilla_0_6, casilla_0_7, casilla_0_8, casilla_0_9, casilla_0_10, casilla_0_11, casilla_0_12, casilla_0_13, casilla_0_14, casilla_0_15, casilla_0_16, casilla_0_17},
+                {{casilla_0_0, casilla_0_1, casilla_0_2, casilla_0_3, casilla_0_4, casilla_0_5, casilla_0_6, casilla_0_7, casilla_0_8, casilla_0_9, casilla_0_10, casilla_0_11, casilla_0_12, casilla_0_13, casilla_0_14, casilla_0_15, casilla_0_16, casilla_0_17},
                         {casilla_1_0, casilla_1_1, casilla_1_2, casilla_1_3, casilla_1_4, casilla_1_5, casilla_1_6, casilla_1_7, casilla_1_8, casilla_1_9, casilla_1_10, casilla_1_11, casilla_1_12, casilla_1_13, casilla_1_14, casilla_1_15, casilla_1_16, casilla_1_17},
                         {casilla_2_0, casilla_2_1, casilla_2_2, casilla_2_3, casilla_2_4, casilla_2_5, casilla_2_6, casilla_2_7, casilla_2_8, casilla_2_9, casilla_2_10, casilla_2_11, casilla_2_12, casilla_2_13, casilla_2_14, casilla_2_15, casilla_2_16, casilla_2_17},
                         {casilla_3_0, casilla_3_1, casilla_3_2, casilla_3_3, casilla_3_4, casilla_3_5, casilla_3_6, casilla_3_7, casilla_3_8, casilla_3_9, casilla_3_10, casilla_3_11, casilla_3_12, casilla_3_13, casilla_3_14, casilla_3_15, casilla_3_16, casilla_3_17},
@@ -1148,6 +1155,12 @@ public class FXMLDocumentController {
 
             this.juego = new Juego(this.listaJugadores);
             // this.juego.start();
+            for (int i = 0; i < this.juego.jugadores.length; i++) {
+                System.out.println("entra en juego");
+                this.listaPuntajesJugador.getItems().add("Jugador " + (i+1) + ": " + this.juego.jugadores[i].getPuntosJugador() + " puntos");
+            }
+
+            this.labelJugadorEnTurno.setText("Turno: Jugador 1");
             if (this.juego.getJugadorEnTurno() instanceof Bot) {
 
                 this.turnarBot();
@@ -1276,7 +1289,7 @@ public class FXMLDocumentController {
         Alert alert2 = new Alert(Alert.AlertType.INFORMATION);
         alert2.setContentText("ES TURNO DEL BOT");
         alert2.showAndWait();
-        for (Ficha ficha: this.juego.getJugadorEnTurno().fichas) {
+        for (Ficha ficha : this.juego.getJugadorEnTurno().fichas) {
             System.out.println(ficha.toString());
         }
         for (int i = 0; i < 6; i++) {
@@ -1289,7 +1302,7 @@ public class FXMLDocumentController {
 
             }
         }
-        if ( ((Bot) this.juego.getJugadorEnTurno()).isCambioFichaDisponible()){
+        if (((Bot) this.juego.getJugadorEnTurno()).isCambioFichaDisponible()) {
             System.out.println("DEBERÍA CAMBIAR LAS FICHAS");
             this.juego.agregarFichaCambio(((Bot) this.juego.getJugadorEnTurno()).cambiarFichas());
         }
@@ -1303,7 +1316,9 @@ public class FXMLDocumentController {
         this.actualizarPuntos();
         this.actualizarFichasTablero();
         this.actualizarFichasEnCambio();
+        this.actualizarTablaPuntaje();
         this.pintarTablero();
+        this.labelJugadorEnTurno.setText("Turno: Jugador " + this.juego.getNumeroJugadorEnTurno());
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setContentText("SE HA CAMBIADO AL JUGADOR " + (this.juego.getNumeroJugadorEnTurno() + 1));
         alert.showAndWait();
