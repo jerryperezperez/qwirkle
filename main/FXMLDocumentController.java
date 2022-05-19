@@ -2,17 +2,12 @@ package main;
 
 import java.awt.event.ActionEvent;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.ResourceBundle;
+import java.util.*;
 
-import Model.Bot;
-import Model.ExcepcionCasilla;
-import Model.Ficha;
-import Model.Juego;
+import Model.*;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -23,6 +18,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
+import javafx.stage.Stage;
 
 import javax.swing.*;
 
@@ -31,6 +27,8 @@ public class FXMLDocumentController {
     public ListView<String> listaPuntajesJugador;
     @FXML
     public Label labelJugadorEnTurno;
+    @FXML
+    public Button botonTerminar;
     @FXML
     private Label label;
 
@@ -1094,7 +1092,7 @@ public class FXMLDocumentController {
         for (int i = 0; i < this.juego.jugadores.length; i++) {
             //  System.out.println("actualizando al jugador : " + i);
             //System.out.println(this.juego.jugadores[i].getPuntosJugador());
-           // this.arregloPuntosJugador[i].setText(this.juego.jugadores[i].getPuntosJugador() + "pts");
+            // this.arregloPuntosJugador[i].setText(this.juego.jugadores[i].getPuntosJugador() + "pts");
             // System.out.println(this.arregloPuntosJugador[i].getText());
         }
     }
@@ -1157,7 +1155,7 @@ public class FXMLDocumentController {
             // this.juego.start();
             for (int i = 0; i < this.juego.jugadores.length; i++) {
                 System.out.println("entra en juego");
-                this.listaPuntajesJugador.getItems().add("Jugador " + (i+1) + ": " + this.juego.jugadores[i].getPuntosJugador() + " puntos");
+                this.listaPuntajesJugador.getItems().add("Jugador " + (i + 1) + ": " + this.juego.jugadores[i].getPuntosJugador() + " puntos");
             }
 
             this.labelJugadorEnTurno.setText("Turno: Jugador 1");
@@ -1190,6 +1188,27 @@ public class FXMLDocumentController {
                 }
             }
         }
+    }
+
+    @FXML
+    public void eventoTerminar(MouseEvent mouseEvent) {
+        ArrayList<Jugador> listaFinal = new ArrayList<>();
+
+        listaFinal.addAll(Arrays.asList(this.juego.jugadores));
+        listaFinal.sort(new Comparator<Jugador>() {
+            @Override
+            public int compare(Jugador o1, Jugador o2) {
+                return o2.getPuntosJugador() - o1.getPuntosJugador();
+            }
+        });
+
+        Alert alert2 = new Alert(Alert.AlertType.INFORMATION);
+        alert2.setContentText("EL JUGADOR GANADOR ES: " + listaFinal.get(0).getIdJugador() + " CON " + listaFinal.get(0).getPuntosJugador() + " PUNTOS");
+        alert2.showAndWait();
+
+        Node source = (Node) mouseEvent.getSource();     //Me devuelve el elemento al que hice click
+        Stage stage2 = (Stage) source.getScene().getWindow();    //Me devuelve la ventana donde se encuentra el elemento
+        stage2.close();
     }
 
     private void pintarTablero() {

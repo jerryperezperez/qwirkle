@@ -31,6 +31,8 @@ public class FXMLPrincipalController implements Initializable {
     @FXML
     public Spinner<Integer> spinnerJugadores;
     @FXML
+    public Button botonLimpiar;
+    @FXML
     private MenuItem botonCantidadJugadores;
     @FXML
     private Button botonPrueba;
@@ -66,6 +68,10 @@ public class FXMLPrincipalController implements Initializable {
     @FXML
     public void eventoBot(ActionEvent actionEvent) {
         this.listaJugadores.getItems().add(((MenuItem) actionEvent.getSource()).getText());
+    }
+    @FXML
+    public void eventoLimpiar(MouseEvent mouse){
+        this.listaJugadores.getItems().clear();
     }
 
     @FXML
