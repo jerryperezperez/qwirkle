@@ -22,7 +22,7 @@ public class Bolsa {
                 }
             }
         }
-        System.out.println("CANTIDAD DE FICHAS CREADAS: " + fichas.size());
+        //System.out.println("CANTIDAD DE FICHAS CREADAS: " + fichas.size());
     }
 
     public Ficha darFicha() throws Exception {

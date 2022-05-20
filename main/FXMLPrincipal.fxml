@@ -32,7 +32,7 @@
                   <MenuItem fx:id="botEquipo5" mnemonicParsing="false" onAction="#eventoBot" text="Bot Equipo 5" />
                   <MenuItem fx:id="botEquipo6" mnemonicParsing="false" onAction="#eventoBot" text="Bot Equipo 6" />
                   <MenuItem fx:id="botEquipo7" mnemonicParsing="false" onAction="#eventoBot" text="Bot Equipo 7" />
-                  <MenuItem mnemonicParsing="false" text="Bot Equipo 5 Avanzado" />
+                  <MenuItem fx:id="botEquipo5Avanzado" mnemonicParsing="false" onAction="#eventoBot" text="Bot Equipo 5 Avanzado" />
               </items>
                <font>
                   <Font name="Berlin Sans FB Demi Bold" size="13.0" />

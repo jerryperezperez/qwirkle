@@ -30,9 +30,19 @@ public class Qwirkle2 {
         cola.add("a");
         arreglo.add(cola2);
         arreglo.add(cola);
+        ControladorEstructura controlador = new ControladorEstructura(new Casilla(10, 10));
+        Bolsa bolsa = new Bolsa();
 
+        ArrayList<Ficha> fichas = new ArrayList<>();
+        fichas.add(bolsa.fichas.get(0));
 
-
+        fichas.add(bolsa.fichas.get(4));
+        fichas.add(bolsa.fichas.get(10));
+        fichas.add(bolsa.fichas.get(14));
+        fichas.add(bolsa.fichas.get(18));
+        fichas.add(bolsa.fichas.get(25));
+        Nodo nodoPrueba = new Nodo(controlador, fichas);
+        Algoritmo algoritmo = new Algoritmo(nodoPrueba);
     }
 
 

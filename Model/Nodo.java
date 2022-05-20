@@ -2,7 +2,7 @@ package Model;
 
 import java.util.ArrayList;
 
-public class Nodo extends Jugador {
+public class Nodo {
     private ArrayList<Nodo> nodosApuntados;
     private ControladorEstructura controlador;
     public Casilla casillaBot;
@@ -14,7 +14,7 @@ public class Nodo extends Jugador {
         this.nodosApuntados = new ArrayList<Nodo>();
         this.fichasJugador = new ArrayList<Ficha>();
         this.fichasJugador.addAll(fichas);
-        this.getNodos();
+      //  this.getNodos();
     }
 
     public Nodo(ControladorEstructura controlador, Casilla casilla, Ficha ficha, ArrayList<Ficha> fichas) {
@@ -22,9 +22,10 @@ public class Nodo extends Jugador {
         this.casillaBot = new Casilla(casilla);
         this.nodosApuntados = new ArrayList<Nodo>();
         this.fichasJugador = new ArrayList<Ficha>();
+       // fichas.remove(ficha);
         this.fichasJugador.addAll(fichas);
         this.fichaBot = ficha;
-        this.getNodos();
+     //   this.getNodos();
     }
 
     public ArrayList<Nodo> getNodosApuntados() {
@@ -44,7 +45,7 @@ public class Nodo extends Jugador {
         return fichaBot;
     }
 
-    public int cantidadFichasAfecadas() {
+    public int cantidadFichasAfectadas() {
         int cantidad = 0;
         for (Estructura estructura : this.controlador.getUltimasEstructurasModificadas()) {
             cantidad = cantidad + estructura.getCola().size();
@@ -53,49 +54,57 @@ public class Nodo extends Jugador {
     }
 
 
-    public void getNodos() {
+/*    public ArrayList<Nodo> getNodos() {
         for (Ficha ficha : this.fichasJugador) {
             //RECORRER CADA FICHA POR CADA FILA POR IZQUIERDA Y DERECHA
             for (Estructura estructuraFila : this.controlador.getEstructuraFilas()) {
                 ControladorEstructura controladorAuxiliar = new ControladorEstructura(controlador);
+                controladorAuxiliar.imprimirCantidadEstructuras();
                 try {
                     controladorAuxiliar.agregar(estructuraFila.getCola().getFirst().getCasillaIzquierda(), ficha);
-                    nodosApuntados.add(new Nodo(controladorAuxiliar, estructuraFila.getCola().getFirst().getCasillaIzquierda(), ficha, this.fichas));
-                    System.out.println("HA AGREGADOOOOO");
+                    nodosApuntados.add(new Nodo(controladorAuxiliar, estructuraFila.getCola().getFirst().getCasillaIzquierda(), ficha, this.fichasJugador));
+                    System.out.println("HA CREADO NODO");
 
                 } catch (Exception e) {
-                    System.out.println("NO HA PODIDO AGREGAR AQUÍ");
+
                 }
                 controladorAuxiliar = new ControladorEstructura(controlador);
+                controladorAuxiliar.imprimirCantidadEstructuras();
+
                 try {
                     controladorAuxiliar.agregar(estructuraFila.getCola().getLast().getCasillaDerecha(), ficha);
-                    nodosApuntados.add(new Nodo(controladorAuxiliar, estructuraFila.getCola().getLast().getCasillaDerecha(), ficha, fichas));
-                    System.out.println("HA AGREGADOOOOO");
+                    nodosApuntados.add(new Nodo(controladorAuxiliar, estructuraFila.getCola().getLast().getCasillaDerecha(), ficha, this.fichasJugador));
+                    System.out.println("HA CREADO NODO");
                 } catch (Exception e) {
-                    System.out.println("NO HA PODIDO AGREGAR AQUÍ");
+
                 }
             }
             //RECORRER CADA FICHA POR CADA COLUMNA POR ARRIBA Y ABAJO
             for (Estructura estructuraColumna : this.controlador.getEstructuraColumnas()) {
                 ControladorEstructura controladorAuxiliar = new ControladorEstructura(controlador);
+                controladorAuxiliar.imprimirCantidadEstructuras();
+
                 try {
                     controladorAuxiliar.agregar(estructuraColumna.getCola().getFirst().getCasillaSuperior(), ficha);
-                    nodosApuntados.add(new Nodo(controladorAuxiliar, estructuraColumna.getCola().getFirst().getCasillaSuperior(), ficha, fichas));
-                    System.out.println("HA AGREGADOOOOO");
+                    nodosApuntados.add(new Nodo(controladorAuxiliar, estructuraColumna.getCola().getFirst().getCasillaSuperior(), ficha, this.fichasJugador));
+                    System.out.println("HA CREADO NODO");
                 } catch (Exception e) {
-                    System.out.println("NO HA PODIDO AGREGAR AQUÍ");
+
 
                 }
+                controladorAuxiliar = new ControladorEstructura(controlador);
+                controladorAuxiliar.imprimirCantidadEstructuras();
+
                 try {
                     controladorAuxiliar.agregar(estructuraColumna.getCola().getLast().getCasillaInferior(), ficha);
-                    nodosApuntados.add(new Nodo(controladorAuxiliar, estructuraColumna.getCola().getLast().getCasillaInferior(), ficha, fichas));
-                    System.out.println("HA AGREGADOOOOO");
+                    nodosApuntados.add(new Nodo(controladorAuxiliar, estructuraColumna.getCola().getLast().getCasillaInferior(), ficha, this.fichasJugador));
+                    System.out.println("HA CREADO NODO");
                 } catch (Exception e) {
-                    System.out.println("NO HA PODIDO AGREGAR AQUÍ");
+
 
                 }
             }
         }
-
-    }
+        return this.nodosApuntados;
+    }*/
 }

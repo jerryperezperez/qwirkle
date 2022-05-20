@@ -1,3 +1,4 @@
+
 package Model;
 
 import java.util.ArrayList;
@@ -34,13 +35,13 @@ public class Algoritmo {
     public void detectarRutaCorta(Stack<Nodo> rutaActual) {
         if (mejorRuta.isEmpty()) {
             mejorRuta.addAll(rutaActual);
-        } else if (mejorRuta.get(mejorRuta.size()-1).cantidadFichasAfecadas()> rutaActual.get(rutaActual.size()-1).cantidadFichasAfecadas()) {
+        } else if (mejorRuta.get(mejorRuta.size()-1).cantidadFichasAfectadas()> rutaActual.get(rutaActual.size()-1).cantidadFichasAfectadas()) {
             mejorRuta.clear();
             mejorRuta.addAll(rutaActual);
         }
     }
 
-    public void imprimirMejorRuta() {
+/*    public void imprimirMejorRuta() {
         System.out.println("IMPRIMIENDO MEJOR RUTA");
         if (mejorRuta.isEmpty()) {
             System.out.println("OBJETIVO ALCANZADO");
@@ -59,5 +60,6 @@ public class Algoritmo {
             System.out.println(nodosVisitado.toString());
         }
         System.out.println("--------------");
-    }
+    }*/
 }
+

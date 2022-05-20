@@ -1,15 +1,10 @@
 package Model;
 
 import Debug.DebugExt;
-import com.sun.org.apache.bcel.internal.generic.IF_ACMPEQ;
-import com.sun.scenario.effect.impl.sw.sse.SSEBlend_SRC_OUTPeer;
 import javafx.scene.control.Alert;
 
-import javax.swing.*;
 import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.Iterator;
-import java.util.function.Consumer;
 
 public class Juego extends Thread {
 
@@ -102,7 +97,8 @@ public class Juego extends Thread {
                 case "Bot Equipo 7":
                     this.jugadores[i] = new BotEquipo7();
                     break;
-                case "BotEquipo5Avanzado":
+                case "Bot Equipo 5 Avanzado":
+                    this.jugadores[i] = new BotAvanzado5();
                     break;
             }
         }

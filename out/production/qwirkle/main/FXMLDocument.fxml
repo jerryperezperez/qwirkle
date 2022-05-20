@@ -511,5 +511,6 @@
       <ImageView fitHeight="20.0" fitWidth="20.0" layoutX="849.0" layoutY="348.0" pickOnBounds="true" preserveRatio="true" />
       <ImageView fitHeight="20.0" fitWidth="20.0" layoutX="909.0" layoutY="349.0" pickOnBounds="true" preserveRatio="true" />
       <ListView fx:id="listaPuntajesJugador" layoutX="762.0" layoutY="71.0" prefHeight="395.0" prefWidth="231.0" />
+      <Button fx:id="botonTerminar" layoutX="536.0" layoutY="97.0" mnemonicParsing="false" onMouseClicked="#eventoTerminar" prefHeight="43.0" prefWidth="167.0" text="Terminar juego" />
     </children>
 </AnchorPane>

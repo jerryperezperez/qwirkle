@@ -73,6 +73,11 @@ public class ControladorEstructura implements Cloneable {
 
     public String getDireccion () { return this.direccion; }
 
+    public void imprimirCantidadEstructuras(){
+        System.out.println("Cantidad de columnas" + this.estructuraColumnas.size());
+        System.out.println("Cantidad de filas" + this.estructuraFilas.size());
+    }
+
     public void imprimirEstructuras() {
         System.out.println("IMPRIMIENDO ESTRUCTURA DE FILAS");
         for (Estructura estructuraFila : this.estructuraFilas) {
