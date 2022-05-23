@@ -11,6 +11,7 @@ public class EstructuraColumna extends Estructura {
         super(casilla);
     }
 
+
     public boolean agregarEnColaSuperior(Casilla casilla, Ficha ficha) throws Exception {
         if (casilla.getCasillaSuperior().getFicha() != null) {
             if (this.colas.getLast().getFicha().getId() == casilla.getCasillaSuperior().getFicha().getId()) {

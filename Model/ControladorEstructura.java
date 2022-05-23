@@ -14,6 +14,7 @@ public class ControladorEstructura implements Cloneable {
     private HashSet<Estructura> ultimasEstructurasModificadas;
     private Casilla ultimaJugada;
     private String direccion;
+    public Tablero tablero;
 
     public ControladorEstructura(Casilla casilla) {
         this.estructuraColumnas = new ArrayList<>();
@@ -25,12 +26,18 @@ public class ControladorEstructura implements Cloneable {
     }
 
     public ControladorEstructura(ControladorEstructura controlador) {
+        Tablero tablero = new Tablero();
         this.estructuraColumnas = new ArrayList<>();
         this.estructuraFilas = new ArrayList<>();
         ultimasEstructurasModificadas = new HashSet<>();
-        this.clonarEstructuraFila(controlador.estructuraFilas);
-        this.clonarEstructuraColumna(controlador.estructuraColumnas);
-        this.clonarEstructuraHashSet(controlador.ultimasEstructurasModificadas);
+        for (Estructura fila: controlador.getEstructuraFilas()) {
+            this.estructuraFilas.add(new Estructura(fila, tablero));
+        }
+        for (Estructura columna: controlador.getEstructuraColumnas()) {
+            this.estructuraColumnas.add(new Estructura(columna, tablero));
+        }
+        this.ultimasEstructurasModificadas = controlador.ultimasEstructurasModificadas;
+        this.ultimaJugada = controlador.ultimaJugada;
         //TODO corregir y decidir qué hacer con cómo conservar la última jugada
         //this.ultimaJugada = new Casilla(controlador.ultimaJugada); EN SU MOVIMIENTO NO TIENE ULTIMA JUGADA
         this.direccion = controlador.direccion;
@@ -40,7 +47,7 @@ public class ControladorEstructura implements Cloneable {
         this.direccion = direccion;
     }
 
-    private void clonarEstructuraFila(ArrayList<Estructura> collection) {
+/*    private void clonarEstructuraFila(ArrayList<Estructura> collection) {
         for (Estructura estructura : collection) {
             this.estructuraFilas.add(new Estructura(estructura));
         }
@@ -56,7 +63,7 @@ public class ControladorEstructura implements Cloneable {
         for (Estructura estructura : collection) {
             this.ultimasEstructurasModificadas.add(new Estructura(estructura));
         }
-    }
+    }*/
 
 
     public void limpiarUltimasEstructurasModificadas() {
@@ -199,7 +206,7 @@ public class ControladorEstructura implements Cloneable {
         this.ultimaJugada = casilla;
         this.crearEstructuraFila(casilla);
         this.crearEstructuraColumna(casilla);
-        casilla.setFicha(ficha);
+        //casilla.setFicha(ficha);
 
         return this.recuperarLongitudEstructura(casilla);
     }

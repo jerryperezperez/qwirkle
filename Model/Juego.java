@@ -192,6 +192,9 @@ public class Juego extends Thread {
             }
 
         }
+        //se ha quitado de estructura controlador para probar si realmente funciona o afecta
+        casilla.setFicha(this.getJugadorEnTurno().getFichaSeleccionada());
+
         return true;
     }
 

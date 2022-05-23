@@ -18,7 +18,7 @@ public class Algoritmo {
 
     public void ejecutar(Nodo nodoActual) {
             if (!nodosVisitados.contains(nodoActual)) {
-                for (Nodo nodoHijo : nodoActual.getNodosApuntados()) {
+                for (Nodo nodoHijo : nodoActual.getNodos()) {
                         rutaActual.add(nodoHijo);
                         this.nodosVisitados.add(nodoHijo);
                     // this.detectarRutaCorta(rutaActual);
@@ -41,21 +41,21 @@ public class Algoritmo {
         }
     }
 
-/*    public void imprimirMejorRuta() {
+   public void imprimirMejorRuta() {
         System.out.println("IMPRIMIENDO MEJOR RUTA");
         if (mejorRuta.isEmpty()) {
             System.out.println("OBJETIVO ALCANZADO");
 
         } else {
 
-            for (Jugador nodo : mejorRuta) {
+            for (Nodo nodo : mejorRuta) {
                 System.out.println(nodo.toString());
             }
             System.out.println("--------------");
         }
     }
 
-    public void imprimirPila() {
+  /*  public void imprimirPila() {
         for (Jugador nodosVisitado : nodosVisitados) {
             System.out.println(nodosVisitado.toString());
         }

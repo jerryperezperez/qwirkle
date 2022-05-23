@@ -11,7 +11,9 @@ public class BotAvanzado5 extends Bot {
 
     @Override
     public void analizarEstrategia() throws Exception {
-       ControladorEstructura controladorAuxiliar = new ControladorEstructura(controladorEstructura);
+        System.out.println("entraaaaa");
+        ControladorEstructura controladorAuxiliar = new ControladorEstructura(controladorEstructura);
+        Nodo nodo = new Nodo(controladorAuxiliar, fichas);
         this.controladorEstructura.getEstructuraColumnas().sort(new Comparator<Estructura>() {
             @Override
             public int compare(Estructura o1, Estructura o2) {
@@ -23,28 +25,11 @@ public class BotAvanzado5 extends Bot {
             System.out.println("NO HAY FICHAS EN EL TABLERO");
             this.iniciarPartida();
         } else {
-            for (Ficha ficha: this.fichas) {
-
-            }
-            //  System.out.println("HAY FICHAS EN EL TABLERO PERO NO SÉ POR QUÉ");
-            for (int i = 5; i > 0; i--) {
-
-                if (this.casilla == null) {
-                    if (this.isJugadaEncontradaFilas(i)) {
-                        // JOptionPane.showMessageDialog(null, "HE ENCONTRADO FICHA Y CASILLA");
-                    } else {
-                        if (this.isJugadaEncontradaColumnas(i)) {
-                            // JOptionPane.showMessageDialog(null, "HE ENCONTRADO FICHA Y CASILLA");
-                        }
-                    }
-                } else {
-                    break;
-                }
-            }
+            Algoritmo algoritmo = new Algoritmo(nodo);
         }
     }
 
-    public void getNodos(){
+    public void getNodos() {
 
     }
 

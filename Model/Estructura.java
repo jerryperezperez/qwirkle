@@ -18,15 +18,23 @@ public class Estructura {
 
     }
 
-    public Estructura(Estructura estructura){
+
+    public Estructura(Estructura estructura, Tablero tablero) {
         this.id = estructura.id;
-        this.colas = (LinkedList<Casilla>) estructura.colas.clone();
+        this.colas = new LinkedList<>();
+        for (Casilla casilla : estructura.getCola()) {
+            if (casilla.getFicha() != null) {
+                tablero.casilla[casilla.getX()][casilla.getY()].setFicha(casilla.getFicha());
+            }
+            this.colas.add(tablero.casilla[casilla.getX()][casilla.getY()]);
+        }
         this.restriccion = estructura.restriccion;
     }
 
     public int getId() {
         return this.id;
     }
+
     public int getID() {
         return this.ID;
     }

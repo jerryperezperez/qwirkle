@@ -28,11 +28,9 @@ public class Casilla implements Comparable<Casilla> {
     public Casilla(Casilla casilla){
         this.x = casilla.getX();
         this.y = casilla.getY();
-        this.casillaSuperior = casilla.casillaSuperior;
-        this.casillaDerecha = casilla.casillaDerecha;
-        this.casillaInferior = casilla.casillaInferior;
-        this.casillaIzquierda = casilla.casillaIzquierda;
+        this.ficha = casilla.ficha;
     }
+
 
     public int getX() {
         return x;
@@ -141,6 +139,8 @@ public class Casilla implements Comparable<Casilla> {
         }
         return false;
     }
+
+
 
     public boolean findCasilla(Casilla casilla) {
         if (this.casillaSuperior.getFicha() != null && this.casillaSuperior.getFicha().getId() == casilla.getFicha().getId()) {
