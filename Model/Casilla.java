@@ -10,7 +10,7 @@ import javafx.scene.control.Alert;
 import javax.xml.bind.SchemaOutputResolver;
 import java.util.Objects;
 
-public class Casilla implements Comparable<Casilla> {
+public class Casilla implements Comparable<Casilla>, Cloneable {
 
     private int x;
     private int y;
@@ -25,6 +25,29 @@ public class Casilla implements Comparable<Casilla> {
         this.y = y;
 
     }
+
+    public Object clone()
+    {
+        Object clone = null;
+        try
+        {
+            clone = super.clone();
+        }
+        catch(CloneNotSupportedException e)
+        {
+            // No debería ocurrir
+        }
+        // Aqui viene la implementacion de la clonación "profunda" ('deep clone')
+        ((Casilla)clone).x = this.x;
+        ((Casilla)clone).y = this.y;
+        ((Casilla)clone).ficha = this.ficha;
+        ((Casilla)clone).casillaSuperior = this.casillaSuperior;
+        ((Casilla)clone).casillaInferior = this.casillaInferior;
+        ((Casilla)clone).casillaIzquierda = this.casillaIzquierda;
+        ((Casilla)clone).casillaDerecha = this.casillaDerecha;
+        return clone;
+    }
+
     public Casilla(Casilla casilla){
         this.x = casilla.getX();
         this.y = casilla.getY();

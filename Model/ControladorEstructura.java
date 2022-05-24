@@ -36,8 +36,8 @@ public class ControladorEstructura implements Cloneable {
         for (Estructura columna: controlador.getEstructuraColumnas()) {
             this.estructuraColumnas.add(new Estructura(columna, tablero));
         }
-        this.ultimasEstructurasModificadas = controlador.ultimasEstructurasModificadas;
-        this.ultimaJugada = controlador.ultimaJugada;
+        this.ultimasEstructurasModificadas = (HashSet) controlador.ultimasEstructurasModificadas.clone();
+        this.ultimaJugada = (Casilla) controlador.ultimaJugada.clone();
         //TODO corregir y decidir qué hacer con cómo conservar la última jugada
         //this.ultimaJugada = new Casilla(controlador.ultimaJugada); EN SU MOVIMIENTO NO TIENE ULTIMA JUGADA
         this.direccion = controlador.direccion;

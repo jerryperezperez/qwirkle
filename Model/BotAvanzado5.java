@@ -12,8 +12,7 @@ public class BotAvanzado5 extends Bot {
     @Override
     public void analizarEstrategia() throws Exception {
         System.out.println("entraaaaa");
-        ControladorEstructura controladorAuxiliar = new ControladorEstructura(controladorEstructura);
-        Nodo nodo = new Nodo(controladorAuxiliar, fichas);
+        Nodo nodo = new Nodo(controladorEstructura, fichas);
         this.controladorEstructura.getEstructuraColumnas().sort(new Comparator<Estructura>() {
             @Override
             public int compare(Estructura o1, Estructura o2) {

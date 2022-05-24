@@ -7,6 +7,7 @@ import java.util.Stack;
 public class Algoritmo {
     private Nodo nodoInicial;
 
+
     private Stack<Nodo> nodosVisitados = new Stack();
     public ArrayList<Nodo> mejorRuta = new ArrayList();
     private Stack<Nodo> rutaActual = new Stack();
@@ -20,14 +21,20 @@ public class Algoritmo {
             if (!nodosVisitados.contains(nodoActual)) {
                 for (Nodo nodoHijo : nodoActual.getNodos()) {
                         rutaActual.add(nodoHijo);
-                        this.nodosVisitados.add(nodoHijo);
+                        // this.nodosVisitados.add(nodoHijo);
                     // this.detectarRutaCorta(rutaActual);
                     this.ejecutar(nodoHijo);
                 }
+                this.nodosVisitados.add(nodoActual);
                 this.detectarRutaCorta(rutaActual);
                 if (!this.rutaActual.isEmpty()) {
                     this.rutaActual.pop();
                     this.nodosVisitados.pop();
+
+                    for (int i = 0; i < nodosVisitados.size(); i ++)
+                    {
+                        System.out.println(nodosVisitados.get(i));
+                    }
                     System.out.println("RETROCEDE");
                 }
                 return;
