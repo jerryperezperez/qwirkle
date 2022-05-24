@@ -26,7 +26,7 @@ public class ControladorEstructura implements Cloneable {
     }
 
     public ControladorEstructura(ControladorEstructura controlador) {
-        tablero = new Tablero();
+        Tablero tablero = new Tablero();
         this.estructuraColumnas = new ArrayList<>();
         this.estructuraFilas = new ArrayList<>();
         ultimasEstructurasModificadas = new HashSet<>();

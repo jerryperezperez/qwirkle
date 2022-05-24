@@ -60,9 +60,6 @@ public class Nodo {
                 if (fila.getCola().getLast().getCasillaDerecha() != null) {
                     try {
                         ControladorEstructura controladorAuxiliar = new ControladorEstructura(controlador);
-                        System.out.println(controladorAuxiliar);
-                        controladorAuxiliar.imprimirEstructuras();
-                        System.out.println(new Casilla(fila.getCola().getLast().getCasillaDerecha()));
                         controladorAuxiliar.agregar(new Casilla(fila.getCola().getLast().getCasillaDerecha()), ficha);
                         this.fichaBot = ficha;
                         this.casillaBot = fila.getCola().getLast();
