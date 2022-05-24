@@ -25,9 +25,11 @@ public class Algoritmo {
                     this.ejecutar(nodoHijo);
                 }
                 this.detectarRutaCorta(rutaActual);
-                this.rutaActual.pop();
-                this.nodosVisitados.pop();
-                System.out.println("RETROCEDE");
+                if (!this.rutaActual.isEmpty()) {
+                    this.rutaActual.pop();
+                    this.nodosVisitados.pop();
+                    System.out.println("RETROCEDE");
+                }
                 return;
             }
     }

@@ -29,6 +29,10 @@ public class Casilla implements Comparable<Casilla> {
         this.x = casilla.getX();
         this.y = casilla.getY();
         this.ficha = casilla.ficha;
+        this.casillaSuperior = casilla.casillaSuperior;
+        this.casillaInferior = casilla.casillaInferior;
+        this.casillaIzquierda = casilla.casillaIzquierda;
+        this.casillaDerecha = casilla.casillaDerecha;
     }
 
 
