@@ -205,6 +205,16 @@ public class Casilla implements Comparable<Casilla>, Cloneable {
                 '}';
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Casilla casilla = (Casilla) o;
+
+        if (x != casilla.x) return false;
+        return y == casilla.y;
+    }
 
     @Override
     public int hashCode() {

@@ -14,7 +14,7 @@ public class Nodo {
         this.nodosApuntados = new ArrayList<Nodo>();
         this.fichasJugador = new ArrayList<Ficha>();
         this.fichasJugador.addAll(fichas);
-      //  this.getNodos();
+        //  this.getNodos();
     }
 
     public Nodo(ControladorEstructura controlador, Casilla casilla, Ficha ficha, ArrayList<Ficha> fichas) {
@@ -22,10 +22,11 @@ public class Nodo {
         this.casillaBot = new Casilla(casilla);
         this.nodosApuntados = new ArrayList<Nodo>();
         this.fichasJugador = new ArrayList<Ficha>();
-       // fichas.remove(ficha);
+        // fichas.remove(ficha);
+//        System.out.println("EN EL CONTROLADOR ESTÁ " + ficha.toString() + " Y " + casilla.toString());
         this.fichasJugador.addAll(fichas);
         this.fichaBot = ficha;
-     //   this.getNodos();
+        //   this.getNodos();
     }
 
     public ArrayList<Nodo> getNodosApuntados() {
@@ -60,10 +61,12 @@ public class Nodo {
                 if (fila.getCola().getLast().getCasillaDerecha() != null) {
                     try {
                         ControladorEstructura controladorAuxiliar = new ControladorEstructura(controlador);
-                        controladorAuxiliar.agregar(new Casilla(fila.getCola().getLast().getCasillaDerecha()), ficha);
-                        this.fichaBot = ficha;
-                        this.casillaBot = fila.getCola().getLast();
-                        this.nodosApuntados.add(new Nodo(controlador, fichasJugador));
+                        Casilla casillita = new Casilla(fila.getCola().getLast().getCasillaDerecha());
+                            controladorAuxiliar.agregar(casillita, ficha);
+                        casillita.setFicha(ficha);
+//                        this.fichaBot = ficha;
+//                        this.casillaBot = fila.getCola().getLast();
+                        this.nodosApuntados.add(new Nodo(controladorAuxiliar, casillita, ficha, fichasJugador));
                     } catch (Exception e) {
                         //   e.printStackTrace();
                     }
@@ -73,11 +76,12 @@ public class Nodo {
                     try {
                         ControladorEstructura controladorAuxiliar = new ControladorEstructura(controlador);
 
-
-                    controladorAuxiliar.agregar(new Casilla(fila.getCola().getFirst().getCasillaIzquierda()), ficha);
-                        fichaBot = ficha;
-                        this.casillaBot = fila.getCola().getFirst();
-                        this.nodosApuntados.add(new Nodo(controlador, fichasJugador));
+                        Casilla casillita = new Casilla(fila.getCola().getFirst().getCasillaIzquierda());
+                        controladorAuxiliar.agregar(casillita, ficha);
+                        casillita.setFicha(ficha);
+//                        fichaBot = ficha;
+//                        this.casillaBot = fila.getCola().getFirst();
+                        this.nodosApuntados.add(new Nodo(controladorAuxiliar, casillita, ficha, fichasJugador));
                     } catch (Exception e) {
                         //    e.printStackTrace();
                     }

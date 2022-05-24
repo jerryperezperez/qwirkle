@@ -19,23 +19,26 @@ public class Algoritmo {
 
     public void ejecutar(Nodo nodoActual) {
             if (!nodosVisitados.contains(nodoActual)) {
+                this.nodosVisitados.add(nodoActual);
+                this.rutaActual.add(nodoActual);
                 for (Nodo nodoHijo : nodoActual.getNodos()) {
-                        rutaActual.add(nodoHijo);
+//                        rutaActual.add(nodoHijo);
                         // this.nodosVisitados.add(nodoHijo);
                     // this.detectarRutaCorta(rutaActual);
                     this.ejecutar(nodoHijo);
                 }
-                this.nodosVisitados.add(nodoActual);
-                this.detectarRutaCorta(rutaActual);
+//                this.nodosVisitados.add(nodoActual);
+//                this.detectarRutaCorta(rutaActual);
                 if (!this.rutaActual.isEmpty()) {
-                    this.rutaActual.pop();
-                    this.nodosVisitados.pop();
+                    this.detectarRutaCorta(rutaActual);
 
-                    for (int i = 0; i < nodosVisitados.size(); i ++)
+                    for (int i = 1; i < nodosVisitados.size(); i ++)
                     {
-                        System.out.println(nodosVisitados.get(i));
+                        System.out.println(nodosVisitados.get(i).casillaBot.toString());
                     }
                     System.out.println("RETROCEDE");
+                    this.rutaActual.pop();
+                    this.nodosVisitados.pop();
                 }
                 return;
             }
@@ -45,6 +48,7 @@ public class Algoritmo {
         if (mejorRuta.isEmpty()) {
             mejorRuta.addAll(rutaActual);
         } else if (mejorRuta.get(mejorRuta.size()-1).cantidadFichasAfectadas()> rutaActual.get(rutaActual.size()-1).cantidadFichasAfectadas()) {
+            System.out.println("PUNTOS DE MEJOR RUTA: " + mejorRuta.get(mejorRuta.size()-1).cantidadFichasAfectadas() + " PUNTOS DE RUTA ACTUAL: " + rutaActual.get(rutaActual.size()-1).cantidadFichasAfectadas());
             mejorRuta.clear();
             mejorRuta.addAll(rutaActual);
         }
@@ -56,9 +60,14 @@ public class Algoritmo {
             System.out.println("OBJETIVO ALCANZADO");
 
         } else {
-
+            System.out.println("LONGITUD DE LA RUTA ES:" + this.mejorRuta.size());
             for (Nodo nodo : mejorRuta) {
-                System.out.println(nodo.toString());
+                if (nodo.casillaBot == null){
+                    System.out.println("es nulo");
+                }else{
+
+                System.out.println(nodo.casillaBot.toString());
+                }
             }
             System.out.println("--------------");
         }

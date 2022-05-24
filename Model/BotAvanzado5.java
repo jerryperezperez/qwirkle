@@ -25,6 +25,7 @@ public class BotAvanzado5 extends Bot {
             this.iniciarPartida();
         } else {
             Algoritmo algoritmo = new Algoritmo(nodo);
+            algoritmo.imprimirMejorRuta();
         }
     }
 

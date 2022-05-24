@@ -30,14 +30,16 @@ public class ControladorEstructura implements Cloneable {
         this.estructuraColumnas = new ArrayList<>();
         this.estructuraFilas = new ArrayList<>();
         ultimasEstructurasModificadas = new HashSet<>();
-        for (Estructura fila: controlador.getEstructuraFilas()) {
+        for (Estructura fila : controlador.getEstructuraFilas()) {
             this.estructuraFilas.add(new Estructura(fila, tablero));
         }
-        for (Estructura columna: controlador.getEstructuraColumnas()) {
+        for (Estructura columna : controlador.getEstructuraColumnas()) {
             this.estructuraColumnas.add(new Estructura(columna, tablero));
         }
         this.ultimasEstructurasModificadas = (HashSet) controlador.ultimasEstructurasModificadas.clone();
-        this.ultimaJugada = (Casilla) controlador.ultimaJugada.clone();
+        if (controlador.ultimaJugada != null) {
+            this.ultimaJugada = (Casilla) controlador.ultimaJugada.clone();
+        }
         //TODO corregir y decidir qué hacer con cómo conservar la última jugada
         //this.ultimaJugada = new Casilla(controlador.ultimaJugada); EN SU MOVIMIENTO NO TIENE ULTIMA JUGADA
         this.direccion = controlador.direccion;
@@ -78,9 +80,11 @@ public class ControladorEstructura implements Cloneable {
         return (ArrayList<Estructura>) estructuraColumnas.clone();
     }
 
-    public String getDireccion () { return this.direccion; }
+    public String getDireccion() {
+        return this.direccion;
+    }
 
-    public void imprimirCantidadEstructuras(){
+    public void imprimirCantidadEstructuras() {
         System.out.println("Cantidad de columnas" + this.estructuraColumnas.size());
         System.out.println("Cantidad de filas" + this.estructuraFilas.size());
     }
@@ -152,7 +156,7 @@ public class ControladorEstructura implements Cloneable {
                 this.recuperarEstructuraInicial(this.estructuraFilas, casilla.getCasillaIzquierda()).cumpleRestriccion(ficha);
             }
             if (this.ultimasEstructurasModificadas.add(this.recuperarEstructuraInicial(this.estructuraFilas, casilla.getCasillaIzquierda()))) {
-               // System.out.println("ha agregado en caso casilla izquierda = " + this.recuperarEstructuraInicial(this.estructuraFilas, casilla.getCasillaIzquierda()).getCola().size());
+                // System.out.println("ha agregado en caso casilla izquierda = " + this.recuperarEstructuraInicial(this.estructuraFilas, casilla.getCasillaIzquierda()).getCola().size());
             }
             this.recuperarEstructuraInicial(this.estructuraFilas, casilla.getCasillaIzquierda()).getCola().addLast(casilla);
 
@@ -167,7 +171,7 @@ public class ControladorEstructura implements Cloneable {
             //LA RAZÓN POR LA QUE SE AGREGA ANTES QUE SE GUARDE EN LA ORIGINAL ES PORQUE UNA VEZ GUARDADO, AUN NO TIENE FICHA ASIGNADA O LA CASILLA
             //DERECHA DEJA DE SER EL ÚLTIMO O PRIMER ELEMENTO Y POR LO TANTO, NO ENCUENTRA AL ARREGLO Y DEVUELVE NULL
             if (this.ultimasEstructurasModificadas.add(this.recuperarEstructuraFinal(this.estructuraFilas, casilla.getCasillaDerecha()))) {
-              //  System.out.println("ha agregado en caso casilla derecha = " + this.recuperarEstructuraFinal(this.estructuraFilas, casilla.getCasillaDerecha()).getCola().size());
+                //  System.out.println("ha agregado en caso casilla derecha = " + this.recuperarEstructuraFinal(this.estructuraFilas, casilla.getCasillaDerecha()).getCola().size());
             }
             this.recuperarEstructuraFinal(this.estructuraFilas, casilla.getCasillaDerecha()).getCola().addFirst(casilla);
         }
@@ -179,7 +183,7 @@ public class ControladorEstructura implements Cloneable {
                 this.recuperarEstructuraInicial(this.estructuraColumnas, casilla.getCasillaSuperior()).cumpleRestriccion(ficha);
             }
             if (this.ultimasEstructurasModificadas.add(this.recuperarEstructuraInicial(this.estructuraColumnas, casilla.getCasillaSuperior()))) {
-              //  System.out.println("ha agregado en caso casilla superior = " + this.recuperarEstructuraInicial(this.estructuraColumnas, casilla.getCasillaSuperior()).getCola().size());
+                //  System.out.println("ha agregado en caso casilla superior = " + this.recuperarEstructuraInicial(this.estructuraColumnas, casilla.getCasillaSuperior()).getCola().size());
             }
             this.recuperarEstructuraInicial(this.estructuraColumnas, casilla.getCasillaSuperior()).getCola().addLast(casilla);
 
@@ -192,7 +196,7 @@ public class ControladorEstructura implements Cloneable {
                 this.recuperarEstructuraFinal(this.estructuraColumnas, casilla.getCasillaInferior()).cumpleRestriccion(ficha);
             }
             if (this.ultimasEstructurasModificadas.add(this.recuperarEstructuraFinal(this.estructuraColumnas, casilla.getCasillaInferior()))) {
-               // System.out.println("ha agregado en caso casilla inferior = " + this.recuperarEstructuraFinal(this.estructuraColumnas, casilla.getCasillaInferior()).getCola().size());
+                // System.out.println("ha agregado en caso casilla inferior = " + this.recuperarEstructuraFinal(this.estructuraColumnas, casilla.getCasillaInferior()).getCola().size());
 
             }
             this.recuperarEstructuraFinal(this.estructuraColumnas, casilla.getCasillaInferior()).getCola().addFirst(casilla);
@@ -263,23 +267,24 @@ public class ControladorEstructura implements Cloneable {
                 if (estructura.getCola().getFirst().getFicha().getId() == casilla.getFicha().getId()) {
                     return estructura;
                 }
-            }catch (Exception e){
+            } catch (Exception e) {
                 estructura.getCola().removeFirst();
             }
         }
         //throw new Exception("NO HAY COLA DERECHA O INFERIOR");
         return null;
     }
+
     public Estructura recuperarEstructuraInicial(ArrayList<Estructura> estructuras, Casilla casilla) {
-            for (Estructura estructura : estructuras) {
-                try {
-                    if (estructura.getCola().getLast().getFicha().getId() == casilla.getFicha().getId()) {
-                        return estructura;
-                    }
-                }catch (Exception e){
-                    estructura.getCola().removeLast();
+        for (Estructura estructura : estructuras) {
+            try {
+                if (estructura.getCola().getLast().getFicha().getId() == casilla.getFicha().getId()) {
+                    return estructura;
                 }
+            } catch (Exception e) {
+                estructura.getCola().removeLast();
             }
+        }
         return null;
     }
 //MODIFICACIÓN DEL MÉTODO ESTRUCTURA QUE PUEDE ESTAR PROVOCANDO ERROR EN
