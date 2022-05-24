@@ -13,6 +13,7 @@ public class BotAvanzado5 extends Bot {
     public void analizarEstrategia() throws Exception {
         System.out.println("entraaaaa");
         Nodo nodo = new Nodo(controladorEstructura, fichas);
+        nodo.getControlador().getUltimasEstructurasModificadas().clear();
         this.controladorEstructura.getEstructuraColumnas().sort(new Comparator<Estructura>() {
             @Override
             public int compare(Estructura o1, Estructura o2) {

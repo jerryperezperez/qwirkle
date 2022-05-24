@@ -14,6 +14,8 @@ public class Nodo {
         this.nodosApuntados = new ArrayList<Nodo>();
         this.fichasJugador = new ArrayList<Ficha>();
         this.fichasJugador.addAll(fichas);
+        this.fichaBot = new Ficha();
+        this.casillaBot = new Casilla();
         //  this.getNodos();
     }
 
