@@ -22,6 +22,8 @@ public class Nodo {
     public Nodo(ControladorEstructura controlador, Casilla casilla, Ficha ficha, ArrayList<Ficha> fichas) {
         this.controlador = new ControladorEstructura(controlador);
         this.casillaBot = new Casilla(casilla);
+        //TODO Verificar que esta línea no afecte el funcionamiento, debe eliminar la ficha de la casilla que tiene por referencia como objeto
+        this.casillaBot.setFicha(null);
         this.nodosApuntados = new ArrayList<Nodo>();
         this.fichasJugador = new ArrayList<Ficha>();
         // fichas.remove(ficha);

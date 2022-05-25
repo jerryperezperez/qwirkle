@@ -1,12 +1,19 @@
 package Model;
 
 import javax.swing.*;
+import javax.xml.bind.SchemaOutputResolver;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.Stack;
 
 public class BotAvanzado5 extends Bot {
+    Algoritmo algoritmo;
+
+    public BotAvanzado5() {
+        System.out.println("ENTRA EN CONSTRUCTOR DEL BOT AVANZADO");
+
+    }
 
 
     @Override
@@ -25,8 +32,17 @@ public class BotAvanzado5 extends Bot {
             System.out.println("NO HAY FICHAS EN EL TABLERO");
             this.iniciarPartida();
         } else {
-            Algoritmo algoritmo = new Algoritmo(nodo);
-            algoritmo.imprimirMejorRuta();
+            if (this.iterador == 0) {
+                this.algoritmo = new Algoritmo(nodo);
+                algoritmo.imprimirMejorRuta();
+                algoritmo.mejorRuta.remove(0);
+            }
+            if (algoritmo != null && !algoritmo.mejorRuta.isEmpty()) {
+                this.cambioFichaDisponible = false;
+                this.setFichaSeleccionada(algoritmo.mejorRuta.get(0).fichaBot);
+                this.casilla = algoritmo.mejorRuta.get(0).casillaBot;
+                algoritmo.mejorRuta.remove(0);
+            }
         }
     }
 
