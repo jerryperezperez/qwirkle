@@ -9,7 +9,7 @@ public class Algoritmo {
 
 
     private Stack<Nodo> nodosVisitados = new Stack();
-    public ArrayList<Ficha> mejorRuta = new ArrayList();
+    public ArrayList<Nodo> mejorRuta = new ArrayList();
     private Stack<Nodo> rutaActual = new Stack();
     int mejorPuntaje = 0;
 
@@ -48,14 +48,14 @@ public class Algoritmo {
         System.out.println("ENTRA EN MÉTODO DETECTAR RUTA");
         if (mejorRuta.isEmpty()) {
             for (Nodo nodo : rutaActual) {
-                this.mejorRuta.add(nodo.fichaBot);
+                this.mejorRuta.add(new Nodo(nodo.getControlador(), nodo.casillaBot, nodo.fichaBot, nodo.fichasJugador));
             }
             this.mejorPuntaje = rutaActual.get(rutaActual.size() - 1).cantidadFichasAfectadas();
         } else if (this.mejorPuntaje < rutaActual.get(rutaActual.size() - 1).cantidadFichasAfectadas()) {
             System.out.println("PUNTOS DE MEJOR RUTA: " + this.mejorPuntaje + " PUNTOS DE RUTA ACTUAL: " + rutaActual.get(rutaActual.size() - 1).cantidadFichasAfectadas());
             mejorRuta.clear();
             for (Nodo nodo : rutaActual) {
-                this.mejorRuta.add(nodo.fichaBot);
+                this.mejorRuta.add(new Nodo(nodo.getControlador(), nodo.casillaBot, nodo.fichaBot, nodo.fichasJugador));
             }
             this.mejorPuntaje = rutaActual.get(rutaActual.size() - 1).cantidadFichasAfectadas();
         }
@@ -70,11 +70,11 @@ public class Algoritmo {
 
         } else {
             System.out.println("LONGITUD DE LA RUTA ES:" + this.mejorRuta.size());
-            for (Ficha ficha : mejorRuta) {
-                if (ficha == null) {
+            for (Nodo nodo : mejorRuta) {
+                if (nodo == null) {
                     System.out.println("es nulo");
                 } else {
-                    System.out.println(ficha.toString());
+                    System.out.println(nodo.fichaBot.toString() + " Y " + nodo.casillaBot.toString());
                 }
             }
             System.out.println("--------------");
