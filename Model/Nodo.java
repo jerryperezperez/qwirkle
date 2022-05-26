@@ -93,7 +93,38 @@ public class Nodo {
 
 
             }
-            //  System.out.println("HAY FICHAS EN EL TABLERO PERO NO SÉ POR QUÉ");
+            for (Estructura columna : this.controlador.getEstructuraColumnas()) {
+                if (columna.getCola().getLast().getCasillaInferior() != null) {
+                    try {
+                        ControladorEstructura controladorAuxiliar = new ControladorEstructura(controlador);
+                        Casilla casillita = new Casilla(columna.getCola().getLast().getCasillaInferior());
+                        controladorAuxiliar.agregar(casillita, ficha);
+                        casillita.setFicha(ficha);
+//                        this.fichaBot = ficha;
+//                        this.casillaBot = fila.getCola().getLast();
+                        this.nodosApuntados.add(new Nodo(controladorAuxiliar, casillita, ficha, fichasJugador));
+                    } catch (Exception e) {
+                        //   e.printStackTrace();
+                    }
+                }
+                if (columna.getCola().getFirst().getCasillaSuperior() != null) {
+
+                    try {
+                        ControladorEstructura controladorAuxiliar = new ControladorEstructura(controlador);
+
+                        Casilla casillita = new Casilla(columna.getCola().getFirst().getCasillaSuperior());
+                        controladorAuxiliar.agregar(casillita, ficha);
+                        casillita.setFicha(ficha);
+//                        fichaBot = ficha;
+//                        this.casillaBot = fila.getCola().getFirst();
+                        this.nodosApuntados.add(new Nodo(controladorAuxiliar, casillita, ficha, fichasJugador));
+                    } catch (Exception e) {
+                        //    e.printStackTrace();
+                    }
+                }
+
+
+            }
         }
         return this.nodosApuntados;
     }
