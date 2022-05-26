@@ -34,6 +34,9 @@ public class ControladorEstructura implements Cloneable {
         //TODO corregir y decidir qué hacer con cómo conservar la última jugada
         //this.ultimaJugada = new Casilla(controlador.ultimaJugada); EN SU MOVIMIENTO NO TIENE ULTIMA JUGADA
         this.direccion = controlador.direccion;
+        if (controlador.ultimaJugada != null) {
+            this.ultimaJugada = (Casilla) controlador.ultimaJugada.clone();
+        }
     }
 
     public void setDireccion(String direccion) {

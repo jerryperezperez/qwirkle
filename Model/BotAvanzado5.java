@@ -1,17 +1,26 @@
 package Model;
 
 import javax.swing.*;
+import javax.xml.bind.SchemaOutputResolver;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.Stack;
 
 public class BotAvanzado5 extends Bot {
+    Algoritmo algoritmo;
+
+    public BotAvanzado5() {
+        System.out.println("ENTRA EN CONSTRUCTOR DEL BOT AVANZADO");
+
+    }
 
 
     @Override
     public void analizarEstrategia() throws Exception {
-       ControladorEstructura controladorAuxiliar = new ControladorEstructura(controladorEstructura);
+        System.out.println("entraaaaa");
+        Nodo nodo = new Nodo(controladorEstructura, fichas);
+        nodo.getControlador().getUltimasEstructurasModificadas().clear();
         this.controladorEstructura.getEstructuraColumnas().sort(new Comparator<Estructura>() {
             @Override
             public int compare(Estructura o1, Estructura o2) {
@@ -23,28 +32,21 @@ public class BotAvanzado5 extends Bot {
             System.out.println("NO HAY FICHAS EN EL TABLERO");
             this.iniciarPartida();
         } else {
-            for (Ficha ficha: this.fichas) {
-
+            if (this.iterador == 0) {
+                this.algoritmo = new Algoritmo(nodo);
+                algoritmo.imprimirMejorRuta();
+                algoritmo.mejorRuta.remove(0);
             }
-            //  System.out.println("HAY FICHAS EN EL TABLERO PERO NO SÉ POR QUÉ");
-            for (int i = 5; i > 0; i--) {
-
-                if (this.casilla == null) {
-                    if (this.isJugadaEncontradaFilas(i)) {
-                        // JOptionPane.showMessageDialog(null, "HE ENCONTRADO FICHA Y CASILLA");
-                    } else {
-                        if (this.isJugadaEncontradaColumnas(i)) {
-                            // JOptionPane.showMessageDialog(null, "HE ENCONTRADO FICHA Y CASILLA");
-                        }
-                    }
-                } else {
-                    break;
-                }
+            if (algoritmo != null && !algoritmo.mejorRuta.isEmpty()) {
+                this.cambioFichaDisponible = false;
+                this.setFichaSeleccionada(algoritmo.mejorRuta.get(0).fichaBot);
+                this.casilla = algoritmo.mejorRuta.get(0).casillaBot;
+                algoritmo.mejorRuta.remove(0);
             }
         }
     }
 
-    public void getNodos(){
+    public void getNodos() {
 
     }
 

@@ -10,7 +10,7 @@ import javafx.scene.control.Alert;
 import javax.xml.bind.SchemaOutputResolver;
 import java.util.Objects;
 
-public class Casilla implements Comparable<Casilla> {
+public class Casilla implements Comparable<Casilla>, Cloneable {
 
     private int x;
     private int y;
@@ -25,14 +25,39 @@ public class Casilla implements Comparable<Casilla> {
         this.y = y;
 
     }
+
+    public Object clone()
+    {
+        Object clone = null;
+        try
+        {
+            clone = super.clone();
+        }
+        catch(CloneNotSupportedException e)
+        {
+            // No debería ocurrir
+        }
+        // Aqui viene la implementacion de la clonación "profunda" ('deep clone')
+        ((Casilla)clone).x = this.x;
+        ((Casilla)clone).y = this.y;
+        ((Casilla)clone).ficha = this.ficha;
+        ((Casilla)clone).casillaSuperior = this.casillaSuperior;
+        ((Casilla)clone).casillaInferior = this.casillaInferior;
+        ((Casilla)clone).casillaIzquierda = this.casillaIzquierda;
+        ((Casilla)clone).casillaDerecha = this.casillaDerecha;
+        return clone;
+    }
+
     public Casilla(Casilla casilla){
         this.x = casilla.getX();
         this.y = casilla.getY();
+        this.ficha = casilla.ficha;
         this.casillaSuperior = casilla.casillaSuperior;
-        this.casillaDerecha = casilla.casillaDerecha;
         this.casillaInferior = casilla.casillaInferior;
         this.casillaIzquierda = casilla.casillaIzquierda;
+        this.casillaDerecha = casilla.casillaDerecha;
     }
+
 
     public int getX() {
         return x;
@@ -142,6 +167,8 @@ public class Casilla implements Comparable<Casilla> {
         return false;
     }
 
+
+
     public boolean findCasilla(Casilla casilla) {
         if (this.casillaSuperior.getFicha() != null && this.casillaSuperior.getFicha().getId() == casilla.getFicha().getId()) {
             return true;
@@ -178,6 +205,16 @@ public class Casilla implements Comparable<Casilla> {
                 '}';
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Casilla casilla = (Casilla) o;
+
+        if (x != casilla.x) return false;
+        return y == casilla.y;
+    }
 
     @Override
     public int hashCode() {

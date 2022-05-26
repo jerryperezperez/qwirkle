@@ -14,18 +14,24 @@ public class Nodo {
         this.nodosApuntados = new ArrayList<Nodo>();
         this.fichasJugador = new ArrayList<Ficha>();
         this.fichasJugador.addAll(fichas);
-      //  this.getNodos();
+        this.fichaBot = new Ficha();
+        this.casillaBot = new Casilla();
+        //  this.getNodos();
     }
 
     public Nodo(ControladorEstructura controlador, Casilla casilla, Ficha ficha, ArrayList<Ficha> fichas) {
         this.controlador = new ControladorEstructura(controlador);
         this.casillaBot = new Casilla(casilla);
+        //TODO Verificar que esta línea no afecte el funcionamiento, debe eliminar la ficha de la casilla que tiene por referencia como objeto
+        this.casillaBot.setFicha(null);
         this.nodosApuntados = new ArrayList<Nodo>();
         this.fichasJugador = new ArrayList<Ficha>();
-       // fichas.remove(ficha);
+        // fichas.remove(ficha);
+//        System.out.println("EN EL CONTROLADOR ESTÁ " + ficha.toString() + " Y " + casilla.toString());
         this.fichasJugador.addAll(fichas);
+        this.fichasJugador.remove(ficha);
         this.fichaBot = ficha;
-     //   this.getNodos();
+        //   this.getNodos();
     }
 
     public ArrayList<Nodo> getNodosApuntados() {
@@ -54,57 +60,42 @@ public class Nodo {
     }
 
 
-/*    public ArrayList<Nodo> getNodos() {
+    public ArrayList<Nodo> getNodos() {
         for (Ficha ficha : this.fichasJugador) {
-            //RECORRER CADA FICHA POR CADA FILA POR IZQUIERDA Y DERECHA
-            for (Estructura estructuraFila : this.controlador.getEstructuraFilas()) {
-                ControladorEstructura controladorAuxiliar = new ControladorEstructura(controlador);
-                controladorAuxiliar.imprimirCantidadEstructuras();
-                try {
-                    controladorAuxiliar.agregar(estructuraFila.getCola().getFirst().getCasillaIzquierda(), ficha);
-                    nodosApuntados.add(new Nodo(controladorAuxiliar, estructuraFila.getCola().getFirst().getCasillaIzquierda(), ficha, this.fichasJugador));
-                    System.out.println("HA CREADO NODO");
-
-                } catch (Exception e) {
-
+                for (Estructura fila : this.controlador.getEstructuraFilas()) {
+                if (fila.getCola().getLast().getCasillaDerecha() != null) {
+                    try {
+                        ControladorEstructura controladorAuxiliar = new ControladorEstructura(controlador);
+                        Casilla casillita = new Casilla(fila.getCola().getLast().getCasillaDerecha());
+                        controladorAuxiliar.agregar(casillita, ficha);
+                        casillita.setFicha(ficha);
+//                        this.fichaBot = ficha;
+//                        this.casillaBot = fila.getCola().getLast();
+                        this.nodosApuntados.add(new Nodo(controladorAuxiliar, casillita, ficha, fichasJugador));
+                    } catch (Exception e) {
+                        //   e.printStackTrace();
+                    }
                 }
-                controladorAuxiliar = new ControladorEstructura(controlador);
-                controladorAuxiliar.imprimirCantidadEstructuras();
+                if (fila.getCola().getFirst().getCasillaIzquierda() != null) {
 
-                try {
-                    controladorAuxiliar.agregar(estructuraFila.getCola().getLast().getCasillaDerecha(), ficha);
-                    nodosApuntados.add(new Nodo(controladorAuxiliar, estructuraFila.getCola().getLast().getCasillaDerecha(), ficha, this.fichasJugador));
-                    System.out.println("HA CREADO NODO");
-                } catch (Exception e) {
+                    try {
+                        ControladorEstructura controladorAuxiliar = new ControladorEstructura(controlador);
 
+                        Casilla casillita = new Casilla(fila.getCola().getFirst().getCasillaIzquierda());
+                        controladorAuxiliar.agregar(casillita, ficha);
+                        casillita.setFicha(ficha);
+//                        fichaBot = ficha;
+//                        this.casillaBot = fila.getCola().getFirst();
+                        this.nodosApuntados.add(new Nodo(controladorAuxiliar, casillita, ficha, fichasJugador));
+                    } catch (Exception e) {
+                        //    e.printStackTrace();
+                    }
                 }
+
+
             }
-            //RECORRER CADA FICHA POR CADA COLUMNA POR ARRIBA Y ABAJO
-            for (Estructura estructuraColumna : this.controlador.getEstructuraColumnas()) {
-                ControladorEstructura controladorAuxiliar = new ControladorEstructura(controlador);
-                controladorAuxiliar.imprimirCantidadEstructuras();
-
-                try {
-                    controladorAuxiliar.agregar(estructuraColumna.getCola().getFirst().getCasillaSuperior(), ficha);
-                    nodosApuntados.add(new Nodo(controladorAuxiliar, estructuraColumna.getCola().getFirst().getCasillaSuperior(), ficha, this.fichasJugador));
-                    System.out.println("HA CREADO NODO");
-                } catch (Exception e) {
-
-
-                }
-                controladorAuxiliar = new ControladorEstructura(controlador);
-                controladorAuxiliar.imprimirCantidadEstructuras();
-
-                try {
-                    controladorAuxiliar.agregar(estructuraColumna.getCola().getLast().getCasillaInferior(), ficha);
-                    nodosApuntados.add(new Nodo(controladorAuxiliar, estructuraColumna.getCola().getLast().getCasillaInferior(), ficha, this.fichasJugador));
-                    System.out.println("HA CREADO NODO");
-                } catch (Exception e) {
-
-
-                }
-            }
+            //  System.out.println("HAY FICHAS EN EL TABLERO PERO NO SÉ POR QUÉ");
         }
         return this.nodosApuntados;
-    }*/
+    }
 }
