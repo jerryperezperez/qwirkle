@@ -55,17 +55,13 @@ public class Juego extends Thread {
         }*/
     }
 
-    private void debugger ()
-    {
+    private void debugger() {
         this.debug = new DebugExt(null, false);
         this.debug.jButton4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 try {
                     actualizarDatos(evt);
-                }
-
-                catch (Exception err)
-                {
+                } catch (Exception err) {
                     System.out.println("Datos no existentes");
                 }
             }
@@ -73,10 +69,9 @@ public class Juego extends Thread {
         this.debug.setVisible(true);
     }
 
-    private void actualizarDatos (java.awt.event.ActionEvent evt)
-    {
+    private void actualizarDatos(java.awt.event.ActionEvent evt) {
         this.debug.updateDebug(this.controladorEstructura.getEstructuraFilas(), this.controladorEstructura.getEstructuraColumnas(),
-        this.controladorEstructura.getUltimasEstructurasModificadas(), this.controladorEstructura.getUltimaJugada(), this.controladorEstructura.getDireccion());
+                this.controladorEstructura.getUltimasEstructurasModificadas(), this.controladorEstructura.getUltimaJugada(), this.controladorEstructura.getDireccion());
         System.out.println("Actualizado");
     }
 
@@ -182,6 +177,8 @@ public class Juego extends Thread {
                     }
                 }
             }*/
+            System.out.println(casilla.toString());
+            System.out.println(this.jugadores[numeroJugadorEnTurno].getFichaSeleccionada().toString());
             this.controladorEstructura.agregar(casilla, this.jugadores[numeroJugadorEnTurno].getFichaSeleccionada());
             this.realizarMovimiento(casilla);
             // ESTO ESTÁ IGUAL EN EL CONTROLLER, SE DEBE ESTAR DUPLICANDO PERO NO DEBERÍA AFECTAR LA INTERACIÓN DEL JUEGO
@@ -193,7 +190,7 @@ public class Juego extends Thread {
 
         }
         //se ha quitado de estructura controlador para probar si realmente funciona o afecta
-        casilla.setFicha(this.getJugadorEnTurno().getFichaSeleccionada());
+//        casilla.setFicha(this.getJugadorEnTurno().getFichaSeleccionada());
 
         return true;
     }
@@ -296,7 +293,9 @@ public class Juego extends Thread {
         }
         if (((Bot) this.jugadores[numeroJugadorEnTurno]).getCasilla() != null) {
             // this.controladorEstructura.imprimirEstructuras();
-            this.isMovimientoValido(((Bot) this.jugadores[numeroJugadorEnTurno]).getCasilla());
+
+//            this.isMovimientoValido(((Bot) this.jugadores[numeroJugadorEnTurno]).getCasilla());
+            this.isMovimientoValido(this.tablero.casilla[((Bot) this.jugadores[numeroJugadorEnTurno]).getCasilla().getX()][((Bot) this.jugadores[numeroJugadorEnTurno]).getCasilla().getY()]);
 
         }
     }

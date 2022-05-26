@@ -108,7 +108,7 @@ public class DebugExt extends javax.swing.JDialog {
         {
             data1.add(this.estructuraFilas.get(posicion).getCola().get(i).getX());
             data2.add(this.estructuraFilas.get(posicion).getCola().get(i).getY());
-            data3.add(this.estructuraFilas.get(posicion).getCola().get(i).getFicha().getId());
+            data3.add("th");
             if (this.estructuraFilas.get(posicion).getCola().get(i).getCasillaSuperior().getFicha() == null)
             {
                 data4.add("None");
@@ -187,7 +187,7 @@ public class DebugExt extends javax.swing.JDialog {
         {
             data1.add(this.estructuraColumnas.get(posicion).getCola().get(i).getX());
             data2.add(this.estructuraColumnas.get(posicion).getCola().get(i).getY());
-            data3.add(this.estructuraColumnas.get(posicion).getCola().get(i).getFicha().getId());
+            data3.add("th");
             if (this.estructuraColumnas.get(posicion).getCola().get(i).getCasillaSuperior().getFicha() == null)
             {
                 data4.add("None");
@@ -272,7 +272,7 @@ public class DebugExt extends javax.swing.JDialog {
                 {
                     data1.add(datos.getCola().get(i).getX());
                     data2.add(datos.getCola().get(i).getY());
-                    data3.add(datos.getCola().get(i).getFicha().getId());
+                    data3.add("th");
                     if (datos.getCola().get(i).getCasillaSuperior().getFicha() == null)
                     {
                         data4.add("None");
