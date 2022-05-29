@@ -253,10 +253,14 @@ public class Juego extends Thread {
                 }
             }
         } else {
-            this.jugadores[this.numeroJugadorEnTurno].sumarPuntos(this.calcularPuntos(this.controladorEstructura.getUltimasEstructurasModificadas()));
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setContentText("PUNTOS GANADOS: " + this.calcularPuntos(this.controladorEstructura.getUltimasEstructurasModificadas()));
-            alert.showAndWait();
+            if (this.getJugadorEnTurno() instanceof Bot && ((Bot) this.getJugadorEnTurno()).isCambioFichaDisponible()) {
+                
+            } else {
+                this.jugadores[this.numeroJugadorEnTurno].sumarPuntos(this.calcularPuntos(this.controladorEstructura.getUltimasEstructurasModificadas()));
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setContentText("PUNTOS GANADOS: " + this.calcularPuntos(this.controladorEstructura.getUltimasEstructurasModificadas()));
+                alert.showAndWait();
+            }
 
         }
         this.limpiarControladorEstructura();

@@ -19,7 +19,7 @@ public class BotEquipo5 extends Bot {
         });
 
         if (this.controladorEstructura.getEstructuraFilas().isEmpty() && this.controladorEstructura.getEstructuraFilas().isEmpty()) {
-            System.out.println("NO HAY FICHAS EN EL TABLERO");
+//            System.out.println("NO HAY FICHAS EN EL TABLERO");
             this.iniciarPartida();
         } else {
             //  System.out.println("HAY FICHAS EN EL TABLERO PERO NO SÉ POR QUÉ");

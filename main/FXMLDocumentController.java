@@ -1114,7 +1114,7 @@ public class FXMLDocumentController {
 
     public void actualizarTablaPuntaje() {
         for (int i = 0; i < this.juego.jugadores.length; i++) {
-            this.listaPuntajesJugador.getItems().set(i, ("Jugador " + i + ": " + this.juego.jugadores[i].getPuntosJugador() + "puntos"));
+            this.listaPuntajesJugador.getItems().set(i, (this.juego.jugadores[i].getClass() +" " + i + ": " + (this.juego.jugadores[i].getPuntosJugador()+1) + "puntos"));
         }
     }
 
@@ -1166,7 +1166,6 @@ public class FXMLDocumentController {
 
         } catch (Exception e) {
             e.printStackTrace();
-            System.out.println("NO HAE JUEGO");
         }
         this.actualizarFichasTablero();
 
@@ -1232,9 +1231,6 @@ public class FXMLDocumentController {
                                 if (this.juego.isMovimientoValido(this.juego.getTablero().casilla[x][y])) {
                                     ((ImageView) (event.getSource())).setImage(new Image("Fichas/Ficha" + this.juego.getJugadorEnTurno().getFichaSeleccionada().getId() + ".png"));
                                     this.juego.getTablero().casilla[x][y].setFicha(this.juego.getJugadorEnTurno().getFichaSeleccionada());
-                                    //TODO LÍNEA PARA VER CUÁLES FUERON LAS ÚLTIMAS FICHAS PUESTAS, PERO HACE FALTA CREAR MÉTODO QUE ELIMINE EL EFECTO
-                                    // ((ImageView) (event.getSource())).setOpacity(.3);
-                                    // DESCOMENTAR SI SE AFECTA CON LA PARTE DE JUEGO
                                     this.juego.getJugadorEnTurno().removerFicha(this.juego.getJugadorEnTurno().getFichaSeleccionada());
                                     juego.getJugadorEnTurno().setFichaSeleccionada(null);
                                     opacidad();
@@ -1297,7 +1293,6 @@ public class FXMLDocumentController {
         for (int i = 0; i < this.juego.getTablero().casilla.length; i++) {
             for (int j = 0; j < this.juego.getTablero().casilla[i].length; j++) {
                 if (this.juego.getControladorEstructura().getUltimaJugada() != null && this.juego.getControladorEstructura().getUltimaJugada().equals(this.juego.getTablero().casilla[i][j])) {
-                    System.out.println("encontró la última jugada del tablero");
                     this.arregloImageViewTablero[i][j].setEffect(new DropShadow(15, Color.BROWN));
                 }
             }
@@ -1337,7 +1332,7 @@ public class FXMLDocumentController {
         this.actualizarFichasEnCambio();
         this.actualizarTablaPuntaje();
         this.pintarTablero();
-        this.labelJugadorEnTurno.setText("Turno: Jugador " + this.juego.getNumeroJugadorEnTurno());
+        this.labelJugadorEnTurno.setText("Turno: Jugador " + (this.juego.getNumeroJugadorEnTurno()+1));
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setContentText("SE HA CAMBIADO AL JUGADOR " + (this.juego.getNumeroJugadorEnTurno() + 1));
         alert.showAndWait();

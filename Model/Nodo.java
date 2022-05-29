@@ -107,7 +107,7 @@ public class Nodo {
                         //   e.printStackTrace();
                     }
                 }
-                if (columna.getCola().getFirst().getCasillaSuperior() != null) {
+                if (columna.getCola().getFirst().getCasillaSuperior()   != null) {
 
                     try {
                         ControladorEstructura controladorAuxiliar = new ControladorEstructura(controlador);
