@@ -4,10 +4,14 @@ import javax.swing.*;
 import javax.xml.bind.SchemaOutputResolver;
 import java.util.ArrayList;
 
-public class BotEquipo7 extends Bot {
+public class BotEquipo6 extends Bot {
     private Casilla casillaHeuristica;
     private String estructuraHeuristica;
     private int ciclos = 0;
+
+    public BotEquipo6() {
+        super("Bot Equipo 6");
+    }
 
     @Override
     public void analizarEstrategia() throws Exception {

@@ -16,11 +16,13 @@ public class Jugador {
     private int manoJugador;
     private Ficha fichaSeleccionada;
     private Ficha fichaVacia;
+    private String name;
     private int cantidadFichasSeleccionadas;
     private int puntosObtenidos;
 
-    public Jugador() {
+    public Jugador(String name) {
         Jugador.ID += 1;
+        this.name = name;
         this.idJugador = Jugador.ID;
         this.fichas = new ArrayList<>();
         fichaVacia = new Ficha();
@@ -110,5 +112,9 @@ public class Jugador {
 
     public void setCantidadFichasSeleccionadas(int cantidadFichasSeleccionadas) {
         this.cantidadFichasSeleccionadas = cantidadFichasSeleccionadas;
+    }
+
+    public String getName() {
+        return this.name;
     }
 }

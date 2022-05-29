@@ -1114,7 +1114,7 @@ public class FXMLDocumentController {
 
     public void actualizarTablaPuntaje() {
         for (int i = 0; i < this.juego.jugadores.length; i++) {
-            this.listaPuntajesJugador.getItems().set(i, (this.juego.jugadores[i].getClass() +" " + i + ": " + (this.juego.jugadores[i].getPuntosJugador()+1) + "puntos"));
+            this.listaPuntajesJugador.getItems().set(i, (this.juego.jugadores[i].getName() + ": " + (this.juego.jugadores[i].getPuntosJugador()) + "puntos"));
         }
     }
 

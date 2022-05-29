@@ -8,6 +8,9 @@ import java.util.Stack;
 
 public class BotEquipo5 extends Bot {
 
+    public BotEquipo5(){
+        super("Bot Equipo 5");
+    }
 
     @Override
     public void analizarEstrategia() throws Exception {

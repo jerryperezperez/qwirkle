@@ -11,6 +11,7 @@ public class BotAvanzado5 extends Bot {
     Algoritmo algoritmo;
 
     public BotAvanzado5() {
+        super("Bot Avanzado 5");
         System.out.println("ENTRA EN CONSTRUCTOR DEL BOT AVANZADO");
 
     }

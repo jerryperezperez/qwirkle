@@ -3,6 +3,10 @@ package Model;
 import java.util.ArrayList;
 
 public class BotAvanzado5Fallido extends Bot{
+
+    public BotAvanzado5Fallido(){
+        super("Bot Avanzado fallido");
+    }
     ControladorEstructura controladorAuxiliar;
     @Override
     public void analizarEstrategia() throws Exception {

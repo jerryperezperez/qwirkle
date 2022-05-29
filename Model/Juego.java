@@ -81,16 +81,16 @@ public class Juego extends Thread {
             switch (listaJugadores.get(i)) {
                 case "Jugador Humano":
                     System.out.println("ENTRA A  CREAR JUGADOR");
-                    this.jugadores[i] = new Jugador();
+                    this.jugadores[i] = new Jugador("Jugador Humano");
                     break;
                 case "Bot Equipo 5":
                     System.out.println("ENTRA A  CREAR JUGADOR");
                     this.jugadores[i] = new BotEquipo5();
                     break;
-                case "BotEquipo6":
+                case "Bot Equipo 6":
+                    this.jugadores[i] = new BotEquipo6();
                     break;
                 case "Bot Equipo 7":
-                    this.jugadores[i] = new BotEquipo7();
                     break;
                 case "Bot Equipo 5 Avanzado":
                     this.jugadores[i] = new BotAvanzado5();
@@ -235,10 +235,6 @@ public class Juego extends Thread {
         return puntos;
     }
 
-    public void terminarJuego() {
-
-    }
-
     public void terminarTurno() throws Exception {
         this.getJugadorEnTurno().removerFichaSeleccionada();
         this.getJugadorEnTurno().quitarFichasJugadas();
@@ -253,15 +249,10 @@ public class Juego extends Thread {
                 }
             }
         } else {
-            if (this.getJugadorEnTurno() instanceof Bot && ((Bot) this.getJugadorEnTurno()).isCambioFichaDisponible()) {
-                
-            } else {
-                this.jugadores[this.numeroJugadorEnTurno].sumarPuntos(this.calcularPuntos(this.controladorEstructura.getUltimasEstructurasModificadas()));
-                Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                alert.setContentText("PUNTOS GANADOS: " + this.calcularPuntos(this.controladorEstructura.getUltimasEstructurasModificadas()));
-                alert.showAndWait();
-            }
-
+            this.jugadores[this.numeroJugadorEnTurno].sumarPuntos(this.calcularPuntos(this.controladorEstructura.getUltimasEstructurasModificadas()));
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setContentText("PUNTOS GANADOS: " + this.calcularPuntos(this.controladorEstructura.getUltimasEstructurasModificadas()));
+            alert.showAndWait();
         }
         this.limpiarControladorEstructura();
         while ((this.getJugadorEnTurno().getArregloFichas().length < 6) && (!this.bolsa.fichas.isEmpty())) {

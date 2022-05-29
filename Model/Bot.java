@@ -15,7 +15,8 @@ public abstract class Bot extends Jugador {
     //   private ArrayList<Nodo> arregloNodos;
     // Algoritmo algoritmo;
 
-    public Bot() {
+    public Bot(String name) {
+        super(name);
         arregloCambioFichas = new ArrayList<>();
         //  arregloNodos = new ArrayList<>();
     }
