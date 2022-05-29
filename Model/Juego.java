@@ -4,6 +4,8 @@ import Debug.DebugExt;
 import javafx.scene.control.Alert;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashSet;
 
 public class Juego extends Thread {
@@ -179,8 +181,8 @@ public class Juego extends Thread {
                     }
                 }
             }*/
-            System.out.println(casilla.toString());
-            System.out.println(this.jugadores[numeroJugadorEnTurno].getFichaSeleccionada().toString());
+//            System.out.println(casilla.toString());
+//            System.out.println(this.jugadores[numeroJugadorEnTurno].getFichaSeleccionada().toString());
             this.controladorEstructura.agregar(casilla, this.jugadores[numeroJugadorEnTurno].getFichaSeleccionada());
             this.realizarMovimiento(casilla);
             // ESTO ESTÁ IGUAL EN EL CONTROLLER, SE DEBE ESTAR DUPLICANDO PERO NO DEBERÍA AFECTAR LA INTERACIÓN DEL JUEGO
@@ -240,10 +242,9 @@ public class Juego extends Thread {
     public void terminarTurno() throws Exception {
         this.getJugadorEnTurno().removerFichaSeleccionada();
         this.getJugadorEnTurno().quitarFichasJugadas();
-       /* for (Estructura estructura: this.controladorEstructura.getUltimasEstructurasModificadas()) {
-            System.out.println(estructura.toString());
-        }*/
-        //this.controladorEstructura.imprimirEstructuras();
+        if (this.getJugadorEnTurno() instanceof Bot && ((Bot) this.getJugadorEnTurno()).isCambioFichaDisponible()){
+            System.out.println("EL BOT QUIERE CAMBIAR FICHAS");
+        }
         if (this.fichaEncambio == true) {
             if (!this.fichasTramitadas.isEmpty()) {
                 for (Ficha ficha : this.fichasTramitadas) {
@@ -259,6 +260,14 @@ public class Juego extends Thread {
         this.limpiarControladorEstructura();
         while ((this.getJugadorEnTurno().getArregloFichas().length < 6) && (!this.bolsa.fichas.isEmpty())) {
             this.getJugadorEnTurno().setFicha(this.sacarFichaBolsa());
+        }
+        if (this.getJugadorEnTurno().getArregloFichas().length < 6 && this.bolsa.fichas.isEmpty()) {
+            Collections.sort(this.getJugadorEnTurno().fichas, new Comparator<Ficha>() {
+                @Override
+                public int compare(Ficha o1, Ficha o2) {
+                    return o1.getId() - o2.getId();
+                }
+            });
         }
         this.cambiarJugador();
         this.fichaEncambio = false;

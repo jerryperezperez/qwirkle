@@ -1,6 +1,8 @@
 
 package Model;
 
+import javafx.scene.control.Alert;
+
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -33,6 +35,11 @@ public class Bolsa {
             i = rand.nextInt(this.fichas.size());
             return this.fichas.remove(i);
         } else {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("No hay más fichas");
+            alert.setHeaderText(null);
+            alert.setContentText("Ya no hay más fichas en la bolsa");
+            alert.showAndWait();
             throw new Exception("NO HAY MÁS FICHAS EN LA BOLSA");
         }
     }

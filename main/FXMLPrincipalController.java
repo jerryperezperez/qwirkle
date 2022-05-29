@@ -20,10 +20,6 @@ import javax.swing.*;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
-import java.util.logging.Logger;
-
-import static java.lang.Thread.sleep;
-import static javafx.fxml.FXMLLoader.getDefaultClassLoader;
 
 public class FXMLPrincipalController implements Initializable {
     @FXML
@@ -50,7 +46,7 @@ public class FXMLPrincipalController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
-        this.spinnerJugadores.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 4, 0));
+        this.spinnerJugadores.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 18, 0));
 
         this.spinnerJugadores.valueProperty().addListener(new ChangeListener<Integer>() {
             @Override
@@ -66,48 +62,66 @@ public class FXMLPrincipalController implements Initializable {
     }
 
     public void setVentanaArranque() {
+        this.listaJugadores.getItems().clear();
         this.spinnerJugadores.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 4, 0));
-
-        this.spinnerJugadores.valueProperty().addListener(new ChangeListener<Integer>() {
-            @Override
-            public void changed(ObservableValue<? extends Integer> observable, Integer oldValue, Integer newValue) {
-                if (oldValue < newValue) {
-                    listaJugadores.getItems().add("Jugador Humano");
-                } else {
-                    listaJugadores.getItems().remove("Jugador Humano");
-                }
-            }
-        });
+        //ESTO EVITA QUE SE AGREGUE E LISTENER Y CREE OTRO JUGADOR EXTRA AL REINICIAR EL JUEGO
+//        this.spinnerJugadores.valueProperty().addListener(new ChangeListener<Integer>() {
+//            @Override
+//            public void changed(ObservableValue<? extends Integer> observable, Integer oldValue, Integer newValue) {
+//                if (oldValue < newValue) {
+//                    listaJugadores.getItems().add("Jugador Humano");
+//                } else {
+//                    listaJugadores.getItems().remove("Jugador Humano");
+//                }
+//            }
+//        });
     }
 
     @FXML
     public void eventoBot(ActionEvent actionEvent) {
-        this.listaJugadores.getItems().add(((MenuItem) actionEvent.getSource()).getText());
+        if (this.listaJugadores.getItems().size() == 18) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Limite de jugadores");
+            alert.setHeaderText(null);
+            alert.setContentText("Se ha alcanzado el límite de jugadores en el juego");
+            alert.showAndWait();
+        } else {
+            this.listaJugadores.getItems().add(((MenuItem) actionEvent.getSource()).getText());
+        }
     }
 
     @FXML
     public void eventoLimpiar(MouseEvent mouse) {
         this.listaJugadores.getItems().clear();
+        this.spinnerJugadores.decrement(this.spinnerJugadores.getValue());
     }
 
     @FXML
     public void eventoJugar(MouseEvent mouseEvent) throws IOException {
 
+        if (this.listaJugadores.getItems().isEmpty()) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Sin jugadores");
+            alert.setHeaderText(null);
+            alert.setContentText("No puede comenzar el juego sin jugadores");
+            alert.showAndWait();
 
-        Node source = (Node) mouseEvent.getSource();     //Me devuelve el elemento al que hice click
-        Stage stage2 = (Stage) source.getScene().getWindow();    //Me devuelve la ventana donde se encuentra el elemento
-        stage2.close();
+        } else {
+            Node source = (Node) mouseEvent.getSource();     //Me devuelve el elemento al que hice click
+            Stage stage2 = (Stage) source.getScene().getWindow();    //Me devuelve la ventana donde se encuentra el elemento
+            stage2.close();
 
-        FXMLLoader fxmlLoader = new FXMLLoader();
-        fxmlLoader.setLocation(getClass().getResource("FXMLDocument.fxml"));
+            FXMLLoader fxmlLoader = new FXMLLoader();
+            fxmlLoader.setLocation(getClass().getResource("FXMLDocument.fxml"));
 
-        Scene scene = new Scene(fxmlLoader.load());
-        Stage stage = new Stage();
-        stage.setScene(scene);
-        stage.initModality(Modality.APPLICATION_MODAL);
-        FXMLDocumentController controlador = (FXMLDocumentController) fxmlLoader.getController();
-        stage.show();
-        controlador.setJugadores(this.listaJugadores);
+            Scene scene = new Scene(fxmlLoader.load());
+            Stage stage = new Stage();
+            stage.setScene(scene);
+            stage.initModality(Modality.APPLICATION_MODAL);
+            FXMLDocumentController controlador = (FXMLDocumentController) fxmlLoader.getController();
+            stage.show();
+            controlador.setJugadores(this.listaJugadores);
+        }
 
 
     }

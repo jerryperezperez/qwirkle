@@ -20,8 +20,7 @@ public abstract class Bot extends Jugador {
         arregloCambioFichas = new ArrayList<>();
         //  arregloNodos = new ArrayList<>();
     }
-//TODO Hacer clase Bot abstarcta y crear clase específica para el bot
-    //public abstract void  emplearEstrategia();
+
 
     public void iniciar(ControladorEstructura controlador, int iterador) throws Exception {
         // this.jugadaLista = false;

@@ -23,7 +23,7 @@
       <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="30.0" layoutX="489.0" layoutY="332.0" stroke="BLACK" strokeType="INSIDE" style="-fx-arc-width: 8; -fx-arc-height: 8;" width="257.0" />
       <ImageView fx:id="imgperfil" fitHeight="56.0" fitWidth="56.0" layoutX="493.0" layoutY="22.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../Imagenes/Vulpixs.jpg" />
+            <Image url="@../Imagenes/jugador.png" />
          </image>
          <effect>
             <DropShadow blurType="ONE_PASS_BOX" height="10.0" radius="4.5" width="10.0" />
