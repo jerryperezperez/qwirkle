@@ -9,11 +9,12 @@ import java.util.Random;
  */
 public class Bolsa {
 
-    public ArrayList<Ficha> fichas = new ArrayList<>();
+    public ArrayList<Ficha> fichas;
     private static String formas[] = {"cuadrado", "circulo", "rombo", "trebol", "tacha", "estrella"};
     private static String colores[] = {"verde", "rojo", "morado", "amarillo", "azul", "naranja"};
 
     public Bolsa() {
+        this.fichas = new ArrayList<>();
 
         for (String forma : formas) {
             for (String color : colores) {
@@ -22,19 +23,18 @@ public class Bolsa {
                 }
             }
         }
-        //System.out.println("CANTIDAD DE FICHAS CREADAS: " + fichas.size());
+        System.out.println("CANTIDAD DE FICHAS CREADAS: " + fichas.size());
     }
 
     public Ficha darFicha() throws Exception {
-       if (!this.fichas.isEmpty()){
-           Random rand = new Random();//método que devuelve una ficha y la elimina del arreglo
-           int i;
-           i = rand.nextInt(this.fichas.size());
-           return this.fichas.remove(i);
-       }
-       else{
-           throw new Exception("NO HAY MÁS FICHAS EN LA BOLSA");
-       }
+        if (!this.fichas.isEmpty()) {
+            Random rand = new Random();//método que devuelve una ficha y la elimina del arreglo
+            int i;
+            i = rand.nextInt(this.fichas.size());
+            return this.fichas.remove(i);
+        } else {
+            throw new Exception("NO HAY MÁS FICHAS EN LA BOLSA");
+        }
     }
 //MÉTODO DE INTERCAMBIO DE FICHAS. POSIBLE MODIFICACIÓN
 

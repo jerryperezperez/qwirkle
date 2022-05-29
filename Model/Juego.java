@@ -24,6 +24,8 @@ public class Juego extends Thread {
     public Juego(ArrayList<String> listaJugadores) throws Exception {//agregar como parámetro la cantidad de jugadores, esándar es de dos, a lo mejor se agregan otros
         this.bolsa = new Bolsa();
         this.tablero = new Tablero();
+        Ficha.setID(1);
+        Jugador.setID(0);
         // this.estructura = new Estructura();
         this.jugadores = new Jugador[listaJugadores.size()];
         this.fichaEncambio = false;

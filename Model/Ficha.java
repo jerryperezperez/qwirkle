@@ -41,6 +41,10 @@ public class Ficha {
         return id;
     }
 
+    public static void setID(int ID) {
+        Ficha.ID = ID;
+    }
+
     public void setId(int id) {
         this.id = id;
     }

@@ -65,12 +65,28 @@ public class FXMLPrincipalController implements Initializable {
 
     }
 
+    public void setVentanaArranque() {
+        this.spinnerJugadores.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 4, 0));
+
+        this.spinnerJugadores.valueProperty().addListener(new ChangeListener<Integer>() {
+            @Override
+            public void changed(ObservableValue<? extends Integer> observable, Integer oldValue, Integer newValue) {
+                if (oldValue < newValue) {
+                    listaJugadores.getItems().add("Jugador Humano");
+                } else {
+                    listaJugadores.getItems().remove("Jugador Humano");
+                }
+            }
+        });
+    }
+
     @FXML
     public void eventoBot(ActionEvent actionEvent) {
         this.listaJugadores.getItems().add(((MenuItem) actionEvent.getSource()).getText());
     }
+
     @FXML
-    public void eventoLimpiar(MouseEvent mouse){
+    public void eventoLimpiar(MouseEvent mouse) {
         this.listaJugadores.getItems().clear();
     }
 
@@ -92,8 +108,6 @@ public class FXMLPrincipalController implements Initializable {
         FXMLDocumentController controlador = (FXMLDocumentController) fxmlLoader.getController();
         stage.show();
         controlador.setJugadores(this.listaJugadores);
-
-
 
 
     }

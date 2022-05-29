@@ -1,23 +1,24 @@
 package main;
 
 import java.awt.event.ActionEvent;
+import java.io.IOException;
 import java.net.URL;
 import java.util.*;
 
 import Model.*;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
+import javafx.scene.Scene;
+import javafx.scene.control.*;
 
-import javafx.scene.control.ListView;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import javax.swing.*;
@@ -1073,11 +1074,11 @@ public class FXMLDocumentController {
             System.out.println("ID de ficha : " + (juego.getJugadorEnTurno().getArregloFichas()[f].getId()));
         }*/
         for (int i = 0; i < juego.getJugadorEnTurno().getArregloFichas().length; i++) {
-
+//TODO reparar problema de duplicación de fichas
             //System.out.println("CANTIDAD DE FICHAS ACTUALES E MANO : " + juego.getJugadorEnTurno().getArregloFichas().length);
             idFicha = (juego.getJugadorEnTurno().getArregloFichas()[i].getId());
+            System.out.println("IMPRIMIR ID DE FICHA: " + idFicha);
             arregloImageView[i].setImage(new Image("Fichas/Ficha" + idFicha + ".png"));
-
         }
     }
 
@@ -1155,7 +1156,9 @@ public class FXMLDocumentController {
             // this.juego.start();
             for (int i = 0; i < this.juego.jugadores.length; i++) {
                 System.out.println("entra en juego");
-                this.listaPuntajesJugador.getItems().add("Jugador " + (i + 1) + ": " + this.juego.jugadores[i].getPuntosJugador() + " puntos");
+                this.listaPuntajesJugador.getItems().add((this.juego.jugadores[i].getName() + ": " + (this.juego.jugadores[i].getPuntosJugador()) + "puntos"));
+//                Se comenta para probar la impresión en interfaz de los nombres de los jugadores
+//                this.listaPuntajesJugador.getItems().add("Jugador " + (i + 1) + ": " + this.juego.jugadores[i].getPuntosJugador() + " puntos");
             }
 
             this.labelJugadorEnTurno.setText("Turno: Jugador 1");
@@ -1190,7 +1193,7 @@ public class FXMLDocumentController {
     }
 
     @FXML
-    public void eventoTerminar(MouseEvent mouseEvent) {
+    public void eventoTerminar(MouseEvent mouseEvent) throws IOException {
         ArrayList<Jugador> listaFinal = new ArrayList<>();
 
         listaFinal.addAll(Arrays.asList(this.juego.jugadores));
@@ -1202,12 +1205,33 @@ public class FXMLDocumentController {
         });
 
         Alert alert2 = new Alert(Alert.AlertType.INFORMATION);
-        alert2.setContentText("EL JUGADOR GANADOR ES: " + listaFinal.get(0).getIdJugador() + " CON " + listaFinal.get(0).getPuntosJugador() + " PUNTOS");
+        alert2.setContentText("EL JUGADOR " + listaFinal.get(0).getIdJugador() + " (" + listaFinal.get(0).getName() + ") " + "ES EL GANADOR CON " + listaFinal.get(0).getPuntosJugador() + " PUNTOS");
         alert2.showAndWait();
 
-        Node source = (Node) mouseEvent.getSource();     //Me devuelve el elemento al que hice click
-        Stage stage2 = (Stage) source.getScene().getWindow();    //Me devuelve la ventana donde se encuentra el elemento
-        stage2.close();
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Diálogo de confirmación...");
+        alert.setHeaderText(null);
+        alert.setContentText("¿Desea reiniciar el juego?");
+
+        Optional<ButtonType> resultado = alert.showAndWait();
+        if (resultado.isPresent()) {
+            Node source = (Node) mouseEvent.getSource();     //Me devuelve el elemento al que hice click
+            Stage stage2 = (Stage) source.getScene().getWindow();    //Me devuelve la ventana donde se encuentra el elemento
+            stage2.close();
+            if (resultado.get() == ButtonType.OK) {
+                FXMLLoader fxmlLoader = new FXMLLoader();
+                fxmlLoader.setLocation(getClass().getResource("FXMLPrincipal.fxml"));
+
+                Scene scene = new Scene(fxmlLoader.load());
+                Stage stage = new Stage();
+                stage.setScene(scene);
+                stage.initModality(Modality.APPLICATION_MODAL);
+                FXMLPrincipalController controlador = (FXMLPrincipalController) fxmlLoader.getController();
+                stage.show();
+                controlador.setVentanaArranque();
+            }
+
+        }
     }
 
     private void pintarTablero() {
@@ -1332,7 +1356,7 @@ public class FXMLDocumentController {
         this.actualizarFichasEnCambio();
         this.actualizarTablaPuntaje();
         this.pintarTablero();
-        this.labelJugadorEnTurno.setText("Turno: Jugador " + (this.juego.getNumeroJugadorEnTurno()+1));
+        this.labelJugadorEnTurno.setText("Turno: Jugador " + (this.juego.getNumeroJugadorEnTurno() + 1));
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setContentText("SE HA CAMBIADO AL JUGADOR " + (this.juego.getNumeroJugadorEnTurno() + 1));
         alert.showAndWait();

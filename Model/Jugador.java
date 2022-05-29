@@ -9,7 +9,7 @@ import java.util.ArrayList;
 
 public class Jugador {
 
-    static int ID;
+    static int ID = 0;
     private int idJugador;
     public ArrayList<Ficha> fichas;
     private int puntosJugador;
@@ -31,10 +31,12 @@ public class Jugador {
 
     public void sumarPuntos(int puntos) {
         this.puntosJugador += puntos;
-      //  System.out.println("los  puntos guardados son: " + this.puntosJugador);
+        //  System.out.println("los  puntos guardados son: " + this.puntosJugador);
     }
 
-
+    public static void setID(int ID) {
+        Jugador.ID = ID;
+    }
 
     public int getIdJugador() {
         return idJugador;
@@ -93,7 +95,8 @@ public class Jugador {
     public Ficha[] getArregloFichas() {
         return this.fichas.toArray(new Ficha[this.fichas.size()]);
     }
-    public ArrayList<Ficha> getFichas2(){
+
+    public ArrayList<Ficha> getFichas2() {
         return (ArrayList<Ficha>) this.fichas.clone();
     }
 
