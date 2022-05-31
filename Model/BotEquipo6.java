@@ -15,11 +15,11 @@ public class BotEquipo6 extends Bot {
 
     @Override
     public void analizarEstrategia() throws Exception {
-        System.out.println("impresión de ciclos: " + ciclos);
+//        System.out.println("impresión de ciclos: " + ciclos);
         ciclos++;
         if (ciclos == 60) {
 //            sirve para reasignar la heurísticapara evitar quedarse en ella para siempre
-            JOptionPane.showMessageDialog(null, "EL BOT 6 HA CAMBIADO SU LÍNEA ");
+//            JOptionPane.showMessageDialog(null, "EL BOT 6 HA CAMBIADO SU LÍNEA ");
             this.definirLinea();
             ciclos = 0;
         }
@@ -36,12 +36,12 @@ public class BotEquipo6 extends Bot {
         }
         if (this.casilla == null) {
 //                    DEBE BUSCAR CUALQUIER ESTRUCTURA PARA PONER ALGUNA FICHA
-            JOptionPane.showMessageDialog(null, "entra en nuevo método ");
+//            JOptionPane.showMessageDialog(null, "entra en nuevo método ");
             this.colocarFichaEnOtraEstructura();
         }
         if (this.cambioFichaDisponible && this.iterador == 5) {
-            System.out.println("VA A CAMBIAR FICHAS PORQUE NO HA ENCONTRADO PARA PONER");
-
+//            System.out.println("VA A CAMBIAR FICHAS PORQUE NO HA ENCONTRADO PARA PONER");
+//            this.cambiarFichas();
         }
     }
 
@@ -55,7 +55,7 @@ public class BotEquipo6 extends Bot {
                         fila.getCola().getLast().setFicha(null);
                         this.casilla = fila.getCola().getLast();
                         this.cambioFichaDisponible = false;
-                        System.out.println("EL BOT 7 HA AGREGADO EN EL NUEVO MÉTODO");
+//                        System.out.println("EL BOT 7 HA AGREGADO EN EL NUEVO MÉTODO");
                         return;
                     } catch (Exception e) {
 
@@ -68,7 +68,7 @@ public class BotEquipo6 extends Bot {
                         fila.getCola().getFirst().setFicha(null);
                         this.casilla = fila.getCola().getFirst();
                         this.cambioFichaDisponible = false;
-                        System.out.println("EL BOT 7 HA AGREGADO EN EL NUEVO MÉTODO");
+//                        System.out.println("EL BOT 7 HA AGREGADO EN EL NUEVO MÉTODO");
                         return;
                     } catch (Exception e) {
 
@@ -84,7 +84,7 @@ public class BotEquipo6 extends Bot {
                         this.casilla = columna.getCola().getLast();
                         this.casilla.setFicha(null);
                         this.cambioFichaDisponible = false;
-                        System.out.println("EL BOT 7 HA AGREGADO EN EL NUEVO MÉTODO");
+//                        System.out.println("EL BOT 7 HA AGREGADO EN EL NUEVO MÉTODO");
                         return;
                     } catch (Exception e) {
 
@@ -98,7 +98,7 @@ public class BotEquipo6 extends Bot {
                         this.casilla = columna.getCola().getFirst();
                         this.casilla.setFicha(null);
                         this.cambioFichaDisponible = false;
-                        System.out.println("EL BOT 7 HA AGREGADO EN EL NUEVO MÉTODO");
+//                        System.out.println("EL BOT 7 HA AGREGADO EN EL NUEVO MÉTODO");
                         return;
                     } catch (Exception e) {
 
@@ -114,7 +114,7 @@ public class BotEquipo6 extends Bot {
                 return columna;
             } else {
 //                this.definirLinea();
-                JOptionPane.showMessageDialog(null, "YA FINALIZÓ");
+//                JOptionPane.showMessageDialog(null, "YA FINALIZÓ");
                 throw new Exception("LA ESTRUCTURA YA TIENE 6 FICHAS");
             }
         }
@@ -142,8 +142,8 @@ public class BotEquipo6 extends Bot {
                 this.setFichaSeleccionada(ficha);
                 estructura.getCola().getLast().setFicha(null);
                 this.casilla = estructura.getCola().getLast();
-                System.out.println("UTILIZA EL MÉTODO PROPIO DE INSERTAR");
-                JOptionPane.showMessageDialog(null, "USA EL MÉTODO NORMAL");
+//                System.out.println("UTILIZA EL MÉTODO PROPIO DE INSERTAR");
+//                JOptionPane.showMessageDialog(null, "USA EL MÉTODO NORMAL");
 
                 return true;
             } catch (Exception e) {
@@ -154,8 +154,8 @@ public class BotEquipo6 extends Bot {
                 this.setFichaSeleccionada(ficha);
                 estructura.getCola().getFirst().setFicha(null);
                 this.casilla = estructura.getCola().getFirst();
-                System.out.println("UTILIZA EL MÉTODO PROPIO DE INSERTAR");
-                JOptionPane.showMessageDialog(null, "USA EL MÉTODO NORMAL");
+//                System.out.println("UTILIZA EL MÉTODO PROPIO DE INSERTAR");
+//                JOptionPane.showMessageDialog(null, "USA EL MÉTODO NORMAL");
 
 
                 return true;
@@ -173,8 +173,8 @@ public class BotEquipo6 extends Bot {
                 this.setFichaSeleccionada(ficha);
                 estructura.getCola().getLast().setFicha(null);
                 this.casilla = estructura.getCola().getLast();
-                System.out.println("UTILIZA EL MÉTODO PROPIO DE INSERTAR");
-                JOptionPane.showMessageDialog(null, "USA EL MÉTODO NORMAL");
+//                System.out.println("UTILIZA EL MÉTODO PROPIO DE INSERTAR");
+//                JOptionPane.showMessageDialog(null, "USA EL MÉTODO NORMAL");
                 return true;
             } catch (Exception e) {
                 //   e.printStackTrace();
@@ -184,8 +184,8 @@ public class BotEquipo6 extends Bot {
                 this.setFichaSeleccionada(ficha);
                 estructura.getCola().getFirst().setFicha(null);
                 this.casilla = estructura.getCola().getFirst();
-                System.out.println("UTILIZA EL MÉTODO PROPIO DE INSERTAR");
-                JOptionPane.showMessageDialog(null, "USA EL MÉTODO NORMAL");
+//                System.out.println("UTILIZA EL MÉTODO PROPIO DE INSERTAR");
+//                JOptionPane.showMessageDialog(null, "USA EL MÉTODO NORMAL");
 
                 return true;
             } catch (Exception e) {

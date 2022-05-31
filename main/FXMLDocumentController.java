@@ -1292,7 +1292,7 @@ public class FXMLDocumentController {
             alert.setContentText("SE HA CAMBIADO AL JUGADOR " + (this.juego.getNumeroJugadorEnTurno() + 1));
             alert.showAndWait();
             Alert alert2 = new Alert(Alert.AlertType.INFORMATION);
-            alert2.setContentText("YA VOY A CAMBIARLAS");
+            alert2.setContentText("Se han cambiado las fichas del jugador anterior");
             alert2.showAndWait();
             this.terminarTurno();
         } else {

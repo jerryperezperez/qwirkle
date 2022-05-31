@@ -18,7 +18,6 @@ public class Jugador {
     private Ficha fichaVacia;
     private String name;
     private int cantidadFichasSeleccionadas;
-    private int puntosObtenidos;
 
     public Jugador(String name) {
         Jugador.ID += 1;
